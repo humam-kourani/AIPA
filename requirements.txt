@@ -1,0 +1,13 @@
+click
+Flask
+itsdangerous
+Jinja2
+MarkupSafe
+Werkzeug
+pm4py
+pandas
+lxml
+MyApplication
+gunicorn
+requests
+openai

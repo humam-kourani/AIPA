@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bpmn-js/dist/assets/diagram-js.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css" crossorigin="anonymous">
+    <title>LLM@PM</title>
+    <script src="https://unpkg.com/bpmn-js/dist/bpmn-modeler.development.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="../static/bpmnLoader.js"></script>
+    <script type="text/javascript" src="../static/chat.js"></script>
+</head>
+<body>
+    {% for message in get_flashed_messages(category_filter=["error"]) %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">LLM@PM</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Upload BPMN Model</h2>
+        <form id="upload-form" action="{{ url_for('upload_bpmn') }}" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" class="form-control-file" id="bpmnFile" name="bpmnFile" accept=".bpmn">
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+
+  {% if bpmn_content_base64 %}
+    <div class="container mt-5">
+        <h2>BPMN Model</h2>
+        <div id="bpmn-container" data-bpmn-content="{{ bpmn_content_base64 }}" style="height: 600px; border: 1px solid #000;">
+    </div>
+    <div class="container mt-5">
+        <h2>Chat</h2>
+        <div id="chat-box" style="height: 300px; overflow-y: scroll;"></div>
+        <form id="chat-form" onsubmit="sendMessage(); return false;">
+            <div class="form-group">
+                <input type="text" class="form-control" id="user_message" placeholder="Type your message...">
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+    {% endif %}
+</body>
+</html>
