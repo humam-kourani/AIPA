@@ -4,15 +4,8 @@ import requests
 T = TypeVar('T')
 
 
-def generate_response_with_history(conversation_history, api_key, openai_model) -> str:
-    """
-    Generates a response from the LLM using the conversation history.
+def generate_response_with_history(conversation_history, api_key, openai_model):
 
-    :param conversation_history: The conversation history to be included
-    :param api_key: OpenAI API key
-    :param openai_model: OpenAI model to be used
-    :return: The content of the LLM response
-    """
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}"
@@ -38,7 +31,7 @@ def generate_response_with_history(conversation_history, api_key, openai_model) 
 
     try:
         new_message = response["choices"][0]["message"]["content"]
-        conversation_history.append({"role": "user", "content": new_message})
+        conversation_history.append({"role": "system", "content": new_message})
         return new_message, conversation_history
     except Exception as e:
         raise Exception("Connection to OpenAI failed! This is the response: " + str(response))

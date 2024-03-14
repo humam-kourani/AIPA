@@ -2,7 +2,7 @@ import os
 import base64
 import openai
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
-from utils.conversation import create_conversation
+from utils.conversation import create_conversation, create_message
 
 from utils.openai_connection import generate_response_with_history
 
@@ -15,10 +15,11 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 @app.route("/", methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        model_name = request.form.get('model_name')
-        api_key = request.form.get('api_key')
+        session['model_name'] = request.form.get('model_name')
+        session['api_key'] = request.form.get('api_key')
         try:
-            response, conversation = generate_response_with_history(create_conversation(), api_key, model_name)
+            response, conversation = generate_response_with_history(create_conversation(), session['api_key'], session['model_name'])
+            session['conversation'] = conversation
             return render_template('upload.html')
         except Exception as e:
             flash(str(e), 'error')
@@ -33,6 +34,7 @@ def upload_bpmn():
             if file.filename.endswith('.bpmn'):
                 bpmn_content = file.read().decode('utf-8')
                 bpmn_content_base64 = base64.b64encode(bpmn_content.encode('utf-8')).decode('utf-8')
+                session['conversation'].append(create_message(f'This is the XML of content of the BPMN file: {bpmn_content}'))
                 return render_template('upload.html', bpmn_content_base64=bpmn_content_base64)
             else:
                 flash('Unsupported file type. Please upload a .bpmn file.', 'error')
@@ -40,7 +42,26 @@ def upload_bpmn():
             return render_template('upload.html')
     else:
         return redirect("/")
+    
+@app.route('/chat_with_llm', methods=['POST'])
+def chat_with_llm():
+    if 'conversation' not in session:
+        return redirect("/")
 
+    data = request.json
+    user_message = data.get('message', '')
+    session['conversation'].append({"role": "user", "content": user_message})
+
+    api_key = session['api_key']
+    openai_model = session['model_name']
+
+    try:
+        new_message, updated_history = generate_response_with_history(session['conversation'], api_key, openai_model)
+        session['conversation'] = updated_history 
+        return jsonify({"response": new_message})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 
 
 if __name__ == "__main__":

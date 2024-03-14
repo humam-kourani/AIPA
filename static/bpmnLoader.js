@@ -1,21 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var container = document.getElementById('bpmn-container');
-  var bpmnModeler = new BpmnJS({
-      container: container
-  });
+// document.addEventListener('DOMContentLoaded', function() {
+//   var container = document.getElementById('bpmn-container');
+//   var bpmnModeler = new BpmnJS({
+//       container: container
+//   });
 
-  var encodedBpmnContent = container.getAttribute('data-bpmn-content');
-  var bpmnXml = atob(encodedBpmnContent);
+//   var encodedBpmnContent = container.getAttribute('data-bpmn-content');
+//   var bpmnXml = atob(encodedBpmnContent);
+//   bpmnXml = bpmnLayoutWithDagre(bpmnXml);
 
-  if (bpmnXml && bpmnXml.trim().length > 0) {
-    try {
-      bpmnModeler.importXML(bpmnXml);
-      bpmnModeler.get("canvas").zoom("fit-viewport");
-    } catch (err) {
-      console.log(err.message, err.warnings);
-    }
-  }
-});
+//   if (bpmnXml && bpmnXml.trim().length > 0) {
+//     try {
+//       bpmnModeler.importXML(bpmnXml);
+//       bpmnModeler.get("canvas").zoom("fit-viewport");
+//     } catch (err) {
+//       console.log(err.message, err.warnings);
+//     }
+//   }
+// });
 
 document.getElementById('yourFormId').addEventListener('submit', function(e) {
   e.preventDefault(); // Prevent the default form submission

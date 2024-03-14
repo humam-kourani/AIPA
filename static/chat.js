@@ -6,11 +6,12 @@ var bpmnContent = "{{ bpmn_content_base64 }}";
             var userMessage = document.getElementById("user_message").value;
             appendMessage("You", userMessage);
             document.getElementById("user_message").value = ""; // Clear input field
+        
             // Send user message to server and get response
-            axios.post("/chat", { message: userMessage })
+            axios.post("/chat_with_llm", { message: userMessage })
                 .then(function (response) {
-                    var gptResponse = response.data.response;
-                    appendMessage("GPT-4", gptResponse);
+                    var llmResponse = response.data.response;
+                    appendMessage("LLM", llmResponse);
                 })
                 .catch(function (error) {
                     console.error(error);
