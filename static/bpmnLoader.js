@@ -42,6 +42,23 @@ async function renderUpdatedBPMN(xmlString) {
   }
 } 
 
+function reset_button_listener() {
+    var resetButton = document.getElementById("reset_button");
+    if (resetButton) {
+        resetButton.addEventListener("click", function() {
+            axios.post("/reset_conversation")
+            .then(function(response) {
+                console.log(response.data.success);
+                var chatBox = document.getElementById("chat-box");
+                chatBox.innerHTML = "";  
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const bpmnContentBase64 = document.getElementById('bpmn-container').getAttribute('data-bpmn-content');
   if (bpmnContentBase64) {
@@ -52,4 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
           console.error('Error rendering BPMN diagram with updated layout:', err);
       });
   }
+  reset_button_listener();
+ 
 });

@@ -19,7 +19,7 @@ def index():
         session['api_key'] = request.form.get('api_key')
         try:
             response, conversation = generate_response_with_history(create_conversation(), session['api_key'], session['model_name'])
-            session['conversation'] = conversation
+            session['initial_conversation'] = conversation
             return render_template('upload.html')
         except Exception as e:
             flash(str(e), 'error')
@@ -34,7 +34,7 @@ def upload_bpmn():
             if file.filename.endswith('.bpmn'):
                 bpmn_content = file.read().decode('utf-8')
                 bpmn_content_base64 = base64.b64encode(bpmn_content.encode('utf-8')).decode('utf-8')
-                session['conversation'].append(create_message(f'This is the XML of content of the BPMN file: {bpmn_content}'))
+                session['initial_conversation'].append(create_message(f'This is the XML of content of the BPMN file: {bpmn_content}'))
                 return render_template('upload.html', bpmn_content_base64=bpmn_content_base64)
             else:
                 flash('Unsupported file type. Please upload a .bpmn file.', 'error')
@@ -45,11 +45,14 @@ def upload_bpmn():
     
 @app.route('/chat_with_llm', methods=['POST'])
 def chat_with_llm():
-    if 'conversation' not in session:
+    if 'initial_conversation' not in session:
         return redirect("/")
 
     data = request.json
     user_message = data.get('message', '')
+    if 'conversation' not in session:
+        session['conversation'] = session['initial_conversation']
+
     session['conversation'].append({"role": "user", "content": user_message})
 
     api_key = session['api_key']
@@ -61,6 +64,14 @@ def chat_with_llm():
         return jsonify({"response": new_message})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/reset_conversation', methods=['POST'])
+def reset_conversation():
+    if 'initial_conversation' in session:
+        session['conversation'] = session.get('initial_conversation', [])
+    else:
+        session.pop('conversation', None) 
+    return jsonify({"success": "Conversation has been reset"}), 200
     
 
 
