@@ -25,6 +25,9 @@ async function renderUpdatedBPMN(xmlString) {
             modeling.setColor(element, { fill: 'lightblue'});
         }); 
         previousSelection = selectedElements;
+
+        const textualRepresentation = buildTextualRepresentation(selectedElements, viewer);
+        console.log(textualRepresentation);
      });
      container.addEventListener('wheel', function(event) {
       event.preventDefault(); 
@@ -57,6 +60,51 @@ function reset_button_listener() {
             });
         });
     }
+}
+
+function buildTextualRepresentation(selectedElements, viewer) {
+    const elementRegistry = viewer.get('elementRegistry');
+    let representation = "Selected BPMN Elements and Connections:\n";
+  
+    selectedElements.forEach(e => {
+        const element = elementRegistry.get(e.id);
+
+        if (element.businessObject) {
+            let properties = [];
+            // console.log("Non-enumerable keys:");
+            // Object.getOwnPropertyNames(element.businessObject).forEach(key => {
+            //     console.log(key);
+            // });
+            
+
+            for (const [key, value] of Object.entries(element.businessObject)) {
+                
+                if (value !== null && value !== "") {
+                    properties.push(`${key}: ${value}`);
+                }                           
+            }
+
+            ['sourceRef', 'targetRef', 'lanes', 'processRef', 'flowNodeRef', '$parent'].forEach((relation) => {
+                const related = element.businessObject[relation];
+                if (related) {
+                    if (Array.isArray(related)) { // For arrays (like 'lanes'), list all IDs
+                        const ids = related.map(item => item.id).join(", ");
+                        properties.push(`${relation}: (${ids})`);
+                    } else if (related.id) { // For single objects, just append the ID
+                        properties.push(`${relation}: ${related.id}`);
+                    }
+                }
+            });
+
+            if (properties.length > 0) {
+                elementDetails = `{ ${properties.join(", ")} }`;
+            }
+        }
+
+        representation += `- ${elementDetails}\n`;
+    });
+  
+    return representation;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
