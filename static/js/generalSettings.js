@@ -1,4 +1,3 @@
-var developement_mode = true;
 var disableEditing = true; 
 
 

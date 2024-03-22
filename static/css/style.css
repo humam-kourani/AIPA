@@ -9,3 +9,19 @@ body.disable-edit .djs-palette .separator {
 body.disable-edit .djs-palette .entry:not(.bpmn-icon-hand-tool):not(.bpmn-icon-lasso-tool):not(.bpmn-icon-space-tool):not(.bpmn-icon-zoom-tool) {
     display: none !important;
 }
+
+body.disable-edit .djs-bendpoint {
+    display: none !important;
+}
+
+body.disable-edit .djs-bendpoint .djs-hit {
+    display: none !important;
+}
+
+body.disable-edit .djs-direct-editing-content {
+    display: none !important;
+}
+
+body.disable-edit .djs-direct-editing-parent {
+    display: none !important;
+}
