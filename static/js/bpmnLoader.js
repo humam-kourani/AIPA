@@ -14,6 +14,12 @@ async function renderUpdatedBPMN(xmlString) {
       await viewer.importXML(xmlString);
       var canvas = viewer.get('canvas');
       canvas.zoom('fit-viewport');
+
+      const elementRegistry = viewer.get('elementRegistry');
+      const allElements = elementRegistry.getAll();
+      textualRepresentation = buildTextualRepresentation(allElements, viewer);   
+      console.log(textualRepresentation);
+
       var eventBus = viewer.get('eventBus'); 
       let previousSelection = []; 
 
@@ -31,9 +37,13 @@ async function renderUpdatedBPMN(xmlString) {
         }); 
         previousSelection = selectedElements;
 
-        textualRepresentation = buildTextualRepresentation(selectedElements, viewer);
+        if (selectedElements.length == 0) {
+            const allElements = elementRegistry.getAll();
+            textualRepresentation = buildTextualRepresentation(allElements, viewer); 
+        } else {
+            textualRepresentation = buildTextualRepresentation(selectedElements, viewer);
+        }
         console.log(textualRepresentation);
-        
      });
      container.addEventListener('wheel', function(event) {
       event.preventDefault(); 
