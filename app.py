@@ -36,8 +36,6 @@ def upload_bpmn():
             if file.filename.endswith('.bpmn'):
                 bpmn_content = file.read().decode('utf-8')
                 bpmn_content_base64 = base64.b64encode(bpmn_content.encode('utf-8')).decode('utf-8')
-                session['initial_conversation'] = copy.deepcopy(session['initial_conversation_without_model'])
-                session['initial_conversation'].append(create_message(f'This is the XML of content of the BPMN file: {bpmn_content}'))
                 session.pop('conversation', None)
                 return render_template('upload.html', bpmn_content_base64=bpmn_content_base64)
             else:
@@ -49,14 +47,17 @@ def upload_bpmn():
     
 @app.route('/chat_with_llm', methods=['POST'])
 def chat_with_llm():
-    if 'initial_conversation' not in session:
-        return redirect("/")
+    if 'initial_conversation_without_model' not in session:
+        return redirect("/index")
 
     data = request.json
-    user_message = data.get('message', '')
+    
     if 'conversation' not in session:
-        session['conversation'] = copy.deepcopy(session['initial_conversation'])
+        textual_representation = data.get('textualRepresentation', '')
+        session['conversation'] = copy.deepcopy(session['initial_conversation_without_model'])
+        session['conversation'].append(create_message(f'This is a text describing selected elements of the BPMN as dictionaries: {textual_representation}'))
 
+    user_message = data.get('message', '')
     session['conversation'].append({"role": "user", "content": user_message})
 
     api_key = session['api_key']

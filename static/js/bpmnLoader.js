@@ -1,3 +1,5 @@
+var textualRepresentation = "";
+
 async function renderUpdatedBPMN(xmlString) {
   try {
     xmlString = await bpmnLayoutWithDagre(xmlString);
@@ -14,9 +16,12 @@ async function renderUpdatedBPMN(xmlString) {
       canvas.zoom('fit-viewport');
       var eventBus = viewer.get('eventBus'); 
       let previousSelection = []; 
+
       eventBus.on('selection.changed', function(event) {
+
+        reset_conversation();
+
         const selectedElements = event.newSelection;
-        console.log('Selected: ',selectedElements );
         const modeling = viewer.get('modeling');         
         previousSelection.forEach(element => {
             modeling.setColor(element, { fill: 'white' });
@@ -26,8 +31,9 @@ async function renderUpdatedBPMN(xmlString) {
         }); 
         previousSelection = selectedElements;
 
-        const textualRepresentation = buildTextualRepresentation(selectedElements, viewer);
+        textualRepresentation = buildTextualRepresentation(selectedElements, viewer);
         console.log(textualRepresentation);
+        
      });
      container.addEventListener('wheel', function(event) {
       event.preventDefault(); 
@@ -49,7 +55,13 @@ function reset_button_listener() {
     var resetButton = document.getElementById("reset_button");
     if (resetButton) {
         resetButton.addEventListener("click", function() {
-            axios.post("/reset_conversation")
+            reset_conversation();
+        });
+    }
+}
+
+function reset_conversation() {
+    axios.post("/reset_conversation")
             .then(function(response) {
                 console.log(response.data.success);
                 var chatBox = document.getElementById("chat-box");
@@ -58,8 +70,6 @@ function reset_button_listener() {
             .catch(function(error) {
                 console.error(error);
             });
-        });
-    }
 }
 
 function buildTextualRepresentation(selectedElements, viewer) {
@@ -87,10 +97,10 @@ function buildTextualRepresentation(selectedElements, viewer) {
             ['sourceRef', 'targetRef', 'lanes', 'processRef', 'flowNodeRef', '$parent'].forEach((relation) => {
                 const related = element.businessObject[relation];
                 if (related) {
-                    if (Array.isArray(related)) { // For arrays (like 'lanes'), list all IDs
+                    if (Array.isArray(related)) { 
                         const ids = related.map(item => item.id).join(", ");
                         properties.push(`${relation}: (${ids})`);
-                    } else if (related.id) { // For single objects, just append the ID
+                    } else if (related.id) { 
                         properties.push(`${relation}: ${related.id}`);
                     }
                 }

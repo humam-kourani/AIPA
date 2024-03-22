@@ -3,7 +3,7 @@ function sendMessage() {
     appendMessage("You", userMessage);
     document.getElementById("user_message").value = ""; // Clear input field
 
-    axios.post("/chat_with_llm", { message: userMessage })
+    axios.post("/chat_with_llm", { message: userMessage, textualRepresentation: textualRepresentation })
         .then(function (response) {
             var llmResponse = response.data.response;
             appendMessage("LLM", llmResponse);
