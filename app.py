@@ -6,7 +6,6 @@ from utils.conversation import create_conversation, create_message
 
 from utils.openai_connection import generate_response_with_history
 
-
 app = Flask(__name__)
 session = {}
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -18,15 +17,16 @@ def index():
         session['model_name'] = request.form.get('model_name')
         session['api_key'] = request.form.get('api_key')
         try:
-            response, conversation = generate_response_with_history(create_conversation(), session['api_key'], session['model_name'])
+            response, conversation = generate_response_with_history(create_conversation(), session['api_key'],
+                                                                    session['model_name'])
             session['initial_conversation_without_model'] = conversation
             session.pop('conversation', None)
             session.pop('initial_conversation', None)
             return render_template('upload.html')
         except Exception as e:
             flash(str(e), 'error')
-    return render_template("configure_openai.html")
-    
+    return render_template("upload.html")
+
 
 @app.route("/upload_bpmn", methods=['GET', 'POST'])
 def upload_bpmn():
@@ -44,18 +44,20 @@ def upload_bpmn():
             return render_template('upload.html')
     else:
         return redirect("/")
-    
+
+
 @app.route('/chat_with_llm', methods=['POST'])
 def chat_with_llm():
     if 'initial_conversation_without_model' not in session:
         return redirect("/index")
 
     data = request.json
-    
+
     if 'conversation' not in session:
         textual_representation = data.get('textualRepresentation', '')
         session['conversation'] = copy.deepcopy(session['initial_conversation_without_model'])
-        session['conversation'].append(create_message(f'This is a text describing selected elements of the BPMN as dictionaries: {textual_representation}'))
+        session['conversation'].append(create_message(
+            f'This is a text describing selected elements of the BPMN as dictionaries: {textual_representation}'))
 
     user_message = data.get('message', '')
     session['conversation'].append({"role": "user", "content": user_message})
@@ -65,18 +67,17 @@ def chat_with_llm():
 
     try:
         new_message, updated_history = generate_response_with_history(session['conversation'], api_key, openai_model)
-        session['conversation'] = updated_history 
+        session['conversation'] = updated_history
         print(updated_history)
         return jsonify({"response": new_message})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
+
 @app.route('/reset_conversation', methods=['POST'])
 def reset_conversation():
     session.pop('conversation', None)
     return jsonify({"success": "Conversation has been reset"}), 200
-
-    
 
 
 if __name__ == "__main__":

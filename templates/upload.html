@@ -19,71 +19,150 @@
     <script type="text/javascript" src="../static/js/bpmnLayouter.js"></script>
     <script type="text/javascript" src="../static/js/bpmnLoader.js"></script>
     <script type="text/javascript" src="../static/js/chat.js"></script>
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+     <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
 </head>
+
+
 <body>
-    {% for message in get_flashed_messages(category_filter=["error"]) %}
-    <div class="alert alert-danger">
-        {{ message }}
-    </div>
-    {% endfor %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">LLM@PM</a>
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+
+
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+
+            <div class="sidebar-header">
+                <button id="dismiss" type="button" class="close" aria-label="Close" style="margin-left: auto; cursor: pointer">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            {% for message in get_flashed_messages(category_filter=["error"]) %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+            {% endfor %}
+
+            <!-- Configuration Form -->
+            <div class="container mt-5" style="padding: 30px">
+                <h2 class="mb-4">OpenAI API Configuration</h2>
+                <form action="{{ url_for('index') }}" method="POST">
+                  <div class="form-group">
+                    <label for="model_name">Model Name:</label>
+                    <input type="text" class="form-control" id="model_name" name="model_name" placeholder="Enter OpenAI model name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="api_key">API Key:</label>
+                    <input type="password" class="form-control" id="api_key" name="api_key" placeholder="Enter OpenAI API key" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+
+            {% for message in get_flashed_messages(category_filter=["error"]) %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+                <button class="navbar-toggler" type="button" id="sidebarCollapse">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="mx-auto" style="">
+                    <a class="navbar-brand" href="#">LLM@PM</a>
+                </div>
+
+            </nav>
+
+            <div>
+                <div class="container mt-5">
+                    <h2>Upload BPMN Model</h2>
+                    <form id="upload-form" action="{{ url_for('upload_bpmn') }}" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="file" class="form-control-file" id="bpmnFile" name="bpmnFile" accept=".bpmn">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+
+                {% if bpmn_content_base64 %}
+                <div style="visibility: hidden; position: absolute;">
+                    <svg width="90%" height="90%">
+                        <g/>
+                    </svg>
+                </div>
+                <div id="canvas" style="height: 90%; width: 90%; padding: 0; margin: 0; position: absolute"></div>
+
+                <div style="visibility: hidden">
+                    <div style="position: fixed; top: 0px; left: 0px">
+                        <svg id="internalSvg" style="width: 0%; height: 0%"></svg>
+                    </div>
+                    <div
+                    id="internalCanvas"
+                    style="
+                        height: 0%;
+                        width: 0%;
+                        padding: 0;
+                        margin: 0;
+                        top: 0px;
+                        left: 0px;
+                        position: fixed;
+                    "
+                    ></div>
+                </div>
+
+                <div class="container mt-5" style="margin-bottom: 120px;">
+                    <h2>BPMN Model</h2>
+                    <div id="bpmn-container" data-bpmn-content="{{ bpmn_content_base64 }}" style="height: 600px; border: 1px solid #000;">
+                    </div>
+
+                    <div class="container mt-5">
+                        <h2>Chat About the Uploaded BPMN</h2>
+                        <p style="font-size: smaller; margin-top: -10px;">Only selected parts are considered. If nothing is selected, the chat pertains to the entire BPMN.</p>
+
+                        <div id="chat-box" style="height: 300px; overflow-y: scroll;"></div>
+                            <form id="chat-form" onsubmit="sendMessage(); return false;">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="user_message" placeholder="Type your message...">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send</button>
+                                <button type="button" class="btn btn-warning" id="reset_button" style="margin-left: 5px;">Reset Conversation</button>
+
+                            </form>
+                    </div>
+                {% endif %}
+                </div>
+
+            </div>
+
+            <!-- Dark Overlay element -->
+            <div class="overlay"></div>
         </div>
-    </nav>
 
-    <div class="container mt-5">
-        <h2>Upload BPMN Model</h2>
-        <form id="upload-form" action="{{ url_for('upload_bpmn') }}" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <input type="file" class="form-control-file" id="bpmnFile" name="bpmnFile" accept=".bpmn">
-            </div>
-            <button type="submit" class="btn btn-primary">Upload</button>
-        </form>
     </div>
 
-  {% if bpmn_content_base64 %}
-  <div style="visibility: hidden; position: absolute;">
-	<svg width="90%" height="90%">
-	  <g/>
-	</svg>
-	</div>
-	<div id="canvas" style="height: 90%; width: 90%; padding: 0; margin: 0; position: absolute"></div>
-    <div style="visibility: hidden">
-      <div style="position: fixed; top: 0px; left: 0px">
-        <svg id="internalSvg" style="width: 0%; height: 0%"></svg>
-      </div>
-      <div
-        id="internalCanvas"
-        style="
-          height: 0%;
-          width: 0%;
-          padding: 0;
-          margin: 0;
-          top: 0px;
-          left: 0px;
-          position: fixed;
-        "
-      ></div>
-    </div>  
-  <div class="container mt-5">
-        <h2>BPMN Model</h2>
-        <div id="bpmn-container" data-bpmn-content="{{ bpmn_content_base64 }}" style="height: 600px; border: 1px solid #000;">
-    </div>
-    <div class="container mt-5">
-        <h2>Chat About the Uploaded BPMN</h2>
-        <p style="font-size: smaller; margin-top: -10px;">Only selected parts are considered. If nothing is selected, the chat pertains to the entire BPMN.</p>
-        
-        <div id="chat-box" style="height: 300px; overflow-y: scroll;"></div>
-        <form id="chat-form" onsubmit="sendMessage(); return false;">
-            <div class="form-group">
-                <input type="text" class="form-control" id="user_message" placeholder="Type your message...">
-            </div>
-            <button type="submit" class="btn btn-primary">Send</button>
-            <button type="button" class="btn btn-warning" id="reset_button" style="margin-left: 5px;">Reset Conversation</button>
 
-        </form>
-    </div>
-    {% endif %}
 </body>
+
+
 </html>
