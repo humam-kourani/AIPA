@@ -128,6 +128,8 @@ function buildTextualRepresentation(selectedElements, viewer) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+
+  reset_conversation();
   const bpmnContentBase64 = document.getElementById('bpmn-container').getAttribute('data-bpmn-content');
   if (bpmnContentBase64) {
       const xmlString = atob(bpmnContentBase64); 
@@ -138,5 +140,5 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
   reset_button_listener();
- 
+  
 });
