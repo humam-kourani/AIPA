@@ -7,9 +7,6 @@ function sendMessage() {
         .then(function (response) {
             var llmResponse = response.data.response;
             appendMessage("LLM", llmResponse);
-        })
-        .catch(function (error) {
-            console.error(error);
         });
 }
 
