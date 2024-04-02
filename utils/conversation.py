@@ -13,14 +13,14 @@ def create_conversation(role="user", parameters=None):
     return conversation
 
 
-def create_message(message: str, role="user", additional_content: Optional[str] = None, additional_content_type: str = "text", parameters=None):
+def create_message(message: str, role="user", additional_content=None, additional_content_type: str = "text", parameters=None):
     if parameters is None:
         parameters = {}
 
     content = [{"type": "text", "text": f'{message}'}]
 
     if additional_content is not None:
-        content.append({"type": additional_content_type, additional_content_type: f'{additional_content}'})
+        content.append({"type": additional_content_type, additional_content_type: additional_content})
 
     return {"role": role, "content": content}
 
