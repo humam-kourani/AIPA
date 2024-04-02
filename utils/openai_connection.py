@@ -37,6 +37,8 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         conversation_history[-1]["content"].append(
             {"type": additional_content_type, additional_content_type: additional_content})
 
+    #print(conversation_history)
+
     if constants.ENABLE_DEV_MODE:
         from openai import AzureOpenAI
 

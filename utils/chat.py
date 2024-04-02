@@ -21,7 +21,7 @@ def chat_with_llm(data, session=None):
     message = create_message(user_message, role="user", parameters=parameters)
     session['conversation'].append(message)
 
-    new_message, updated_history = generate_response_with_history(data, session)
+    new_message, updated_history = generate_response_with_history(data, session, parameters=parameters)
     session['conversation'] = updated_history
 
     return new_message
