@@ -8,7 +8,6 @@ def add_prompt_strategies():
     prompt += process_analysis()
     prompt += few_shots_learning()
     prompt += negative_prompting()
-    print(prompt)
     return prompt
 
 def role_prompting():

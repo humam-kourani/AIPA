@@ -47,10 +47,10 @@ def chat_with_llm():
         textual_representation = data.get('textualRepresentation', '')
         session['conversation'] = create_conversation()
         session['conversation'].append(create_message(
-            f'This is a text describing selected elements of the BPMN as dictionaries: {textual_representation}'))
+            f'This is a text describing selected elements of the BPMN as dictionaries: {textual_representation}', role="user"))
 
     user_message = data.get('message', '')
-    session['conversation'].append({"role": "user", "content": user_message})
+    session['conversation'].append(create_message(user_message, role="user"))
 
     try:
         openai_model = session['model_name']
@@ -59,9 +59,9 @@ def chat_with_llm():
         return jsonify(success=False, error="Please configure the OpenAI connection!"), 400
     else:
         try:
-            new_message, updated_history = generate_response_with_history(session['conversation'], api_key, openai_model)
+            new_message, updated_history = generate_response_with_history(session, api_key, openai_model)
             session['conversation'] = updated_history
-            print(updated_history)
+            #print(updated_history)
             return jsonify({"response": new_message})
         except Exception as e:
             return jsonify(success=False, error="The following error occured: " + str(e)), 400    
