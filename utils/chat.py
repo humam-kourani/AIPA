@@ -18,9 +18,10 @@ def chat_with_llm(data, session=None):
         session['conversation'].append(create_process_model_representation(data, parameters=parameters))
         is_first_message = True
 
-    session['conversation'].append(create_message(user_message, role="user", parameters=parameters))
+    message = create_message(user_message, role="user", parameters=parameters)
+    session['conversation'].append(message)
 
-    new_message, updated_history = generate_response_with_history(session)
+    new_message, updated_history = generate_response_with_history(data, session)
     session['conversation'] = updated_history
 
     return new_message

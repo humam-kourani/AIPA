@@ -6,14 +6,17 @@ import os
 import requests
 
 from llm_configuration import constants
+from utils import common
+from copy import deepcopy
 
 T = TypeVar('T')
 
 
-def generate_response_with_history(session, parameters=None) -> str:
+def generate_response_with_history(data, session, parameters=None) -> str:
     """
     Generates a response from the LLM using the conversation history.
 
+    :param data: Data provided to the service
     :param session: Session dictionary
     :param parameters: Optional parameters
     :return: The content of the LLM response
@@ -22,6 +25,17 @@ def generate_response_with_history(session, parameters=None) -> str:
         parameters = {}
 
     conversation_history = session["conversation"]  # The conversation history
+    model_abstraction = parameters.get("model_abstraction", constants.MODEL_ABSTRACTION)
+
+    if model_abstraction == "svg":
+        svg_string = data.get('modelSvg', '')
+        additional_content = {"url": common.get_png_url_from_svg(svg_string, parameters=parameters)}
+        additional_content_type = "image_url"
+
+        conversation_history = deepcopy(conversation_history)
+
+        conversation_history[-1]["content"].append(
+            {"type": additional_content_type, additional_content_type: additional_content})
 
     if constants.ENABLE_DEV_MODE:
         from openai import AzureOpenAI

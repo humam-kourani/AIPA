@@ -1,6 +1,5 @@
 from utils.prompting import add_prompt_strategies
 from llm_configuration import constants
-from typing import Optional
 
 
 def create_conversation(role="user", parameters=None):
@@ -13,7 +12,8 @@ def create_conversation(role="user", parameters=None):
     return conversation
 
 
-def create_message(message: str, role="user", additional_content=None, additional_content_type: str = "text", parameters=None):
+def create_message(message: str, role="user", additional_content=None, additional_content_type: str = "text",
+                   parameters=None):
     if parameters is None:
         parameters = {}
 
@@ -37,5 +37,12 @@ def create_process_model_representation(data, parameters=None):
         abstraction_message = create_message(
             f'This is a text describing selected elements of the BPMN as dictionaries: {textual_representation}',
             role="user")
-    
+    elif model_abstraction == "xml":
+        model_xml_string = data.get('modelXmlString', '')
+        abstraction_message = create_message(
+            f"This is a text containing the BPMN 2.0 XML of the process: {model_xml_string}", role="user")
+    elif model_abstraction == "svg":
+        abstraction_message = create_message(f"The following messages attach the BPMN 2.0 visual of the process",
+                                             role="user")
+
     return abstraction_message
