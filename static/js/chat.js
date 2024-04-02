@@ -47,7 +47,6 @@ function sendMessageMock() {
 
   $("#dotFalling").css("display", "block");
 
-  // make the backend call here and do everything in the setTimeout after recieving the response..
   // setTimeout(function () {
   //   console.log('I will run after 2 seconds');
   //   let responseMessage = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis ipsum pharetra nunc ultrices viverra ac quis justo. Duis ut suscipit ligula. Nunc sagittis gravida lorem ac vulputate. Praesent eu blandit ante. Mauris eleifend dui a arcu tincidunt porttitor."
@@ -77,23 +76,25 @@ function sendMessageMock() {
 }
 
 function addUserMessageToChatbox(userMessage){
-  $("#chat-history").append('<li class="clearfix">\n' +
-    '   <div class="message-data text-right">\n' +
-    // '   <span class="message-data-time">10:10 AM, Today</span>\n' +
-    '   <img src="static/assets/avatar_266033.png" alt="avatar">\n' +
-    '   </div>\n' +
-    '   <div class="message other-message float-right" style="margin-left: 60px;"> ' + userMessage + ' </div>\n' +
-    '   </li>');
 
-  var d = $('#chat-history-parent');
-  d.scrollTop(d.prop("scrollHeight"));
+  $("#chat-history").append('<li class="clearfix">\n' +
+        '   <div class="message-data">\n' +
+          '   <p class="send"> ' + userMessage + ' </p>\n' +
+          '   <img src="static/assets/human.png" alt="avatar" class="avatar">\n' +
+          ' </div>\n' +
+        '</li>');
+    var d = $('#chat-history-parent');
+    d.scrollTop(d.prop("scrollHeight"));
+    
+    
 }
 
 function addResponseMessageToChatbox(responseMessage){
   $("#chat-history").append('<li class="clearfix">\n' +
     '   <div class="message-data">\n' +
-    '   </div>\n' +
-    '   <div class="message my-message" style="margin-right: 60px;">' + responseMessage + '</div>\n' +
+      '   <img src="static/assets/robot.png" alt="avatar" class="avatar">\n' +
+      '   <p class="receive">' + responseMessage + '</p>\n' +
+      ' </div>\n' +
     '   </li>');
 
   var d = $('#chat-history-parent');
