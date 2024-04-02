@@ -5,6 +5,8 @@ def add_prompt_strategies(parameters=None):
     if parameters is None:
         parameters = {}
 
+    model_abstraction = parameters.get("model_abstraction", constants.MODEL_ABSTRACTION)
+
     enable_role_prompting = parameters.get("enable_role_prompting", constants.ENABLE_ROLE_PROMPTING)
     enable_natural_language_restriction = parameters.get("enable_natural_language_restriction",
                                                          constants.ENABLE_NATURAL_LANGUAGE_RESTRICTION)
@@ -36,13 +38,13 @@ def add_prompt_strategies(parameters=None):
         know_inj = knowledge_injection()
         prompt += know_inj
 
-    if enable_few_shots_learning:
-        few_shots = few_shots_learning_json()
-        prompt += few_shots
-
-    if enable_negative_prompting:
-        negative_prompt = negative_prompting_json()
-        prompt += negative_prompt
+    if model_abstraction == "json":
+        if enable_few_shots_learning:
+            few_shots = few_shots_learning_json()
+            prompt += few_shots
+        if enable_negative_prompting:
+            negative_prompt = negative_prompting_json()
+            prompt += negative_prompt
 
     return prompt
 
@@ -53,31 +55,30 @@ def role_prompting():
 
 def knowledge_injection():
     return """
-    - Business Process Model and Notation (BPMN) is a standardized graphical notation that depicts the steps in a business process. BPMN's extensive notation allows for detailed and precise modeling of complex business processes, encompassing everything from simple tasks to complex interactions between different organizations. Here's an overview of key BPMN elements:
+- Business Process Model and Notation (BPMN) is a standardized graphical notation for modeling business processes. It enables precise modeling, covering simple tasks to complex inter-organizational interactions. Key BPMN elements include:
 
-    1. **Flow Objects**: These are the main graphical elements to define behavior in a BPMN diagram.
-       - **Events**: Represent something that happens during the course of a process. There are Start, Intermediate, and End events.
-       - **Activities**: Work that is performed within a process. Activities can be Tasks (atomic activities) or Sub-Processes (which can be broken down into finer levels of detail).
-       - **Gateways**: Control the flow of the process, determining branching, forking, merging, and joining of paths based on data or events.
+1. **Flow Objects**: These are the main graphical elements to define behavior in a BPMN diagram.
+   - **Events**: Represent something that happens during the course of a process. There are Start, Intermediate, and End events.
+   - **Activities**: Work that is performed within a process. Activities can be Tasks (atomic activities) or Sub-Processes (which can be broken down into finer levels of detail).
+   - **Gateways**: Control the flow of the process, determining branching, forking, merging, and joining of paths based on data or events.
 
-    2. **Connecting Objects**: These define the flow or relationship between Flow Objects.
-       - **Sequence Flows**: Show the order of activities performed in the process.
-       - **Message Flows**: Illustrate messages between two participants that are prepared to send/receive them.
-       - **Associations**: Link information, like text annotations, to Flow Objects.
+2. **Connecting Objects**: These define the flow or relationship between Flow Objects.
+   - **Sequence Flows**: Determine activities' order.
+   - **Message Flows**:  Show messages between participants.
+   - **Associations**: Link information, like text annotations, to Flow Objects.
 
-    3. **Swimlanes**: Organizational tools used to categorize activities within a process.
-       - **Pools**: Represent major participants in a process, typically entire organizations or large departments.
-       - **Lanes**: Subdivide Pools or other Lanes into smaller roles or responsibilities.
+3. **Swimlanes**: Organizational tools used to categorize activities within a process.
+   - **Pools**: Represent major participants in a process, typically entire organizations or large departments.
+   - **Lanes**: Break down Pools into smaller roles or responsibilities.
 
-    4. **Artifacts**: Provide additional information about the process.
-       - **Data Objects**: Show how data is required or produced by activities.
-       - **Groups**: Visually group different parts of the diagram without affecting the sequence flow.
-       - **Text Annotations**: Offer explanations or extra information about parts of the model.
+4. **Artifacts**: Provide additional information about the process.
+   - **Data Objects**: Show how data is required or produced by activities.
+   - **Groups**: Visually separate diagram parts without affecting the sequence flow.
+   - **Text Annotations**: Offer explanations or extra information about parts of the model.
 
-    5. **Choreographies and Collaborations**: These elements depict interactions between different business entities in a process.
-       - **Choreographies**: Define the expected behavior between two or more business participants.
-       - **Collaborations**: Show relationships and message exchanges between two or more distinct processes or participants.\n\n
-    """
+5. **Choreographies and Collaborations**: Illustrate interactions between business entities.
+   - **Choreographies**: Define the expected behavior between two or more business participants.
+   - **Collaborations**: Show relationships and message exchanges between two or more distinct processes or participants.\n\n\n"""
 
 
 def natural_language_restriction():
