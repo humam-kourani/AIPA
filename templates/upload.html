@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/bpmn-js/dist/assets/diagram-js.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/style.css" crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
 
     <title>LLM@PM</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -133,18 +133,8 @@
                     </div>
 
                     <div class="container mt-5">
-                        <h2>Chat About the Uploaded BPMN</h2>
+                        <h2>Chat About the Uploaded BPMN <span style="float: right;"> <button type="button" class="btn btn-warning" id="reset_button" style="margin-left: 5px;">Reset Conversation</button></span></h2>
                         <p style="font-size: smaller; margin-top: -10px;">Only selected parts are considered. If nothing is selected, the chat pertains to the entire BPMN.</p>
-
-                        <div id="chat-box" style="height: 300px; overflow-y: scroll;"></div>
-                            <form id="chat-form" onsubmit="sendMessage(); return false;">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="user_message" placeholder="Type your message...">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Send</button>
-                                <button type="button" class="btn btn-warning" id="reset_button" style="margin-left: 5px;">Reset Conversation</button>
-
-                            </form>
                     </div>
 
                     <div class="container">
@@ -152,44 +142,35 @@
                             <div class="col-lg-12">
                                 <div class="card chat-app">
                                     <div class="chat">
-                                        <div class="chat-history">
-                                            <ul class="m-b-0">
-                                                <li class="clearfix">
-                                                    <div class="message-data text-right">
-                                                        <span class="message-data-time">10:10 AM, Today</span>
-                                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                                    </div>
-                                                    <div class="message other-message float-right"> Hi Aiden, how are you? How is the project coming along? </div>
-                                                </li>
-                                                <li class="clearfix">
-                                                    <div class="message-data">
-                                                        <span class="message-data-time">10:12 AM, Today</span>
-                                                    </div>
-                                                    <div class="message my-message">Are we meeting today?</div>
-                                                </li>
-                                                <li class="clearfix">
-                                                    <div class="message-data">
-                                                        <span class="message-data-time">10:15 AM, Today</span>
-                                                    </div>
-                                                    <div class="message my-message">Project has been already finished and I have results to show you.</div>
-                                                </li>
+                                        <div class="chat-history" id="chat-history-parent">
+                                            <ul class="m-b-0" id="chat-history">
                                             </ul>
                                         </div>
+
+                                        <div class="stage" id="dotFalling" style="margin-left: 40px;">
+                                            <div class="dot-falling"></div>
+                                          </div>
 
                                         <div class="chat-message clearfix">
                                             <div class="input-group mb-0">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fa fa-send"></i></span>
+                                                    <span class="input-group-text">
+                                                        <i class="fa fa-paper-plane" style="cursor: pointer"
+                                                           onclick="sendMessageMock()" id="chatButton"></i>
+                                                    </span>
                                                 </div>
-                                                <input type="text" class="form-control" placeholder="Enter text here...">
+                                                <input id="chatInput" type="text" class="form-control" placeholder="Type your message...">
                                             </div>
                                         </div>
+
                                     </div>
 
                                 </div>
                             </div>
                         </div>
+
                         </div>
+
                 {% endif %}
                 </div>
 

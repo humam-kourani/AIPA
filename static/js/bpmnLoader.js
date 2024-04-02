@@ -97,7 +97,9 @@ function reset_conversation() {
     .then(function (response) {
       console.log(response.data.success);
       var chatBox = document.getElementById("chat-box");
-      chatBox.innerHTML = "";
+      // chatBox.innerHTML = "";
+
+      $('#chat-history').empty()
     })
     .catch(function (error) {
       console.error(error);
