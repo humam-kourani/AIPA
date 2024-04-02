@@ -125,3 +125,7 @@ dmypy.json
 # VS Code settings folder
 .vscode
 .idea
+
+# the following files are ignored
+*.txt
+*/*.txt
