@@ -12,7 +12,7 @@ def add_prompt_strategies(parameters=None):
                                                          constants.ENABLE_NATURAL_LANGUAGE_RESTRICTION)
     enable_chain_of_thought = parameters.get("enable_chain_of_thought", constants.ENABLE_CHAIN_OF_THOUGHT)
     enable_process_analysis = parameters.get("enable_process_analysis", constants.ENABLE_PROCESS_ANALYSIS)
-    enable_knowledge_injection = parameters.get("enable_knowlege_injection", constants.ENABLE_KNOWLEDGE_INJECTION)
+    enable_knowledge_injection = parameters.get("enable_knowledge_injection", constants.ENABLE_KNOWLEDGE_INJECTION)
     enable_few_shots_learning = parameters.get("enable_few_shots_learning", constants.ENABLE_FEW_SHOTS_LEARNING)
     enable_negative_prompting = parameters.get("enable_negative_prompting", constants.ENABLE_NEGATIVE_PROMPTING)
 
