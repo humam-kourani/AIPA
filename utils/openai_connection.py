@@ -7,21 +7,21 @@ import requests
 
 from llm_configuration import constants
 
-
 T = TypeVar('T')
 
 
-def generate_response_with_history(session, api_key, openai_model) -> str:
+def generate_response_with_history(session, parameters=None) -> str:
     """
     Generates a response from the LLM using the conversation history.
 
     :param session: Session dictionary
-    :param api_key: OpenAI API key
-    :param openai_model: OpenAI model to be used
+    :param parameters: Optional parameters
     :return: The content of the LLM response
     """
+    if parameters is None:
+        parameters = {}
 
-    conversation_history = session["conversation"] # The conversation history
+    conversation_history = session["conversation"]  # The conversation history
 
     if constants.ENABLE_DEV_MODE:
         from openai import AzureOpenAI
@@ -38,6 +38,12 @@ def generate_response_with_history(session, api_key, openai_model) -> str:
             else:
                 raise Exception(str(path) + " (AZURE_ENDPOINT) does not exist!")
 
+        with importlib.resources.path("llm_configuration", constants.AZURE_OPENAI_MODEL) as path:
+            if os.path.exists(path):
+                openai_model = open(path, 'r').read().strip()
+            else:
+                raise Exception(str(path) + " (AZURE_OPENAI_MODEL) does not exist!")
+
         client = AzureOpenAI(
             api_key=azure_api_key,
             api_version="2023-05-15",
@@ -52,6 +58,12 @@ def generate_response_with_history(session, api_key, openai_model) -> str:
             raise Exception(f"Connection to OpenAI failed! This is the response: " + str(response))
 
     else:
+        try:
+            openai_model = session['model_name']
+            api_key = session['api_key']
+        except:
+            raise Exception("Please configure the OpenAI connection!")
+
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {api_key}"
@@ -61,6 +73,12 @@ def generate_response_with_history(session, api_key, openai_model) -> str:
             "model": openai_model,
             "messages": conversation_history,
         }
+
+        for msg in conversation_history:
+            for item in msg["content"]:
+                if item["type"] != "text":
+                    # set the max tokens property if there are non-textual messages
+                    payload["max_tokens"] = constants.MAX_TOKENS_FOR_ADVANC_MSG_TYPES
 
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload).json()
 

@@ -1,10 +1,7 @@
-import copy
 import os
 import base64
-from flask import Flask, render_template, request, flash, jsonify
-from utils.conversation import create_conversation, create_message
-
-from utils.openai_connection import generate_response_with_history
+from flask import Flask, render_template, request, jsonify
+from utils import chat
 
 app = Flask(__name__)
 session = {}
@@ -41,30 +38,13 @@ def update_config():
 
 @app.route('/chat_with_llm', methods=['POST'])
 def chat_with_llm():
-
     data = request.json
-    if 'conversation' not in session:
-        textual_representation = data.get('textualRepresentation', '')
-        session['conversation'] = create_conversation()
-        session['conversation'].append(create_message(
-            f'This is a text describing selected elements of the BPMN as dictionaries: {textual_representation}', role="user"))
-
-    user_message = data.get('message', '')
-    session['conversation'].append(create_message(user_message, role="user"))
 
     try:
-        openai_model = session['model_name']
-        api_key = session['api_key']
+        new_message = chat.chat_with_llm(data, session=session)
+        return jsonify({"response": new_message})
     except Exception as e:
-        return jsonify(success=False, error="Please configure the OpenAI connection!"), 400
-    else:
-        try:
-            new_message, updated_history = generate_response_with_history(session, api_key, openai_model)
-            session['conversation'] = updated_history
-            #print(updated_history)
-            return jsonify({"response": new_message})
-        except Exception as e:
-            return jsonify(success=False, error="The following error occured: " + str(e)), 400    
+        return jsonify(success=False, error="The following error occured: " + str(e)), 400
 
 
 @app.route('/reset_conversation', methods=['POST'])
