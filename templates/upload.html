@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/bpmn-js/dist/assets/diagram-js.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css" crossorigin="anonymous">
     <link rel="stylesheet" href="../static/css/style.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
 
     <title>LLM@PM</title>
@@ -38,8 +39,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-
-
 
 
     <div class="wrapper">
@@ -128,13 +127,18 @@
                 </div>
 
                 <div class="container mt-5" style="margin-bottom: 120px;">
+
+                <div class="chat-model-container">
+                  <div class="model-section">
                     <h2>BPMN Model</h2>
                     <div id="bpmn-container" data-bpmn-content="{{ bpmn_content_base64 }}" style="height: 600px; border: 1px solid #000;">
                     </div>
+                 </div>
+                 <div class="chat-section">
 
                     <div class="container mt-5">
                         <h2>Chat About the Uploaded BPMN <span style="float: right;"> <button type="button" class="btn btn-warning" id="reset_button" style="margin-left: 5px;">Reset Conversation</button></span></h2>
-                        <p style="font-size: smaller; margin-top: -10px;">Only selected parts are considered. If nothing is selected, the chat pertains to the entire BPMN.</p>
+                        <!-- <p style="font-size: smaller; margin-top: -10px;">Only selected parts are considered. If nothing is selected, the chat pertains to the entire BPMN.</p> -->
                     </div>
 
                     <div class="container">
@@ -168,8 +172,9 @@
                                 </div>
                             </div>
                         </div>
-
-                        </div>
+                      </div>
+                    </div>
+                    </div>
 
                 {% endif %}
                 </div>
