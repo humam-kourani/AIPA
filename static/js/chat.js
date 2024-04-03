@@ -109,3 +109,7 @@ function appendMessage(sender, message) {
   chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
 }
 
+function sendInitialSystemMessage() {
+  var initialMessage = "Hello! I am your AI assistant. How may I assist you with the uploaded BPMN model?";
+  addResponseMessageToChatbox(initialMessage);
+}

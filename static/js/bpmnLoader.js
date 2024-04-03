@@ -100,6 +100,7 @@ function reset_conversation() {
       // chatBox.innerHTML = "";
 
       $('#chat-history').empty()
+      sendInitialSystemMessage();
     })
     .catch(function (error) {
       console.error(error);
