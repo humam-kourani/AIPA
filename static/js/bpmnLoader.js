@@ -51,15 +51,19 @@ async function renderUpdatedBPMN(xmlString) {
       });
       previousSelection = selectedElements;
 
-      if (selectedElements.length == 0) {
-        const allElements = elementRegistry.getAll();
-        textualRepresentation = buildTextualRepresentation(allElements, viewer);
-      } else {
-        textualRepresentation = buildTextualRepresentation(
-          selectedElements,
-          viewer
-        );
+      if (enable_sending_submodel) {
+        if (selectedElements.length == 0) {
+          const allElements = elementRegistry.getAll();
+          textualRepresentation = buildTextualRepresentation(allElements, viewer);
+        } else {
+          textualRepresentation = buildTextualRepresentation(
+            selectedElements,
+            viewer
+          );
+        }
       }
+      
+      
       //console.log(textualRepresentation);
     });
     container.addEventListener(
