@@ -51,15 +51,19 @@ async function renderUpdatedBPMN(xmlString) {
       });
       previousSelection = selectedElements;
 
-      if (selectedElements.length == 0) {
-        const allElements = elementRegistry.getAll();
-        textualRepresentation = buildTextualRepresentation(allElements, viewer);
-      } else {
-        textualRepresentation = buildTextualRepresentation(
-          selectedElements,
-          viewer
-        );
+      if (enable_sending_submodel) {
+        if (selectedElements.length == 0) {
+          const allElements = elementRegistry.getAll();
+          textualRepresentation = buildTextualRepresentation(allElements, viewer);
+        } else {
+          textualRepresentation = buildTextualRepresentation(
+            selectedElements,
+            viewer
+          );
+        }
       }
+      
+      
       //console.log(textualRepresentation);
     });
     container.addEventListener(
@@ -97,7 +101,10 @@ function reset_conversation() {
     .then(function (response) {
       console.log(response.data.success);
       var chatBox = document.getElementById("chat-box");
-      chatBox.innerHTML = "";
+      // chatBox.innerHTML = "";
+
+      $('#chat-history').empty()
+      sendInitialSystemMessage();
     })
     .catch(function (error) {
       console.error(error);

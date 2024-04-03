@@ -1,4 +1,5 @@
-var disableEditing = true;
+const disableEditing = true;
+const enable_sending_submodel = false;
 
 window.onload = function () {
   if (disableEditing) {
