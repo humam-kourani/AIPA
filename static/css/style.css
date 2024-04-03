@@ -104,13 +104,16 @@ a:focus {
 .overlay {
     display: none;
     position: fixed;
-    width: 100vw;
-    height: 100vh;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.7);
-    z-index: 998;
+    z-index: 998; /* Ensure no element between overlay and sidebar has a z-index higher than this. */
     opacity: 0;
     transition: all 0.5s ease-in-out;
 }
+
 .overlay.active {
     display: block;
     opacity: 1;
