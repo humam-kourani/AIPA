@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Something went wrong</h2>
+<mat-dialog-content class="mat-typography">
+  @if (data.error) {
+    @if (data.error.status && data.error.statusText && data.error.error){
+      <h4>{{data.error.status}} {{data.error.statusText}}</h4>
+      <p class="dialog-error-text">{{data.error.error.message}}</p>
+    }
+    @else if (data.error.title && data.error.message){
+      <h4>{{data.error.title}}</h4>
+      <p class="dialog-error-text">{{data.error.message}}</p>
+    }
+  }
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

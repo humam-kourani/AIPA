@@ -1,0 +1,24 @@
+<div style="padding: 30px">
+  <h2 class="mb-4">OpenAI API Configuration</h2>
+  <form [formGroup]="openAIConfigurationForm" (ngSubmit)="onSubmit()" class="example-form">
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Model Name</mat-label>
+      <mat-select formControlName="modelName" ngDefaultControl placeholder="Select OpenAI model name">
+        <mat-option value="gpt-1-turbo-preview">gpt-1-turbo-preview</mat-option>
+        <mat-option value="gpt-2-turbo-preview">gpt-2-turbo-preview</mat-option>
+        <mat-option value="gpt-3-turbo-preview">gpt-3-turbo-preview</mat-option>
+        <mat-option value="gpt-4-turbo-preview">gpt-4-turbo-preview</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>API Key</mat-label>
+      <input matInput placeholder="Enter OpenAI API Key" formControlName="apiKey">
+    </mat-form-field>
+
+    <button style="float: right" mat-flat-button color="primary" [disabled]="!openAIConfigurationForm.dirty || openAIConfigurationForm?.invalid">Save</button>
+
+  </form>
+
+</div>

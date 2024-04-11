@@ -1,0 +1,63 @@
+<div class="example-container">
+  <mat-toolbar color="primary" class="example-toolbar">
+
+    <button mat-button (click)="snav.toggle()">
+        <mat-icon class="white-icon">menu</mat-icon>
+        <span class="white-icon">Configure</span>
+    </button>
+
+    <h1 class="example-app-name">LLM{{"\u0040"}}PM</h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container">
+
+    <mat-sidenav #snav fixedTopGap="56">
+      <app-openai-configuration (closeOverlay)="snav.toggle()"></app-openai-configuration>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+      <mat-card class="home-screen-card">
+<!--        <div class="container mt-5">-->
+<!--            <h2>Upload BPMN Model</h2>-->
+<!--            <form id="upload-form" action="{{ url_for('upload_bpmn') }}" method="POST" enctype="multipart/form-data">-->
+<!--                <div class="form-group">-->
+<!--                    <input type="file" class="form-control-file" id="bpmnFile" name="bpmnFile" accept=".bpmn">-->
+<!--                </div>-->
+<!--                <button type="submit" class="btn btn-primary">Upload</button>-->
+<!--            </form>-->
+<!--        </div>-->
+
+          <h2>Upload BPMN Model</h2>
+
+          <input
+            style="display: none"
+            type="file"
+            accept=".bpmn"
+            #fileInput
+            (change)="fileChanged($event)"
+          />
+          <button
+            mat-flat-button
+            color="secondary"
+            (click)="fileInput.click()"
+            style="width: 200px"
+          >
+            Select new model
+          </button>
+
+          <div *ngIf="currentFile" style="margin: 0px 0 20px 0px">
+            <h4 >Current selection: </h4>
+            <span class="selected-bpmn">{{ fileName }}</span>
+          </div>
+
+
+      </mat-card>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
+
+</div>
+
