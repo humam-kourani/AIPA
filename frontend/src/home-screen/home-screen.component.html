@@ -18,41 +18,46 @@
     <mat-sidenav-content>
 
       <mat-card class="home-screen-card">
-<!--        <div class="container mt-5">-->
-<!--            <h2>Upload BPMN Model</h2>-->
-<!--            <form id="upload-form" action="{{ url_for('upload_bpmn') }}" method="POST" enctype="multipart/form-data">-->
-<!--                <div class="form-group">-->
-<!--                    <input type="file" class="form-control-file" id="bpmnFile" name="bpmnFile" accept=".bpmn">-->
-<!--                </div>-->
-<!--                <button type="submit" class="btn btn-primary">Upload</button>-->
-<!--            </form>-->
-<!--        </div>-->
 
-          <h2>Upload BPMN Model</h2>
+        <div class="flex-child">
+          <h3 style="margin-top: 0px;">Choose BPMN Model:</h3>
+            <span *ngIf="currentFile" class="selected-bpmn">{{ fileName }}</span>
+            <span style="margin-left: 20px">
+              <input
+                style="display: none"
+                type="file"
+                accept=".bpmn"
+                #fileInput
+                (change)="fileChanged($event)"
+              />
+              <button
+                mat-flat-button
+                color="secondary"
+                (click)="fileInput.click()"
+                style="height: 35px"
+              >
+                Select new model
+              </button>
+            </span>
 
-          <input
-            style="display: none"
-            type="file"
-            accept=".bpmn"
-            #fileInput
-            (change)="fileChanged($event)"
-          />
-          <button
-            mat-flat-button
-            color="secondary"
-            (click)="fileInput.click()"
-            style="width: 200px"
-          >
-            Select new model
-          </button>
-
-          <div *ngIf="currentFile" style="margin: 0px 0 20px 0px">
-            <h4 >Current selection: </h4>
-            <span class="selected-bpmn">{{ fileName }}</span>
-          </div>
-
+        </div>
 
       </mat-card>
+
+      <div class="flex-container" *ngIf="bpmnContentBase64!=''">
+
+        <div class="flex-child">
+          <mat-card class="home-screen-card">
+            <app-bpmn-renderer [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
+          </mat-card>
+        </div>
+
+        <div class="flex-child">
+          <mat-card class="home-screen-card"></mat-card>
+        </div>
+
+      </div>
+
 
     </mat-sidenav-content>
 

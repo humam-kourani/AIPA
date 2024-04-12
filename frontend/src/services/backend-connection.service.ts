@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {environment} from "../environments/environment";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendConnectionService {
 
-  private HTTP_BASE_URL = 'http://127.0.0.1:5000/'
+  private HTTP_BASE_URL = environment.WEBSERVER_URL
 
   constructor(private httpClient: HttpClient) { }
 
@@ -15,6 +17,24 @@ export class BackendConnectionService {
       this.HTTP_BASE_URL + 'update-config',
       { model_name: modelName, api_key: apiKey }
     );
+  }
+
+  uploadBPMN(file: File){
+    // let formData:FormData = new FormData();
+    // formData.append('uploadFile', file, file.name)
+    //
+    // let headers = new HttpHeaders({
+    //   'Content-Type': 'application/octet-stream',
+    //   'Accept': 'application/json'
+    // });
+    //
+    // let options = { headers: headers };
+
+    let formParams = new FormData();
+    formParams.append('bpmnFile', file)
+
+    // return this.httpClient.post(this.HTTP_BASE_URL + '', formData, options)
+    return this.httpClient.post(this.HTTP_BASE_URL + '', formParams)
   }
 
   testRoute(){

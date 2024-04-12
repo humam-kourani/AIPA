@@ -25,7 +25,7 @@ def upload_bpmn():
 
                 bpmn_content = file.read().decode('utf-8')
                 bpmn_content_base64 = base64.b64encode(bpmn_content.encode('utf-8')).decode('utf-8')
-                return render_template('upload.html', bpmn_content_base64=bpmn_content_base64)
+                return jsonify(success=True, bpmn_content_base64=bpmn_content_base64)
             else:
                 # TODO: this is not working
                 return jsonify(success=False, error='Unsupported file type. Please upload a .bpmn file.'), 400
