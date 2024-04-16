@@ -1,6 +1,7 @@
 var textualRepresentation = "";
 var modelXmlString = "";
 var modelSvg = "";
+var keydownToAdd = true;
 
 async function renderUpdatedBPMN(xmlString) {
   try {
@@ -16,6 +17,19 @@ async function renderUpdatedBPMN(xmlString) {
   });
   try {
     await viewer.importXML(xmlString);
+
+    if (keydownToAdd) {
+      const input = document.getElementById("chatInput");
+      // Add an event listener to detect keydown events
+      input.addEventListener("keydown", function (event) {
+        // Check if the key pressed is the Enter key
+        if (event.key === "Enter") {
+          event.preventDefault();
+          sendMessage();
+        }
+      });
+      keydownToAdd = false;
+    }
 
     viewer
       .saveSVG({ format: true })
