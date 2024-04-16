@@ -1,6 +1,7 @@
 var textualRepresentation = "";
 var modelXmlString = "";
 var modelSvg = "";
+var keydownToAdd = true;
 
 async function renderUpdatedBPMN(xmlString) {
   try {
@@ -17,11 +18,24 @@ async function renderUpdatedBPMN(xmlString) {
   try {
     await viewer.importXML(xmlString);
 
+    if (keydownToAdd) {
+      const input = document.getElementById("chatInput");
+      // Add an event listener to detect keydown events
+      input.addEventListener("keydown", function (event) {
+        // Check if the key pressed is the Enter key
+        if (event.key === "Enter") {
+          event.preventDefault();
+          sendMessage();
+        }
+      });
+      keydownToAdd = false;
+    }
+
     viewer
       .saveSVG({ format: true })
       .then(function (result) {
         modelSvg = result.svg;
-        console.log(modelSvg);
+        //console.log(modelSvg);
         // Use the SVG as needed
       })
       .catch(function (err) {});
@@ -54,7 +68,10 @@ async function renderUpdatedBPMN(xmlString) {
       if (enable_sending_submodel) {
         if (selectedElements.length == 0) {
           const allElements = elementRegistry.getAll();
-          textualRepresentation = buildTextualRepresentation(allElements, viewer);
+          textualRepresentation = buildTextualRepresentation(
+            allElements,
+            viewer
+          );
         } else {
           textualRepresentation = buildTextualRepresentation(
             selectedElements,
@@ -62,8 +79,7 @@ async function renderUpdatedBPMN(xmlString) {
           );
         }
       }
-      
-      
+
       //console.log(textualRepresentation);
     });
     container.addEventListener(
@@ -103,7 +119,7 @@ function reset_conversation() {
       var chatBox = document.getElementById("chat-box");
       // chatBox.innerHTML = "";
 
-      $('#chat-history').empty()
+      $("#chat-history").empty();
       sendInitialSystemMessage();
     })
     .catch(function (error) {

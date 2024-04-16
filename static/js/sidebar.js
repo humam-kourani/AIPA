@@ -37,6 +37,8 @@ function saveConfigurationAndClose() {
   var modelName = $("#model_name").val();
   var apiKey = $("#api_key").val();
 
+  console.log(modelName);
+
   $.post("/update-config", { model_name: modelName, api_key: apiKey })
     .done(function () {
       $("#sidebar").removeClass("active");
