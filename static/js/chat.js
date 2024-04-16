@@ -52,6 +52,17 @@ function sendMessage() {
 $(document).ready(function () {
   //$("#chatButton").click(sendMessage)
 
+  const input = document.getElementById('chatInput');
+
+  // Add an event listener to detect keydown events
+  input.addEventListener('keydown', function(event) {
+      // Check if the key pressed is the Enter key
+      if (event.key === "Enter") {
+          event.preventDefault();
+          sendMessage();
+      }
+  });
+
   $("#dotFalling").css("display", "none");
 });
 

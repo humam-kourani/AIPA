@@ -113,14 +113,11 @@
           <!-- The action attribute can be removed since you're handling data with JS -->
           <div class="form-group">
             <label for="model_name">Model Name:</label>
-            <input
-              type="text"
-              class="form-control"
-              id="model_name"
-              name="model_name"
-              placeholder="Enter OpenAI model name"
-              required
-            />
+            <select name="model_name" id="model_name">
+              <option value="gpt-3.5-turbo" selected>gpt-3.5-turbo</option>
+              <option value="gpt-4-turbo-preview">gpt-4-turbo-preview</option>
+              <option value="gpt-4">gpt-4</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="api_key">API Key:</label>
