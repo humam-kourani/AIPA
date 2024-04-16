@@ -21,7 +21,7 @@ async function renderUpdatedBPMN(xmlString) {
       .saveSVG({ format: true })
       .then(function (result) {
         modelSvg = result.svg;
-        console.log(modelSvg);
+        //console.log(modelSvg);
         // Use the SVG as needed
       })
       .catch(function (err) {});
@@ -54,7 +54,10 @@ async function renderUpdatedBPMN(xmlString) {
       if (enable_sending_submodel) {
         if (selectedElements.length == 0) {
           const allElements = elementRegistry.getAll();
-          textualRepresentation = buildTextualRepresentation(allElements, viewer);
+          textualRepresentation = buildTextualRepresentation(
+            allElements,
+            viewer
+          );
         } else {
           textualRepresentation = buildTextualRepresentation(
             selectedElements,
@@ -62,8 +65,7 @@ async function renderUpdatedBPMN(xmlString) {
           );
         }
       }
-      
-      
+
       //console.log(textualRepresentation);
     });
     container.addEventListener(
@@ -103,7 +105,7 @@ function reset_conversation() {
       var chatBox = document.getElementById("chat-box");
       // chatBox.innerHTML = "";
 
-      $('#chat-history').empty()
+      $("#chat-history").empty();
       sendInitialSystemMessage();
     })
     .catch(function (error) {
