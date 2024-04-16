@@ -1,52 +1,55 @@
 function sendMessage() {
   let userMessage = $("#chatInput").val();
   $("#chatInput").val("");
-  addUserMessageToChatbox(userMessage);
 
-  $("#dotFalling").css("display", "block");
+  if (userMessage.length > 0) {
+    addUserMessageToChatbox(userMessage);
 
-  let postDataContent = {
-    message: userMessage,
-    textualRepresentation: textualRepresentation,
-    modelXmlString: modelXmlString,
-    modelSvg: modelSvg,
-  };
+    $("#dotFalling").css("display", "block");
 
-  parameters = {};
+    let postDataContent = {
+      message: userMessage,
+      textualRepresentation: textualRepresentation,
+      modelXmlString: modelXmlString,
+      modelSvg: modelSvg,
+    };
 
-  console.log(postDataContent);
+    parameters = {};
 
-  // it is possible to customize the parameters
-  //parameters["model_abstraction"] = "json";
-  //parameters["enable_role_prompting"] = true;
-  //parameters["enable_natural_language_restriction"] = true;
-  //parameters["enable_chain_of_thought"] = true;
-  //parameters["enable_process_analysis"] = true;
-  //parameters["enable_knowledge_injection"] = true;
+    console.log(postDataContent);
 
-  // only available for the JSON abstraction.
-  // Their value is not considered for the other abstractions.
-  //parameters["enable_few_shots_learning"] = true;
-  //parameters["enable_negative_prompting"] = true;
+    // it is possible to customize the parameters
+    //parameters["model_abstraction"] = "json";
+    //parameters["enable_role_prompting"] = true;
+    //parameters["enable_natural_language_restriction"] = true;
+    //parameters["enable_chain_of_thought"] = true;
+    //parameters["enable_process_analysis"] = true;
+    //parameters["enable_knowledge_injection"] = true;
 
-  postDataContent["parameters"] = parameters;
+    // only available for the JSON abstraction.
+    // Their value is not considered for the other abstractions.
+    //parameters["enable_few_shots_learning"] = true;
+    //parameters["enable_negative_prompting"] = true;
 
-  axios
-    .post("/chat_with_llm", postDataContent)
-    .then(function (response) {
-      var llmResponse = response.data.response;
+    postDataContent["parameters"] = parameters;
 
-      addResponseMessageToChatbox(llmResponse);
-    })
-    .catch(function (error) {
-      console.error("Error fetching the response:", error);
-      addResponseMessageToChatbox(
-        "Sorry, there was an error processing your message."
-      );
-    })
-    .finally(function () {
-      $("#dotFalling").css("display", "none");
-    });
+    axios
+      .post("/chat_with_llm", postDataContent)
+      .then(function (response) {
+        var llmResponse = response.data.response;
+
+        addResponseMessageToChatbox(llmResponse);
+      })
+      .catch(function (error) {
+        console.error("Error fetching the response:", error);
+        addResponseMessageToChatbox(
+          "Sorry, there was an error processing your message."
+        );
+      })
+      .finally(function () {
+        $("#dotFalling").css("display", "none");
+      });
+  }
 }
 
 $(document).ready(function () {
