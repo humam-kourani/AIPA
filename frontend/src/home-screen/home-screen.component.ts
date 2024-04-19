@@ -16,6 +16,7 @@ import {BackendConnectionService} from "../services/backend-connection.service";
 import {ErrorHandlingService} from "../error-dialog/error-handling.service";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {BpmnRendererComponent} from "../bpmn-renderer/bpmn-renderer.component";
+import {ChatComponent} from "../chat/chat.component";
 
 @Component({
   selector: 'app-home-screen',
@@ -40,7 +41,8 @@ import {BpmnRendererComponent} from "../bpmn-renderer/bpmn-renderer.component";
     CommonModule,
     MatGridList,
     MatGridTile,
-    BpmnRendererComponent
+    BpmnRendererComponent,
+    ChatComponent
   ],
   templateUrl: './home-screen.component.html',
   styleUrl: './home-screen.component.scss'

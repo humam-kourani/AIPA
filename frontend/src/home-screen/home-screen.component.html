@@ -20,7 +20,7 @@
       <mat-card class="home-screen-card">
 
         <div class="flex-child">
-          <h3 style="margin-top: 0px;">Choose BPMN Model:</h3>
+          <h3 style="margin-top: 0px;">Choose BPMN Model</h3>
             <span *ngIf="currentFile" class="selected-bpmn">{{ fileName }}</span>
             <span style="margin-left: 20px">
               <input
@@ -47,13 +47,15 @@
       <div class="flex-container" *ngIf="bpmnContentBase64!=''">
 
         <div class="flex-child">
-          <mat-card class="home-screen-card">
+          <mat-card class="home-screen-card content-card">
             <app-bpmn-renderer [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
           </mat-card>
         </div>
 
         <div class="flex-child">
-          <mat-card class="home-screen-card"></mat-card>
+          <mat-card class="home-screen-card content-card">
+            <app-chat></app-chat>
+          </mat-card>
         </div>
 
       </div>

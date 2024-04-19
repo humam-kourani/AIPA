@@ -1,4 +1,4 @@
-import {Component, Input, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, Input, SimpleChanges, ViewChild} from '@angular/core';
 import {environment} from "../environments/environment";
 /**
  * You may include a different variant of BpmnJS:
@@ -59,6 +59,9 @@ export class BpmnRendererComponent {
   // instantiate BpmnJS with component
   private bpmnJS: BpmnJS;
 
+  // retrieve DOM element reference
+  @ViewChild('ref', { static: true }) private el: ElementRef | undefined;
+
   textualRepresentation = "";
   modelXmlString = "";
   modelSvg = "";
@@ -78,6 +81,11 @@ export class BpmnRendererComponent {
     // }
   }
 
+  ngAfterContentInit(): void {
+    // attach BpmnJS instance to DOM element
+    this.bpmnJS.attachTo(this.el?.nativeElement);
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if(changes.hasOwnProperty('bpmnContentBase64')){
       const xmlString = atob(changes['bpmnContentBase64'].currentValue);
@@ -93,7 +101,7 @@ export class BpmnRendererComponent {
   }
 
   ngOnDestroy(): void {
-    BpmnJS.destroy();
+    this.bpmnJS.destroy();
   }
 
 
@@ -130,6 +138,7 @@ export class BpmnRendererComponent {
     let viewer = new BpmnJS({
       container: container,
     });
+    this.bpmnJS = viewer
     try {
       await viewer.importXML(xmlString);
 
@@ -360,6 +369,7 @@ buildTextualRepresentation(selectedElements: any, viewer: any) {
     let bpmnViewer = new BpmnJS({
       container: "#" + targetDivFirstBpmn,
     });
+    this.bpmnJS = bpmnViewer
 
     await bpmnViewer.importXML(xmlString);
 
