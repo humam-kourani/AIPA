@@ -1,26 +1,28 @@
-import { Component } from '@angular/core';
+import {Component, importProvidersFrom} from '@angular/core';
 // @ts-ignore
 import * as $ from 'jquery';
 import {OpenaiChatService} from "../services/openai-chat.service";
-import {NbChatModule, NbLayoutModule} from "@nebular/theme";
+import {NbChatModule, NbLayoutModule, NbThemeModule} from "@nebular/theme";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatProgressBar} from "@angular/material/progress-bar";
 
-// @ts-ignore
 @Component({
   selector: 'app-chat',
   standalone: true,
   imports: [
+    NbThemeModule,
     NbChatModule,
     NbLayoutModule,
     NgForOf,
     MatButton,
     MatIcon,
     MatProgressBar,
-    NgIf
+    NgIf,
   ],
+  // @ts-ignore
+  providers: [NbThemeModule.forRoot({ name: 'corporate' }).providers],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
