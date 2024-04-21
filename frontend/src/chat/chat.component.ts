@@ -1,6 +1,4 @@
 import {Component, importProvidersFrom} from '@angular/core';
-// @ts-ignore
-import * as $ from 'jquery';
 import {OpenaiChatService} from "../services/openai-chat.service";
 import {NbChatModule, NbLayoutModule, NbThemeModule} from "@nebular/theme";
 import {NgForOf, NgIf} from "@angular/common";

@@ -44,21 +44,37 @@
 
       </mat-card>
 
-      <div class="flex-container" *ngIf="bpmnContentBase64!=''">
+      <div>
+        <mat-grid-list [cols]="breakpoint" rowHeight="700px" (window:resize)="onResize($event)" *ngIf="bpmnContentBase64!=''">
+        <mat-grid-tile class="my-tile">
 
-        <div class="flex-child">
-          <mat-card class="home-screen-card content-card">
-            <app-bpmn-renderer [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
-          </mat-card>
-        </div>
+            <app-bpmn-renderer class="home-screen-card content-card" [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
 
-        <div class="flex-child">
-          <mat-card class="home-screen-card content-card">
-            <app-chat></app-chat>
-          </mat-card>
-        </div>
+        </mat-grid-tile>
+        <mat-grid-tile class="my-tile">
 
+            <app-chat class="home-screen-card content-card"></app-chat>
+
+        </mat-grid-tile>
+      </mat-grid-list>
       </div>
+
+
+<!--      <div class="flex-container" *ngIf="bpmnContentBase64!=''">-->
+
+<!--        <div class="flex-child">-->
+<!--          <mat-card class="home-screen-card content-card">-->
+<!--            <app-bpmn-renderer [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>-->
+<!--          </mat-card>-->
+<!--        </div>-->
+
+<!--        <div class="flex-child">-->
+<!--          <mat-card class="home-screen-card content-card">-->
+<!--            <app-chat></app-chat>-->
+<!--          </mat-card>-->
+<!--        </div>-->
+
+<!--      </div>-->
 
 
     </mat-sidenav-content>

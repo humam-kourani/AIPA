@@ -58,6 +58,15 @@ export class HomeScreenComponent {
 
   }
 
+  breakpoint: number | undefined
+  ngOnInit() {
+    this.breakpoint = (window.innerWidth <= 1200) ? 1 : 2;
+  }
+
+  onResize(event: any) {
+    this.breakpoint = (event.target.innerWidth <= 1200) ? 1 : 2;
+  }
+
   fileChanged(event: any): void {
     if (event.target.files && event.target.files[0]) {
       const file: File = event.target.files[0];

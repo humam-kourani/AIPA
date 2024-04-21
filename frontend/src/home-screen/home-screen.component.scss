@@ -12,6 +12,7 @@ h1.example-app-name {
   flex: 1 1 auto;
   text-align: center;
   margin-left: -140px;
+  color: white !important;
 }
 
 .example-sidenav-container {
@@ -30,7 +31,8 @@ h1.example-app-name {
 }
 
 .content-card{
-   height: 700px;
+  height: 100%;
+  width: 100%;
 }
 
 
@@ -44,14 +46,7 @@ h1.example-app-name {
   font-size: large;
 }
 
-.flex-container {
-    display: flex;
-}
 
-.flex-child {
-    flex: 1;
-}
-
-.flex-child:first-child {
-    margin-right: -24px;
+.my-tile{
+  padding: 5px !important;
 }
