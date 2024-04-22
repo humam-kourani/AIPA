@@ -83,7 +83,7 @@ def generate_response_with_history(data, session, parameters=None) -> str:
                 if not api_url.endswith("/"):
                     api_url += "/"
             else:
-                api_url = "https://api.openai.com/v1/"
+                api_url = constants.OPENAI_API_DEFAULT_URL
         except:
             raise Exception("Please configure the OpenAI connection!")
 
