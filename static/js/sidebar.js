@@ -7,7 +7,7 @@ $(document).ready(function () {
     saveConfigurationAndClose();
   });
 
-  $("#model_name, #api_key").on("change", function () {
+  $("#model_name, #api_key", "#api_url").on("change", function () {
     sessionStorage.setItem(this.id, this.value);
   });
 
@@ -26,6 +26,9 @@ $(document).ready(function () {
     if (sessionStorage.getItem("api_key")) {
       $("#api_key").val(sessionStorage.getItem("api_key"));
     }
+    if (sessionStorage.getItem("api_url")) {
+      $("#api_url").val(sessionStorage.getItem("api_url"));
+    }
   });
 
   $("#saveConfig").on("click", function () {
@@ -36,10 +39,19 @@ $(document).ready(function () {
 function saveConfigurationAndClose() {
   var modelName = $("#model_name").val();
   var apiKey = $("#api_key").val();
+  var apiUrl = $("#api_url").val();
+
+  sessionStorage.setItem("model_name", modelName);
+  sessionStorage.setItem("api_key", apiKey);
+  sessionStorage.setItem("api_url", apiUrl);
 
   console.log(modelName);
 
-  $.post("/update-config", { model_name: modelName, api_key: apiKey })
+  $.post("/update-config", {
+    model_name: modelName,
+    api_key: apiKey,
+    api_url: apiUrl,
+  })
     .done(function () {
       $("#sidebar").removeClass("active");
       $(".overlay").removeClass("active");
