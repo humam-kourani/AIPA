@@ -33,6 +33,7 @@ def upload_bpmn():
 def update_config():
     session['model_name'] = request.form['model_name']
     session['api_key'] = request.form['api_key']
+    session['api_url'] = request.form.get('api_url', '')
     return jsonify({'message': 'Configuration saved successfully'})
 
 
