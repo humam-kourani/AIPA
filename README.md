@@ -19,6 +19,7 @@ Process Mining with LLMs
 2. Go to the folder: ./frontend
 3. Install npm dependencies: `npm install`
 4. Run the frontend application: `npm run start`
+5. You can access the frontend application at: `http://localhost:4200/`
 
 ## Available abstractions
 The user can select between the 'json', 'xml', and 'svg' abstractions in the configuration.
