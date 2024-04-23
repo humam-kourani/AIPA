@@ -78,7 +78,7 @@ export class ChatComponent {
 
     this.backendConnectionService.sendMessage(postDataContent).subscribe({
         next: (data: any) => {
-          this.addBotMessageToChatBox(data.data.response)
+          this.addBotMessageToChatBox(data.response)
           this.showLoader = false
         },
         error: error => {
