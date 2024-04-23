@@ -11,6 +11,15 @@ Process Mining with LLMs
 5. Start the app server via `python app.py`
 6. You can access the app at `http://127.0.0.1:4555/`
 
+### Running the frontend
+1. Prerequisites:
+   - Install node and angular-cli:
+     - node: https://nodejs.org/en
+     - angular-cli: https://angular.io/cli
+2. Go to the folder: ./frontend
+3. Install npm dependencies: `npm install`
+4. Run the frontend application: `npm run start`
+
 ## Available abstractions
 The user can select between the 'json', 'xml', and 'svg' abstractions in the configuration.
 

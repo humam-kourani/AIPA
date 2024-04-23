@@ -3,7 +3,8 @@
   @if (data.error) {
     @if (data.error.status && data.error.statusText && data.error.error){
       <h4>{{data.error.status}} {{data.error.statusText}}</h4>
-      <p class="dialog-error-text">{{data.error.error.message}}</p>
+      @if (data.error.error.message){<p class="dialog-error-text">{{data.error.error.message}}</p>}
+      @else if (data.error.error.error){<p class="dialog-error-text">{{data.error.error.error}}</p>}
     }
     @else if (data.error.title && data.error.message){
       <h4>{{data.error.title}}</h4>

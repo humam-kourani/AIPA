@@ -10,14 +10,10 @@
 
 ::ng-deep.nb-theme-corporate nb-chat .header {display: none}
 
-
-:root {
-  --send-bg: #0B93F6;
-  white: white;
-  --receive-bg: #c6c6c6;
-  --receive-text: white;
-  --page-background: #f0f0f0;
+::ng-deep.nb-theme-corporate nb-chat {
+  height: 693px !important;
 }
+
 
 ::ng-deep.nb-theme-corporate nb-chat-message.not-reply nb-chat-message-text .text {
   background: #c6c6c6;
@@ -61,4 +57,8 @@
         background-color: #f0f0f0;
         border-bottom-left-radius: 10px;
 	}
+}
+
+::ng-deep.nb-theme-corporate{
+   all: unset;
 }

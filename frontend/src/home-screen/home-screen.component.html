@@ -1,17 +1,20 @@
 <div class="example-container">
   <mat-toolbar color="primary" class="example-toolbar">
 
+    <img src="../assets/logos/18_fit_rgb_white.png" height="50%"/>
+
+    <h1 class="example-app-name">LLM{{"\u0040"}}PM</h1>
+
     <button mat-button (click)="snav.toggle()">
         <mat-icon class="white-icon">menu</mat-icon>
         <span class="white-icon">Configure</span>
     </button>
 
-    <h1 class="example-app-name">LLM{{"\u0040"}}PM</h1>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container">
 
-    <mat-sidenav #snav fixedTopGap="56">
+    <mat-sidenav #snav fixedTopGap="56" position="end">
       <app-openai-configuration (closeOverlay)="snav.toggle()"></app-openai-configuration>
     </mat-sidenav>
 
@@ -45,7 +48,7 @@
       </mat-card>
 
       <div>
-        <mat-grid-list [cols]="breakpoint" rowHeight="700px" (window:resize)="onResize($event)" *ngIf="bpmnContentBase64!=''">
+        <mat-grid-list [cols]="breakpoint" rowHeight="800px" (window:resize)="onResize($event)" *ngIf="bpmnContentBase64!=''">
         <mat-grid-tile class="my-tile">
 
             <app-bpmn-renderer class="home-screen-card content-card" [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
@@ -60,27 +63,13 @@
       </div>
 
 
-<!--      <div class="flex-container" *ngIf="bpmnContentBase64!=''">-->
-
-<!--        <div class="flex-child">-->
-<!--          <mat-card class="home-screen-card content-card">-->
-<!--            <app-bpmn-renderer [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>-->
-<!--          </mat-card>-->
-<!--        </div>-->
-
-<!--        <div class="flex-child">-->
-<!--          <mat-card class="home-screen-card content-card">-->
-<!--            <app-chat></app-chat>-->
-<!--          </mat-card>-->
-<!--        </div>-->
-
-<!--      </div>-->
-
-
     </mat-sidenav-content>
 
   </mat-sidenav-container>
 
+  <div fxFlexOffset="auto" color="primary" style="height: 20px; background-color: #343a40">
+
+  </div>
 
 </div>
 

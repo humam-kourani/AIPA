@@ -1,31 +1,35 @@
-<div class="container mt-5" style="display: grid">
-    <h2 style="margin-top: 0px">Chat about the Model
+<div>
+  <div class="container mt-5" style="display: grid">
+    <h4 style="margin-top: 0px">Chat about the Model
       <span style="float: right;">
         <button mat-stroked-button color="warn" (click)="resetConversation()">Reset Conversation</button>
       </span>
-    </h2>
-</div>
+    </h4>
+  </div>
 
-   <nb-layout>
-    <nb-layout-column style="padding: 0;">
-      <nb-chat size="large" style="width: 100%; border: 1px solid #c3c3c3;">
-        <nb-chat-message
-          *ngFor="let msg of messages"
-          [type]="msg.type"
-          [message]="msg.text"
-          [reply]="msg.reply"
-          [sender]="msg.user.name"
-          [date]="msg.date"
-          [files]="msg.files"
-          [quote]="msg.quote"
-          [latitude]="msg.latitude"
-          [longitude]="msg.longitude"
-          [avatar]="msg.user.avatar"
-        >
-        </nb-chat-message>
-        <nb-chat-form (send)="sendMessage($event)" [dropFiles]="true"> </nb-chat-form>
-      </nb-chat>
-    </nb-layout-column>
-  </nb-layout>
+     <nb-layout>
+      <nb-layout-column style="padding: 0;">
+        <nb-chat size="large" style="width: 100%; border: 1px solid #c3c3c3;">
+          <nb-chat-message
+            *ngFor="let msg of messages"
+            [type]="msg.type"
+            [message]="msg.text"
+            [reply]="msg.reply"
+            [sender]="msg.user.name"
+            [date]="msg.date"
+            [files]="msg.files"
+            [quote]="msg.quote"
+            [latitude]="msg.latitude"
+            [longitude]="msg.longitude"
+            [avatar]="msg.user.avatar"
+          >
+          </nb-chat-message>
+          <nb-chat-form (send)="sendMessage($event)" [dropFiles]="true"> </nb-chat-form>
+        </nb-chat>
+      </nb-layout-column>
+    </nb-layout>
 
-<mat-progress-bar *ngIf="showLoader" style="margin-top: -80px;" mode="buffer"></mat-progress-bar>
+  <mat-progress-bar *ngIf="showLoader" style="margin-top: -80px;" mode="buffer"></mat-progress-bar>
+
+  </div>
+

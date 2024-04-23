@@ -13,6 +13,8 @@ import * as BpmnJS from 'bpmn-js/dist/bpmn-modeler.development.js';
 import * as dagreD3 from 'dagre-d3/dist/dagre-d3.js';
 // @ts-ignore
 import * as d3 from 'd3';
+import {OpenaiChatService} from "../services/openai-chat.service";
+import {debounceTime, Subject} from "rxjs";
 
 
 class CustomWaypoint {
@@ -62,23 +64,34 @@ export class BpmnRendererComponent {
   // retrieve DOM element reference
   @ViewChild('ref', { static: true }) private el: ElementRef | undefined;
 
-  textualRepresentation = "";
-  modelXmlString = "";
-  modelSvg = "";
+  private textualRepresentation = "";
+  private modelXmlString = "";
+  private modelSvg = "";
+
+  setTextualRepresentation(textualRepresentation: string){
+    this.textualRepresentation = textualRepresentation
+    this.openaiChatService.textualRepresentation = textualRepresentation
+  }
+  setModelXmlString(modelXmlString: string){
+    this.modelXmlString = modelXmlString
+    this.openaiChatService.modelXmlString = modelXmlString
+  }
+  setModelSvg(modelSvg: string){
+    this.modelSvg = modelSvg
+    this.openaiChatService.modelSvg = modelSvg
+  }
+
+  private searchSubject = new Subject<string>();
+  private readonly debounceTimeMs = 600;
+
+  constructor(private openaiChatService: OpenaiChatService) {
+
+  }
 
   ngOnInit(){
-    // reset_conversation();
-
-    // if (this.bpmnContentBase64) {
-    //   const xmlString = atob(this.bpmnContentBase64);
-    //   this.renderUpdatedBPMN(xmlString)
-    //     .then(() => {
-    //       console.log("BPMN diagram rendered with updated layout.");
-    //     })
-    //     .catch((err: any) => {
-    //       console.error("Error rendering BPMN diagram with updated layout:", err);
-    //     });
-    // }
+    this.searchSubject.pipe(debounceTime(this.debounceTimeMs)).subscribe((searchValue) => {
+      this.resetChatContent();
+    });
   }
 
   ngAfterContentInit(): void {
@@ -91,6 +104,7 @@ export class BpmnRendererComponent {
       const xmlString = atob(changes['bpmnContentBase64'].currentValue);
       this.renderUpdatedBPMN(xmlString)
         .then(() => {
+          this.openaiChatService.resetSubject.next(true)
           console.log("BPMN diagram rendered with updated layout.");
         })
         .catch((err: any) => {
@@ -102,26 +116,9 @@ export class BpmnRendererComponent {
 
   ngOnDestroy(): void {
     this.bpmnJS.destroy();
+     this.searchSubject.complete();
   }
 
-
-  // document.addEventListener("DOMContentLoaded", function () {
-  //   reset_conversation();
-  //   const bpmnContentBase64 = document
-  //     .getElementById("bpmn-container")
-  //     .getAttribute("data-bpmn-content");
-  //   if (bpmnContentBase64) {
-  //     const xmlString = atob(bpmnContentBase64);
-  //     renderUpdatedBPMN(xmlString)
-  //       .then(() => {
-  //         console.log("BPMN diagram rendered with updated layout.");
-  //       })
-  //       .catch((err) => {
-  //         console.error("Error rendering BPMN diagram with updated layout:", err);
-  //       });
-  //   }
-  //   reset_button_listener();
-  // });
 
 
   async renderUpdatedBPMN(xmlString: any) {
@@ -131,7 +128,7 @@ export class BpmnRendererComponent {
 
     }
 
-    this.modelXmlString = xmlString;
+    this.setModelXmlString(xmlString)
 
     const container: any = document.getElementById("bpmn-container");
     container.innerHTML = ""; // This clears out any existing content
@@ -144,9 +141,9 @@ export class BpmnRendererComponent {
 
       viewer
         .saveSVG({format: true})
-        .then(function (result: any) {
-          let modelSvg = result.svg;
-          console.log(modelSvg);
+        .then((result: any) => {
+          this.setModelSvg(result.svg)
+          console.log(this.modelSvg);
           // Use the SVG as needed
         })
         .catch(function (err: any) {
@@ -158,15 +155,13 @@ export class BpmnRendererComponent {
 
       const elementRegistry = viewer.get("elementRegistry");
       const allElements = elementRegistry.getAll();
-      this.textualRepresentation = this.buildTextualRepresentation(allElements, viewer);
-      //console.log(textualRepresentation);
-      //console.log(modelXmlString);
+      this.setTextualRepresentation(this.buildTextualRepresentation(allElements, viewer))
 
       const eventBus = viewer.get("eventBus");
       let previousSelection: any[] = [];
 
       eventBus.on("selection.changed", (event: any) => {
-        this.reset_conversation();
+        this.searchSubject.next(event);
 
         const selectedElements = event.newSelection;
         const modeling = viewer.get("modeling");
@@ -181,17 +176,14 @@ export class BpmnRendererComponent {
         if (environment.ENABLE_SENDING_SUBMODEL) {
           if (selectedElements.length == 0) {
             const allElements = elementRegistry.getAll();
-            this.textualRepresentation = this.buildTextualRepresentation(allElements, viewer);
+            this.setTextualRepresentation(this.buildTextualRepresentation(allElements, viewer))
           } else {
-            this.textualRepresentation = this.buildTextualRepresentation(
+            this.setTextualRepresentation(this.buildTextualRepresentation(
               selectedElements,
               viewer
-            );
+            ))
           }
         }
-
-
-        //console.log(textualRepresentation);
       });
       container.addEventListener(
         "wheel",
@@ -213,14 +205,10 @@ export class BpmnRendererComponent {
     }
   }
 
-  reset_button_listener() {
-    // var resetButton = document.getElementById("reset_button");
-    // if (resetButton) {
-    //   resetButton.addEventListener("click", function () {
-    //     reset_conversation();
-    //   });
-    // }
-}
+  resetChatContent(){
+    this.openaiChatService.resetSubject.next(true)
+  }
+
 
 reset_conversation() {
   // axios
@@ -335,14 +323,16 @@ buildTextualRepresentation(selectedElements: any, viewer: any) {
       }
     }
 
-    for (let n of nodes) {
-      if (n.$type.toLowerCase().endsWith("flow")) {
-        let source = n.sourceRef.id;
-        let target = n.targetRef.id;
-        edgesDict[source + "@" + target] = n.id;
-        g.setEdge(source, target, {
-          label: "",
-        });
+    if(nodes){
+      for (let n of nodes) {
+        if (n.$type.toLowerCase().endsWith("flow")) {
+          let source = n.sourceRef.id;
+          let target = n.targetRef.id;
+          edgesDict[source + "@" + target] = n.id;
+          g.setEdge(source, target, {
+            label: "",
+          });
+        }
       }
     }
 
@@ -387,12 +377,15 @@ buildTextualRepresentation(selectedElements: any, viewer: any) {
     let toVisit = [];
     let iterativelyReachedNodes: any[] = [];
 
-    for (let n of nodes) {
-      if (n.$type.toLowerCase().endsWith("startevent")) {
-        toVisit.push(n);
-        break;
+    if(nodes){
+      for (let n of nodes) {
+        if (n.$type.toLowerCase().endsWith("startevent")) {
+          toVisit.push(n);
+          break;
+        }
       }
     }
+
 
     while (toVisit.length > 0) {
       let el = toVisit.pop();
@@ -485,6 +478,5 @@ buildTextualRepresentation(selectedElements: any, viewer: any) {
 
     return xmlContent.xml;
   }
-
 
 }

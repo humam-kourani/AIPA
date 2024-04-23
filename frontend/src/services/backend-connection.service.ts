@@ -20,21 +20,25 @@ export class BackendConnectionService {
   }
 
   uploadBPMN(file: File){
-    // let formData:FormData = new FormData();
-    // formData.append('uploadFile', file, file.name)
-    //
-    // let headers = new HttpHeaders({
-    //   'Content-Type': 'application/octet-stream',
-    //   'Accept': 'application/json'
-    // });
-    //
-    // let options = { headers: headers };
-
     let formParams = new FormData();
     formParams.append('bpmnFile', file)
 
     // return this.httpClient.post(this.HTTP_BASE_URL + '', formData, options)
     return this.httpClient.post(this.HTTP_BASE_URL + '', formParams)
+  }
+
+  resetConversation(){
+    return this.httpClient.post(
+      this.HTTP_BASE_URL + 'reset_conversation',
+      { }
+    );
+  }
+
+  sendMessage(postDataContent: any){
+    return this.httpClient.post(
+      this.HTTP_BASE_URL + 'chat_with_llm',
+      { parameters: postDataContent }
+    );
   }
 
   testRoute(){
