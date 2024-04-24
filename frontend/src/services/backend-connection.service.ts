@@ -12,10 +12,10 @@ export class BackendConnectionService {
 
   constructor(private httpClient: HttpClient) { }
 
-  updateConfig(modelName: string | undefined, apiKey: string | undefined){
+  updateConfig(modelName: string | undefined, apiKey: string | undefined, apiURL: string | undefined){
     return this.httpClient.post(
       this.HTTP_BASE_URL + 'update-config',
-      { model_name: modelName, api_key: apiKey }
+      { model_name: modelName, api_key: apiKey, api_url: apiURL }
     );
   }
 
@@ -37,7 +37,7 @@ export class BackendConnectionService {
   sendMessage(postDataContent: any){
     return this.httpClient.post(
       this.HTTP_BASE_URL + 'chat_with_llm',
-      { parameters: postDataContent }
+      postDataContent
     );
   }
 

@@ -73,7 +73,8 @@ export class ChatComponent {
       message: event.message,
       textualRepresentation: this.openaiChatService.textualRepresentation,
       modelXmlString: this.openaiChatService.modelXmlString,
-      modelSvg: this.openaiChatService.modelSvg
+      modelSvg: this.openaiChatService.modelSvg,
+      parameters: {}
     };
 
     this.backendConnectionService.sendMessage(postDataContent).subscribe({

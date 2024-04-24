@@ -1,5 +1,7 @@
 import os
 import base64
+
+import flask
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from utils import chat
@@ -9,10 +11,6 @@ CORS(app, origins=['http://localhost:4200'])
 session = {}
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-
-# @app.route("/", methods=['GET', 'POST'])
-# def upload_bpmn():
-#     return render_template('index.html')
 
 @app.route("/", methods=['GET', 'POST'])
 def upload_bpmn():
@@ -39,7 +37,10 @@ def upload_bpmn():
 def update_config():
     session['model_name'] = request.json['model_name']
     session['api_key'] = request.json['api_key']
-    return jsonify({'message': 'Configuration saved successfully'})
+    session['api_url'] = request.json['api_url']
+
+    response = flask.jsonify({'some': 'data'})
+    return response
 
 
 @app.route('/chat_with_llm', methods=['POST'])
@@ -57,11 +58,6 @@ def chat_with_llm():
 def reset_conversation():
     session.pop('conversation', None)
     return jsonify({"success": "Conversation has been reset"}), 200
-
-
-@app.route('/test_route', methods=['GET'])
-def test_route():
-    return jsonify({"message": "hello world"}), 200
 
 
 if __name__ == "__main__":

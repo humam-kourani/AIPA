@@ -7,8 +7,7 @@ def create_conversation(role="user", parameters=None):
         parameters = {}
 
     prompt = add_prompt_strategies(parameters=parameters)
-    content = [{"type": "text", "text": f'{prompt}'}]
-    conversation = [{"role": role, "content": content}]
+    conversation = [create_message(prompt, role=role, parameters=parameters)]
     return conversation
 
 
@@ -17,12 +16,18 @@ def create_message(message: str, role="user", additional_content=None, additiona
     if parameters is None:
         parameters = {}
 
-    content = [{"type": "text", "text": f'{message}'}]
+    model_abstraction = parameters.get("model_abstraction", constants.MODEL_ABSTRACTION)
 
-    if additional_content is not None:
-        content.append({"type": additional_content_type, additional_content_type: additional_content})
+    if model_abstraction not in ["svg"]:
+        content = message
+    else:
+        content = [{"type": "text", "text": f'{message}'}]
+        if additional_content is not None:
+            content.append({"type": additional_content_type, additional_content_type: additional_content})
 
-    return {"role": role, "content": content}
+    message = {"role": role, "content": content}
+
+    return message
 
 
 def create_process_model_representation(data, parameters=None):
@@ -36,13 +41,13 @@ def create_process_model_representation(data, parameters=None):
         textual_representation = data.get('textualRepresentation', '')
         abstraction_message = create_message(
             f'This is a text describing selected elements of the BPMN as dictionaries: {textual_representation}',
-            role="user")
+            role="user", parameters=parameters)
     elif model_abstraction == "xml":
         model_xml_string = data.get('modelXmlString', '')
         abstraction_message = create_message(
-            f"This is a text containing the BPMN 2.0 XML of the process: {model_xml_string}", role="user")
+            f"This is a text containing the BPMN 2.0 XML of the process: {model_xml_string}", role="user", parameters=parameters)
     elif model_abstraction == "svg":
         abstraction_message = create_message(f"The following messages attach the BPMN 2.0 visual of the process",
-                                             role="user")
+                                             role="user", parameters=parameters)
 
     return abstraction_message

@@ -77,6 +77,13 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         try:
             openai_model = session['model_name']
             api_key = session['api_key']
+            api_url = session.get('api_url', '')
+
+            if api_url is not None and api_url:
+                if not api_url.endswith("/"):
+                    api_url += "/"
+            else:
+                api_url = constants.OPENAI_API_DEFAULT_URL
         except:
             raise Exception("Please configure the OpenAI connection!")
 
@@ -91,17 +98,20 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         }
 
         for msg in conversation_history:
-            for item in msg["content"]:
-                if item["type"] != "text":
-                    # set the max tokens property if there are non-textual messages
-                    payload["max_tokens"] = constants.MAX_TOKENS_FOR_ADVANC_MSG_TYPES
+            if type(msg["content"]) is list:
+                for item in msg["content"]:
+                    if item["type"] != "text":
+                        # set the max tokens property if there are non-textual messages
+                        payload["max_tokens"] = constants.MAX_TOKENS_FOR_ADVANC_MSG_TYPES
 
-        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload).json()
+        complete_url = api_url+"chat/completions"
+
+        response = requests.post(complete_url, headers=headers, json=payload).json()
 
         try:
             response_message = response["choices"][0]["message"]["content"]
         except Exception as e:
             raise Exception(f"Connection to OpenAI failed! This is the response: " + str(response))
 
-    conversation_history.append(create_message(response_message, role="system"))
+    conversation_history.append(create_message(response_message, role="system", parameters=parameters))
     return response_message, conversation_history
