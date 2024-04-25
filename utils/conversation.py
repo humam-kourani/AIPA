@@ -1,5 +1,6 @@
 from utils.prompting import add_prompt_strategies
 from llm_configuration import constants
+from utils import common
 
 
 def create_conversation(role="user", parameters=None):
@@ -48,6 +49,10 @@ def create_process_model_representation(data, parameters=None):
             role="user", parameters=parameters)
     elif model_abstraction == "xml":
         model_xml_string = data.get('modelXmlString', '')
+
+        if constants.REDUCE_XML_SIZE:
+            model_xml_string = common.reduce_xml_size_using_pm4py(model_xml_string)
+
         abstraction_message = create_message(
             f"This is a text containing the BPMN 2.0 XML of the process: {model_xml_string}", role="user", parameters=parameters)
     elif model_abstraction == "svg":
