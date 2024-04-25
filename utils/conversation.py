@@ -7,7 +7,11 @@ def create_conversation(role="user", parameters=None):
         parameters = {}
 
     prompt = add_prompt_strategies(parameters=parameters)
-    conversation = [create_message(prompt, role=role, parameters=parameters)]
+    conversation = []
+
+    if prompt:
+        conversation.append(create_message(prompt, role=role, parameters=parameters))
+    
     return conversation
 
 
