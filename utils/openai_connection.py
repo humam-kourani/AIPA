@@ -92,9 +92,14 @@ def generate_response_with_history(data, session, parameters=None) -> str:
             "Authorization": f"Bearer {api_key}"
         }
 
+        if constants.MERGE_ALL_MESSAGES_IN_ONE:
+            messages = [{"role": "user", "content": "\n\n".join(x["content"] for x in conversation_history)}]
+        else:
+            messages = conversation_history
+
         payload = {
             "model": openai_model,
-            "messages": conversation_history,
+            "messages": messages,
         }
 
         for msg in conversation_history:
