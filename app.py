@@ -56,4 +56,4 @@ def reset_conversation():
 
 if __name__ == "__main__":
     app.secret_key = 'your_secret_key'  # Needed for flash messages to work
-    app.run(port=4555, debug=True)
+    app.run(host='0.0.0.0', port=4555, debug=True)
