@@ -1,3 +1,4 @@
+from llm_configuration.constants import DISABLE_LLM_CONNECTION
 from utils.conversation import create_conversation, create_message, create_process_model_representation
 from utils.openai_connection import generate_response_with_history
 
@@ -21,7 +22,14 @@ def chat_with_llm(data, session=None):
     message = create_message(user_message, role="user", parameters=parameters)
     session['conversation'].append(message)
 
-    new_message, updated_history = generate_response_with_history(data, session, parameters=parameters)
-    session['conversation'] = updated_history
+    if DISABLE_LLM_CONNECTION:
+        new_message = "The connection to the LLM is disabled!"
+        session['conversation'].append(create_message(new_message, role="system"))
+    else:
+        new_message, updated_history = generate_response_with_history(data, session, parameters=parameters)
+        session['conversation'] = updated_history
+    
+    print(session['conversation'])
+
 
     return new_message
