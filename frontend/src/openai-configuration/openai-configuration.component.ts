@@ -32,7 +32,7 @@ export class OpenaiConfigurationComponent {
 
   @Output() closeOverlay = new EventEmitter<boolean>();
 
-  options = ['gpt-1-turbo-preview', 'gpt-2-turbo-preview', 'gpt-3-turbo-preview', 'gpt-4-turbo-preview']
+  options = ['gpt-3.5-turbo', 'gpt-4-turbo']
 
   openAIConfigurationForm = this.formBuilder.group({
     modelName: ['', Validators.required],
