@@ -41,6 +41,7 @@ def create_process_model_representation(data, parameters=None):
         parameters = {}
 
     model_abstraction = parameters.get("model_abstraction", constants.MODEL_ABSTRACTION)
+
     abstraction_message = ""
 
     if model_abstraction == "json":
@@ -51,7 +52,9 @@ def create_process_model_representation(data, parameters=None):
     elif model_abstraction == "xml":
         model_xml_string = data.get('modelXmlString', '')
 
-        if constants.REDUCE_XML_SIZE:
+        reduce_xml_size = parameters.get("reduce_xml_size", constants.REDUCE_XML_SIZE)
+
+        if reduce_xml_size:
             model_xml_string = common.reduce_xml_size_using_pm4py(model_xml_string)
 
         abstraction_message = create_message(
