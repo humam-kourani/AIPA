@@ -6,8 +6,8 @@
     <h1 class="example-app-name">AIPA: AI-Powered Process Analyst</h1>
 
     <button mat-button (click)="snav.toggle()">
-        <mat-icon class="white-icon">menu</mat-icon>
-        <span class="white-icon">Configure</span>
+      <mat-icon class="white-icon">menu</mat-icon>
+      <span class="white-icon">Configure</span>
     </button>
 
   </mat-toolbar>
@@ -23,9 +23,9 @@
       <mat-card class="home-screen-card">
 
         <div class="flex-child">
-          <h3 style="margin-top: 0px;">Choose BPMN Model</h3>
-            <span *ngIf="currentFile" class="selected-bpmn">{{ fileName }}</span>
-            <span style="margin-left: 20px">
+          <h2 style="margin-top: 0px;">Choose BPMN Model</h2>
+          <span *ngIf="currentFile" class="selected-bpmn">{{ fileName }}</span>
+          <span style="margin-left: 20px">
               <input
                 style="display: none"
                 type="file"
@@ -48,18 +48,31 @@
       </mat-card>
 
       <div>
-        <mat-grid-list [cols]="breakpoint" rowHeight="800px" (window:resize)="onResize($event)" *ngIf="bpmnContentBase64!=''">
-        <mat-grid-tile class="my-tile">
+        <mat-grid-list [cols]="breakpoint" rowHeight="800px" (window:resize)="onResize($event)"
+                       *ngIf="bpmnContentBase64!=''" style="width: 98%; margin-top: 30px">
+          <mat-grid-tile class="my-tile">
 
-            <app-bpmn-renderer class="home-screen-card content-card" [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
+            <app-bpmn-renderer class="home-screen-card content-card"
+                               [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
 
-        </mat-grid-tile>
-        <mat-grid-tile class="my-tile">
+          </mat-grid-tile>
 
-            <app-chat class="home-screen-card content-card"></app-chat>
+          <mat-grid-tile class="my-tile" style="margin-top: -10px;">
 
-        </mat-grid-tile>
-      </mat-grid-list>
+            <div style="width: 100%;height: 100%;margin: 15px;padding: 15px;">
+              <h3 style="margin-top: 0px;margin-bottom: 0px;display: flex;align-items: center;">Chat about the Model
+                <span style="margin-left: auto;">
+                  <button mat-stroked-button color="warn" (click)="resetConvoSubject.next()">Reset Conversation</button>
+                </span>
+              </h3>
+
+              <app-chat [resetConvo]="resetConvoSubject.asObservable()" class="home-screen-card content-card"></app-chat>
+
+            </div>
+
+
+          </mat-grid-tile>
+        </mat-grid-list>
       </div>
 
 

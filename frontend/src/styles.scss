@@ -7,7 +7,7 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
 }
 
 
@@ -17,3 +17,8 @@ html, body {
 }
 
 
+h1 { font-family: Roboto, "Helvetica Neue", sans-serif !important; }
+h2 { font-family: Roboto, "Helvetica Neue", sans-serif !important; }
+h3 { font-family: Roboto, "Helvetica Neue", sans-serif !important; }
+h4 { font-family: Roboto, "Helvetica Neue", sans-serif !important; }
+h5 { font-family: Roboto, "Helvetica Neue", sans-serif !important; }
