@@ -38,13 +38,17 @@ def add_prompt_strategies(parameters=None):
         know_inj = knowledge_injection()
         prompt += know_inj
 
-    if model_abstraction == "json":
+    if model_abstraction in ["json", "simplified_xml"]:
         if enable_few_shots_learning:
-            few_shots = few_shots_learning_json()
+            if model_abstraction == "json":
+                abstraction = process_textual_representation_json
+            elif model_abstraction == "simplified_xml":
+                abstraction = process_textual_representation_simplified_xml;
+            few_shots = few_shots_learning_json(abstraction)
             prompt += few_shots
-        if enable_negative_prompting:
-            negative_prompt = negative_prompting_json()
-            prompt += negative_prompt
+            if enable_negative_prompting:
+                negative_prompt = negative_prompting_json()
+                prompt += negative_prompt
 
     return prompt
 
@@ -93,6 +97,7 @@ def process_analysis():
     return "- Where possible, discuss the advantages and disadvantages of the process/subprocess/path in question. A balanced analysis will provide a more comprehensive understanding of its efficacy and areas for areas for improvement.\n\n"
 
 
+# for the model credit-scoring-synchronous.bpmn
 process_textual_representation_json = """Selected BPMN Elements and Connections:
 - { $type: bpmn:Collaboration, id: Collaboration_1y0blh3, participants: [object Object],[object Object],[object Object], messageFlows: [object Object],[object Object],[object Object],[object Object],[object Object],[object Object], $parent: Definitions_1 }
 - { $type: bpmn:Participant, id: Participant_1x9zkso, name: credit scoring frontend (bank), processRef: Process_1, $parent: Collaboration_1y0blh3 }
@@ -148,6 +153,15 @@ process_textual_representation_json = """Selected BPMN Elements and Connections:
 - { $type: bpmn:MessageFlow, id: MessageFlow_13j4vf5, sourceRef: Task_04l4kzo, targetRef: Task_16winvj, $parent: Collaboration_1y0blh3 }
 - { $type: bpmn:MessageFlow, id: MessageFlow_1nttl77, sourceRef: Task_07vbn2i, targetRef: IntermediateCatchEvent_0a8iz14, $parent: Collaboration_1y0blh3 }"""
 
+process_textual_representation_simplified_xml = """This is an XML-like textual representation of the BPMN: <definitions Definitions_1>\n    <collaboration Collaboration_1y0blh3>\n        <participant Participant_1x9zkso> (credit scoring frontend (bank))\n          - processRef: Process_1\n        </participant>\n        
+<participant Participant_0e81yis> (credit scoring (bank))\n          - processRef: Process_0hiditg\n        </participant>\n        <participant Participant_1xfb3ml> (scoring service)\n          - processRef: Process_1dc1p3b\n        </participant>\n        <messageFlow MessageFlow_1pkfls0>\n          - sourceRef: Participant_1x9zkso\n          - targetRef: StartEvent_1els7eb\n        </messageFlow>\n        <messageFlow MessageFlow_1m6362g>\n          - sourceRef: Task_0l942o9\n          - targetRef: Participant_1x9zkso\n        </messageFlow>\n        <messageFlow MessageFlow_1i21wes>\n          - sourceRef: Task_1fzfxey\n          - targetRef: Participant_1x9zkso\n        </messageFlow>\n        <messageFlow MessageFlow_1mm30jd>\n          - sourceRef: Task_16winvj\n          - targetRef: StartEvent_0o849un\n        </messageFlow>\n        <messageFlow MessageFlow_13j4vf5>\n          - sourceRef: Task_04l4kzo\n          - targetRef: Task_16winvj\n        </messageFlow>\n        <messageFlow MessageFlow_1nttl77>\n          - sourceRef: Task_07vbn2i\n          - targetRef: IntermediateCatchEvent_0a8iz14\n        </messageFlow>\n    </collaboration>\n    <process Process_1>\n      - isExecutable: false\n    </process>\n    <process Process_0hiditg>\n        <task Task_16winvj (request credit score)/>\n        <sequenceFlow SequenceFlow_0rrtx7k>\n          - sourceRef: StartEvent_1els7eb\n          - targetRef: Task_16winvj\n        </sequenceFlow>\n        <exclusiveGateway ExclusiveGateway_0e5en8h (score received?)/>\n        <sequenceFlow SequenceFlow_06b4pjd>\n          - sourceRef: Task_16winvj\n          - targetRef: ExclusiveGateway_0e5en8h\n    
+    </sequenceFlow>\n        <sequenceFlow SequenceFlow_14gfddm> (no)\n          - sourceRef: ExclusiveGateway_0e5en8h\n          - targetRef: Task_0l942o9\n        </sequenceFlow>\n        <sequenceFlow SequenceFlow_08fsgff>\n          - sourceRef: Task_0l942o9\n          - targetRef: IntermediateCatchEvent_0a8iz14\n        </sequenceFlow>\n        <intermediateCatchEvent IntermediateCatchEvent_0a8iz14> (credit score received)\n            <messageEventDefinition/>\n        </intermediateCatchEvent>\n        <exclusiveGateway ExclusiveGateway_11dldcm/>\n        <sequenceFlow SequenceFlow_1i1amgb>\n          - sourceRef: IntermediateCatchEvent_0a8iz14\n          - targetRef: ExclusiveGateway_11dldcm\n        </sequenceFlow>\n        <sequenceFlow SequenceFlow_0upas8x> (yes)\n          - sourceRef: ExclusiveGateway_0e5en8h\n     
+     - targetRef: ExclusiveGateway_11dldcm\n        </sequenceFlow>\n        <task Task_1fzfxey (send credit score)/>\n        <sequenceFlow SequenceFlow_12a77en>\n    
+      - sourceRef: ExclusiveGateway_11dldcm\n          - targetRef: Task_1fzfxey\n        </sequenceFlow>\n        <endEvent EndEvent_0rp5trg (scoring request handled)/>\n        <sequenceFlow SequenceFlow_1nyeozm>\n          - sourceRef: Task_1fzfxey\n          - targetRef: EndEvent_0rp5trg\n        </sequenceFlow>\n        <startEvent StartEvent_1els7eb> (scoring request received)\n            <messageEventDefinition/>\n        </startEvent>\n        <task Task_0l942o9 (report delay)/>\n    </process>\n    <process Process_1dc1p3b>\n        <startEvent StartEvent_0o849un> (scoring request received)\n            <messageEventDefinition/>\n        </startEvent>\n 
+       <task Task_1r15hqs (compute credit score (level 1))/>\n        <sequenceFlow SequenceFlow_158pur5>\n          - sourceRef: StartEvent_0o849un\n          - targetRef: Task_1r15hqs\n        </sequenceFlow>\n        <task Task_04l4kzo (send result)/>\n        <sequenceFlow SequenceFlow_049ghuo>\n          - sourceRef: Task_1r15hqs\n          - targetRef: Task_04l4kzo\n        </sequenceFlow>\n        <exclusiveGateway ExclusiveGateway_0rtdod4 (score available?)/>\n        <sequenceFlow SequenceFlow_04a402p>\n          - sourceRef: Task_04l4kzo\n          - targetRef: ExclusiveGateway_0rtdod4\n        </sequenceFlow>\n        <sequenceFlow SequenceFlow_154teg7> (no)\n          - sourceRef: ExclusiveGateway_0rtdod4\n          - targetRef: Task_1hd2ybe\n        </sequenceFlow>\n        <sequenceFlow SequenceFlow_1o0d2v1>\n     
+     - sourceRef: Task_1hd2ybe\n          - targetRef: Task_07vbn2i\n        </sequenceFlow>\n        <exclusiveGateway ExclusiveGateway_125lzox/>\n        <sequenceFlow SequenceFlow_1xqy47o>\n          - sourceRef: Task_07vbn2i\n          - targetRef: ExclusiveGateway_125lzox\n        </sequenceFlow>\n        <endEvent EndEvent_0khk0tq (scoring request handled)/>\n        <sequenceFlow SequenceFlow_0t0wbx3>\n          - sourceRef: ExclusiveGateway_125lzox\n          - targetRef: EndEvent_0khk0tq\n 
+       </sequenceFlow>\n        <sequenceFlow SequenceFlow_0jh32vv> (yes)\n          - sourceRef: ExclusiveGateway_0rtdod4\n          - targetRef: ExclusiveGateway_125lzox\n        </sequenceFlow>\n        <task Task_1hd2ybe (compute credit score (level 2))/>\n        <task Task_07vbn2i (send credit score)/>\n    </process>\n</definitions>\n"""
+
 examples_json = [
     {
         "input": "How does the bank start the credit scoring process?",
@@ -177,9 +191,9 @@ examples_json = [
 ]
 
 
-def few_shots_learning_json():
+def few_shots_learning_json(abstraction):
     res = "- Let us consider the following textual representaion of an example process:\n"
-    res += process_textual_representation_json + "\n\n"
+    res += abstraction + "\n\n"
     res += "- These are example pairs of input and expected output:\n"
     for i in range(len(examples_json)):
         res += f"Input {i}: {examples_json[i]['input']}\n"

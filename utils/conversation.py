@@ -62,7 +62,7 @@ def create_process_model_representation(data, parameters=None):
         model_xml_string = data.get('modelXmlString', '')
         simplified_xml_string = get_simplified_xml_abstraction(model_xml_string)
         abstraction_message = create_message(
-            f"This is an XML-like textual representnaion of the BPMN: {simplified_xml_string}", role="user", parameters=parameters)
+            f"This is an XML-like textual representation of the BPMN: {simplified_xml_string}", role="user", parameters=parameters)
 
 
     return abstraction_message
