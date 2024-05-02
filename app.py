@@ -2,7 +2,7 @@ import os
 import base64
 
 import flask
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, abort
 from flask_cors import CORS
 from utils import chat
 
@@ -28,9 +28,9 @@ def upload_bpmn():
                 # TODO: this is not working
                 return jsonify(success=False, error='Unsupported file type. Please upload a .bpmn file.'), 400
         else:
-            return render_template('upload.html')
+            abort(500)
     else:
-        return render_template('upload.html')
+        abort(500)
 
 
 @app.route('/update-config', methods=['POST'])
