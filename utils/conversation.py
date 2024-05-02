@@ -58,5 +58,11 @@ def create_process_model_representation(data, parameters=None):
     elif model_abstraction == "svg":
         abstraction_message = create_message(f"The following messages attach the BPMN 2.0 visual of the process",
                                              role="user", parameters=parameters)
+    elif model_abstraction == "simplified_xml":
+        model_xml_string = data.get('modelXmlString', '')
+        simplified_xml_string = get_simplified_xml_abstraction(model_xml_string)
+        abstraction_message = create_message(
+            f"This is an XML-like textual representnaion of the BPMN: {simplified_xml_string}", role="user", parameters=parameters)
+
 
     return abstraction_message

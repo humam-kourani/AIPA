@@ -6,7 +6,7 @@ AZURE_ENDPOINT = 'azure_endpoint.txt'
 AZURE_OPENAI_MODEL = 'azure_openai_model.txt'
 
 # can be either 'json', 'xml', 'simplified_xml' (the entire process model is provided for xml and simplified xml), or 'svg' (a picture of the process model is uploaded)
-MODEL_ABSTRACTION = "json"
+MODEL_ABSTRACTION = "simplified_xml"
 
 DEFAULT_ENABLE_PROMPT_STRATEGIES = True
 ENABLE_ROLE_PROMPTING = DEFAULT_ENABLE_PROMPT_STRATEGIES
