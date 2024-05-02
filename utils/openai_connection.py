@@ -26,6 +26,7 @@ def generate_response_with_history(data, session, parameters=None) -> str:
 
     conversation_history = session["conversation"]  # The conversation history
     model_abstraction = parameters.get("model_abstraction", constants.MODEL_ABSTRACTION)
+    merge_all_messages_in_one = parameters.get("merge_all_messages_in_one", constants.MERGE_ALL_MESSAGES_IN_ONE)
 
     if model_abstraction == "svg":
         svg_string = data.get('modelSvg', '')
@@ -92,9 +93,14 @@ def generate_response_with_history(data, session, parameters=None) -> str:
             "Authorization": f"Bearer {api_key}"
         }
 
+        if merge_all_messages_in_one:
+            messages = [{"role": "user", "content": "\n\n".join(x["content"] for x in conversation_history)}]
+        else:
+            messages = conversation_history
+
         payload = {
             "model": openai_model,
-            "messages": conversation_history,
+            "messages": messages,
         }
 
         for msg in conversation_history:
