@@ -7,7 +7,6 @@ import { routes } from './app.routes';
 import {MatNativeDateModule} from '@angular/material/core';
 import {provideHttpClientTesting} from "@angular/common/http/testing";
 import {provideClientHydration} from "@angular/platform-browser";
-import {NbThemeModule} from "@nebular/theme";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,9 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideHttpClientTesting(),
     provideClientHydration(),
-    importProvidersFrom(MatNativeDateModule),
-    importProvidersFrom(
-      // NbThemeModule.forRoot({ name: 'corporate' })
-    )
+    importProvidersFrom(MatNativeDateModule)
   ]
 };

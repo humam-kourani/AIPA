@@ -33,8 +33,7 @@
               "src/theme.scss",
               "src/styles.scss",
               "node_modules/bpmn-js/dist/assets/diagram-js.css",
-              "node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css",
-              "node_modules/@nebular/theme/styles/prebuilt/corporate.css"
+              "node_modules/bpmn-js/dist/assets/bpmn-font/css/bpmn.css"
             ],
             "scripts": ["node_modules/bpmn-js/dist/bpmn-modeler.development.js"]
           },

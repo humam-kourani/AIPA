@@ -1,40 +1,65 @@
-import {Component, importProvidersFrom, NgZone, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {OpenaiChatService} from "../services/openai-chat.service";
-import {NbChatModule, NbLayoutModule, NbThemeModule} from "@nebular/theme";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {Router} from "@angular/router";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {BackendConnectionService} from "../services/backend-connection.service";
 import {ErrorHandlingService} from "../error-dialog/error-handling.service";
+import {FormsModule} from "@angular/forms";
+
+
+class Message{
+  index: number | undefined
+  text: string | undefined
+  reply: Boolean | undefined
+  user: any
+}
+
 
 @Component({
   selector: 'app-chat',
   standalone: true,
   imports: [
-    NbThemeModule,
-    NbChatModule,
-    NbLayoutModule,
     NgForOf,
     MatButton,
     MatIcon,
     MatProgressBar,
     NgIf,
+    FormsModule
   ],
   // @ts-ignore
-  providers: [NbThemeModule.forRoot({name: 'corporate'}).providers],
+  providers: [],
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.scss',
-  // encapsulation: ViewEncapsulation.Emulated
+  styleUrls: [
+    './chat.component.scss',
+    "./../../node_modules/bootstrap/dist/css/bootstrap.min.css",
+    "./../../node_modules/font-awesome/css/font-awesome.css"
+  ]
 })
 
-export class ChatComponent {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
-  messages: any[] = [];
+  @Input() resetConvo!: Observable<void>;
+  private resetConvoSubscription: Subscription | undefined;
+
+  messages: Message[] = [];
+  chatInputMessage = '';
   showLoader: boolean = false
   resetSubscription = new Subscription();
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef | undefined;
+
 
   constructor(private openaiChatService: OpenaiChatService,
               private router: Router,
@@ -49,28 +74,36 @@ export class ChatComponent {
     this.resetSubscription = this.openaiChatService.resetSubject.subscribe((data)=>{
       this.resetConversation()
     });
+    this.resetConvoSubscription = this.resetConvo.subscribe(() => this.resetConversation());
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
   }
 
   ngOnDestroy() {
     this.resetSubscription.unsubscribe();
   }
 
+  send(message: any) {
+    if (message === ''){
+      return
+    }
 
-  sendMessage(event: any) {
     this.showLoader = true
 
     this.messages.push({
-      text: event.message,
-      date: new Date(),
+      index: this.messages.length + 1,
+      text: message,
       reply: true,
       user: {
         name: 'You',
         avatar: './assets/human.png',
-      },
+      }
     });
 
     let postDataContent = {
-      message: event.message,
+      message: message,
       textualRepresentation: this.openaiChatService.textualRepresentation,
       modelXmlString: this.openaiChatService.modelXmlString,
       modelSvg: this.openaiChatService.modelSvg,
@@ -81,11 +114,13 @@ export class ChatComponent {
         next: (data: any) => {
           this.addBotMessageToChatBox(data.response)
           this.showLoader = false
+          this.chatInputMessage = ''
         },
         error: error => {
           this.addBotMessageToChatBox('Sorry, there was an error processing your message.')
           this.errorHandlingService.showErrorDialog(error)
           this.showLoader = false
+          this.chatInputMessage = ''
         }
     })
   }
@@ -105,14 +140,15 @@ export class ChatComponent {
   }
 
   addBotMessageToChatBox(message: string, append= true){
-    const formattedMessage =  {
-      text: message,
-      reply: false,
-      user: {
-        name: 'Bot',
-        avatar: './assets/robot.png',
-      }
+    const formattedMessage: Message = new Message()
+    formattedMessage.index = this.messages.length + 1,
+    formattedMessage.text = message,
+    formattedMessage.reply = false,
+    formattedMessage.user = {
+      name: 'Bot',
+      avatar: './assets/robot.png',
     }
+
     if(append){
       this.messages.push(formattedMessage)
     }
@@ -121,29 +157,10 @@ export class ChatComponent {
     }
   }
 
-
-  // reset_button_listener() {
-  // var resetButton = document.getElementById("reset_button");
-  // if (resetButton) {
-  //   resetButton.addEventListener("click", function () {
-  //     reset_conversation();
-  //   });
-  // }
-
-  reset_conversation() {
-    // axios
-    //   .post("/reset_conversation")
-    //   .then(function (response) {
-    //     console.log(response.data.success);
-    //     var chatBox = document.getElementById("chat-box");
-    //     // chatBox.innerHTML = "";
-    //
-    //     $('#chat-history').empty()
-    //     sendInitialSystemMessage();
-    //   })
-    //   .catch(function (error) {
-    //     console.error(error);
-    //   });
+  scrollToBottom(): void {
+    try {
+      // @ts-ignore
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }
   }
-
 }

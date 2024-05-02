@@ -1,15 +1,13 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatButton, MatButtonModule, MatIconButton} from '@angular/material/button';
 import {MatDrawer, MatDrawerContainer, MatSidenavContainer, MatSidenavModule} from '@angular/material/sidenav';
-import {MediaMatcher} from "@angular/cdk/layout";
 import {MatToolbar} from "@angular/material/toolbar";
 import {MatListItem, MatListModule, MatNavList} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {OpenaiConfigurationComponent} from "../openai-configuration/openai-configuration.component";
 import {MatCard} from "@angular/material/card";
-import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
-import {Observable} from "rxjs";
-import {HttpEventType, HttpResponse} from "@angular/common/http";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {Subject} from "rxjs";
 import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
 import {BackendConnectionService} from "../services/backend-connection.service";
@@ -53,6 +51,8 @@ export class HomeScreenComponent {
   fileName = 'Select a File';
   bpmnContentBase64: string = ''
 
+  resetConvoSubject: Subject<void> = new Subject<void>();
+
   constructor(private backendConnectionService: BackendConnectionService,
               private errorHandlingService: ErrorHandlingService) {
 
@@ -87,7 +87,6 @@ export class HomeScreenComponent {
       this.fileName = 'Select File';
     }
   }
-
 
   ngOnDestroy(): void {
   }
