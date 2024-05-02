@@ -7,7 +7,7 @@ from flask_cors import CORS
 from utils import chat
 
 app = Flask(__name__)
-CORS(app, origins=['http://localhost:4200'])
+CORS(app)
 session = {}
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
