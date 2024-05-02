@@ -5,7 +5,7 @@ Process Mining with LLMs
 1. Clone the repo locally
 2. Setup virtual Python environment: `python -m venv venv`
 3. Activate your virtual environment:
-    * For Windows: `venv\Scripts\activate`
+    * For Windows: `.venv\Scripts\activate`
     * For Linux: `source venv/bin/activate`
 4. Install the necessary requirements: `pip install -r requirements.txt`
 5. Start the app server via `python app.py`
