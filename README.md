@@ -21,6 +21,9 @@ Process Mining with LLMs
 4. Run the frontend application: `npm run start`
 5. You can access the frontend application at: `http://localhost:4200/`
 
+## Configure Angular CLI's Development Server
+Run `ng serve --host 0.0.0.0`
+
 ## Available abstractions
 The user can select between the 'json', 'xml', and 'svg' abstractions in the configuration.
 
