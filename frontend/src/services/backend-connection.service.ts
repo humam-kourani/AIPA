@@ -8,9 +8,15 @@ import {environment} from "../environments/environment";
 })
 export class BackendConnectionService {
 
-  private HTTP_BASE_URL = environment.WEBSERVER_URL
+  private HTTP_BASE_URL: string;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    if (window.location.hostname === 'aipa.fit.fraunhofer.de') {
+      this.HTTP_BASE_URL = environment.WEBSERVER_URL_REMOTE;
+    } else {
+      this.HTTP_BASE_URL = environment.WEBSERVER_URL_LOCAL;
+    }
+  }
 
   updateConfig(modelName: string | undefined, apiKey: string | undefined, apiURL: string | undefined){
     return this.httpClient.post(
