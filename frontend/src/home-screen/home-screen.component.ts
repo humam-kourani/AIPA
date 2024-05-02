@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatButton, MatButtonModule, MatIconButton} from '@angular/material/button';
 import {MatDrawer, MatDrawerContainer, MatSidenavContainer, MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbar} from "@angular/material/toolbar";
@@ -45,7 +45,7 @@ import {ChatComponent} from "../chat/chat.component";
   templateUrl: './home-screen.component.html',
   styleUrl: './home-screen.component.scss'
 })
-export class HomeScreenComponent {
+export class HomeScreenComponent implements OnInit {
 
   currentFile?: File;
   fileName = 'Select a File';
@@ -59,6 +59,7 @@ export class HomeScreenComponent {
   }
 
   breakpoint: number | undefined
+
   ngOnInit() {
     this.breakpoint = (window.innerWidth <= 1200) ? 1 : 2;
   }
@@ -91,4 +92,5 @@ export class HomeScreenComponent {
   ngOnDestroy(): void {
   }
 
+  protected readonly window = window;
 }
