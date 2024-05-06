@@ -41,23 +41,17 @@ def generate_response_with_history(data, session, parameters=None) -> str:
     if constants.ENABLE_DEV_MODE:
         from openai import AzureOpenAI
 
-        with importlib.resources.path("llm_configuration", constants.AZURE_API_KEY_PATH) as path:
-            if os.path.exists(path):
-                azure_api_key = open(path, 'r').read().strip()
-            else:
-                raise Exception(str(path) + " (AZURE_API_KEY_PATH) does not exist!")
+        azure_api_key = session.get('api_key')
+        if not azure_api_key:
+            raise ValueError("API key is missing from the session")
 
-        with importlib.resources.path("llm_configuration", constants.AZURE_ENDPOINT) as path:
-            if os.path.exists(path):
-                azure_endpoint = open(path, 'r').read().strip()
-            else:
-                raise Exception(str(path) + " (AZURE_ENDPOINT) does not exist!")
+        azure_endpoint = session.get('azure_endpoint')
+        if not azure_endpoint:
+            raise ValueError("Azure endpoint is missing from the session")
 
-        with importlib.resources.path("llm_configuration", constants.AZURE_OPENAI_MODEL) as path:
-            if os.path.exists(path):
-                openai_model = open(path, 'r').read().strip()
-            else:
-                raise Exception(str(path) + " (AZURE_OPENAI_MODEL) does not exist!")
+        openai_model = session.get('model_name')  
+        if not openai_model:
+            raise ValueError("OpenAI model is missing from the session")
 
         client = AzureOpenAI(
             api_key=azure_api_key,

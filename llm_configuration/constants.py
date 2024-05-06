@@ -1,4 +1,4 @@
-ENABLE_DEV_MODE = False
+ENABLE_DEV_MODE = True
 DISABLE_LLM_CONNECTION = False
 
 AZURE_API_KEY_PATH = 'azure_api_key.txt'
