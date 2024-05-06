@@ -18,10 +18,10 @@ export class BackendConnectionService {
     }
   }
 
-  updateConfig(modelName: string | undefined, apiKey: string | undefined, apiURL: string | undefined){
+  updateConfig(modelName: string | undefined, apiKey: string | undefined, apiURL: string | undefined, azureEndpoint: string | undefined){
     return this.httpClient.post(
       this.HTTP_BASE_URL + 'update-config',
-      { model_name: modelName, api_key: apiKey, api_url: apiURL }
+      { model_name: modelName, api_key: apiKey, api_url: apiURL, azure_endpoint: azureEndpoint }
     );
   }
 

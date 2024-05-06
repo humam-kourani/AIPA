@@ -37,7 +37,8 @@ export class OpenaiConfigurationComponent {
   openAIConfigurationForm = this.formBuilder.group({
     modelName: ['', Validators.required],
     apiKey: ['', Validators.required],
-    apiURL: ['https://api.openai.com/v1/', Validators.required]
+    apiURL: ['https://api.openai.com/v1/', Validators.required],
+    azureEndpoint: ['']
   });
 
   constructor(
@@ -51,12 +52,15 @@ export class OpenaiConfigurationComponent {
     let modelName = this.openAIConfigurationForm.get('modelName')?.value
     let apiKey = this.openAIConfigurationForm.get('apiKey')?.value
     let apiURL = this.openAIConfigurationForm.get('apiURL')?.value
+    let azureEndpoint = this.openAIConfigurationForm.get('azureEndpoint')?.value
 
-    this.backendConnectionService.updateConfig(modelName?.toString(), apiKey?.toString(), apiURL?.toString()).subscribe({
+    this.backendConnectionService.updateConfig(modelName?.toString(), apiKey?.toString(), apiURL?.toString(), azureEndpoint?.toString()).subscribe({
         next: data => {
             localStorage.setItem('model_name', <string>modelName);
             localStorage.setItem('api_key', <string>apiKey);
             localStorage.setItem('api_url', <string>apiURL);
+            localStorage.setItem('azure_endpoint', <string>azureEndpoint);
+
             this.closeOverlay.emit(true)
         },
         error: error => {

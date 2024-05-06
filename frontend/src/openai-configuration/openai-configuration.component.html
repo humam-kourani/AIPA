@@ -27,6 +27,11 @@
       <input type="text" matInput placeholder="Enter OpenAI API URL" formControlName="apiURL" >
     </mat-form-field>
 
+    <mat-form-field class="example-full-width">
+      <mat-label>Azure Endpoint</mat-label>
+      <input type="text" matInput placeholder="Enter Azure Endpoint URL" formControlName="azureEndpoint" >
+    </mat-form-field>
+
     <button style="float: right" mat-flat-button color="primary" [disabled]="!openAIConfigurationForm.dirty || openAIConfigurationForm?.invalid">Save</button>
 
   </form>

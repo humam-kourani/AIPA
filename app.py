@@ -38,6 +38,7 @@ def update_config():
     session['model_name'] = request.json['model_name']
     session['api_key'] = request.json['api_key']
     session['api_url'] = request.json['api_url']
+    session['azure_endpoint'] = request.json['azure_endpoint']
 
     response = flask.jsonify({'some': 'data'})
     return response
