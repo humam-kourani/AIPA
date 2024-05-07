@@ -38,35 +38,11 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         conversation_history[-1]["content"].append(
             {"type": additional_content_type, additional_content_type: additional_content})
 
-    if constants.ENABLE_DEV_MODE:
-        from openai import AzureOpenAI
-
-        azure_api_key = session.get('api_key')
-        if not azure_api_key:
-            raise ValueError("API key is missing from the session")
-
-        azure_endpoint = session.get('azure_endpoint')
-        if not azure_endpoint:
-            raise ValueError("Azure endpoint is missing from the session")
-
-        openai_model = session.get('model_name')  
-        if not openai_model:
-            raise ValueError("OpenAI model is missing from the session")
-
-        client = AzureOpenAI(
-            api_key=azure_api_key,
-            api_version="2023-05-15",
-            azure_endpoint=azure_endpoint
-        )
-
-        response = client.chat.completions.create(model=openai_model, messages=conversation_history)
-
-        try:
-            response_message = response.choices[0].message.content
-        except Exception as e:
-            raise Exception(f"Connection to OpenAI failed! This is the response: " + str(response))
-
+    if merge_all_messages_in_one:
+        messages = [{"role": "user", "content": "\n\n".join(x["content"] for x in conversation_history)}]
     else:
+        messages = conversation_history
+
         try:
             openai_model = session['model_name']
             api_key = session['api_key']
@@ -80,15 +56,29 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         except:
             raise Exception("Please configure the OpenAI connection!")
 
+    azure_endpoint = session.get('azure_endpoint', '')
+
+    if azure_endpoint:
+        from openai import AzureOpenAI
+
+        client = AzureOpenAI(
+            api_key=api_key,
+            api_version="2023-05-15",
+            azure_endpoint=azure_endpoint
+        )
+
+        response = client.chat.completions.create(model=openai_model, messages=messages)
+
+        try:
+            response_message = response.choices[0].message.content
+        except Exception as e:
+            raise Exception(f"Connection to OpenAI failed! This is the response: " + str(response))
+
+    else:
         headers = {
             "Content-Type": "application/json",
             "Authorization": f"Bearer {api_key}"
         }
-
-        if merge_all_messages_in_one:
-            messages = [{"role": "user", "content": "\n\n".join(x["content"] for x in conversation_history)}]
-        else:
-            messages = conversation_history
 
         payload = {
             "model": openai_model,
@@ -112,4 +102,5 @@ def generate_response_with_history(data, session, parameters=None) -> str:
             raise Exception(f"Connection to OpenAI failed! This is the response: " + str(response))
 
     conversation_history.append(create_message(response_message, role="system", parameters=parameters))
+
     return response_message, conversation_history

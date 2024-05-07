@@ -8,18 +8,29 @@ from utils import chat
 
 app = Flask(__name__)
 CORS(app)
-session = {}
+session_dict = {}
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+
+def __get_session(session_key):
+    session = session_dict.get(session_key, None)
+    if session is None:
+        session = {}
+    return session
 
 
 @app.route("/", methods=['GET', 'POST'])
 def upload_bpmn():
+    session_key = request.remote_addr + request.user_agent.string
+    session = __get_session(session_key)
+
     if request.method == 'POST':
         file = request.files.get('bpmnFile')
         if file:
             if file.filename.endswith('.bpmn'):
-
                 session.pop('conversation', None)
+
+                session_dict[session_key] = session
 
                 bpmn_content = file.read().decode('utf-8')
                 bpmn_content_base64 = base64.b64encode(bpmn_content.encode('utf-8')).decode('utf-8')
@@ -35,10 +46,15 @@ def upload_bpmn():
 
 @app.route('/update-config', methods=['POST'])
 def update_config():
+    session_key = request.remote_addr + request.user_agent.string
+    session = __get_session(session_key)
+
     session['model_name'] = request.json['model_name']
     session['api_key'] = request.json['api_key']
     session['api_url'] = request.json['api_url']
     session['azure_endpoint'] = request.json['azure_endpoint']
+
+    session_dict[session_key] = session
 
     response = flask.jsonify({'some': 'data'})
     return response
@@ -46,10 +62,16 @@ def update_config():
 
 @app.route('/chat_with_llm', methods=['POST'])
 def chat_with_llm():
+    session_key = request.remote_addr + request.user_agent.string
+    session = __get_session(session_key)
+
     data = request.json
 
     try:
         new_message = chat.chat_with_llm(data, session=session)
+
+        session_dict[session_key] = session
+
         return jsonify({"response": new_message})
     except Exception as e:
         return jsonify(success=False, error="The following error occured: " + str(e)), 400
@@ -57,7 +79,13 @@ def chat_with_llm():
 
 @app.route('/reset_conversation', methods=['POST'])
 def reset_conversation():
+    session_key = request.remote_addr + request.user_agent.string
+    session = __get_session(session_key)
+
     session.pop('conversation', None)
+
+    session_dict[session_key] = session
+
     return jsonify({"success": "Conversation has been reset"}), 200
 
 
