@@ -1,8 +1,7 @@
 import os
 import base64
 
-import flask
-from flask import Flask, render_template, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, make_response
 from flask_cors import CORS
 from utils import chat
 
@@ -34,10 +33,12 @@ def upload_bpmn():
 
                 bpmn_content = file.read().decode('utf-8')
                 bpmn_content_base64 = base64.b64encode(bpmn_content.encode('utf-8')).decode('utf-8')
-                return jsonify(success=True, bpmn_content_base64=bpmn_content_base64)
+                response = make_response(jsonify(success=True, bpmn_content_base64=bpmn_content_base64), 200)
             else:
                 # TODO: this is not working
-                return jsonify(success=False, error='Unsupported file type. Please upload a .bpmn file.'), 400
+                response = make_response(jsonify(success=False, error='Unsupported file type. Please upload a .bpmn file.'), 400)
+
+            return response
         else:
             abort(500)
     else:
@@ -56,7 +57,8 @@ def update_config():
 
     session_dict[session_key] = session
 
-    response = flask.jsonify({'some': 'data'})
+    response = make_response(jsonify({'some': 'data'}), 200)
+
     return response
 
 
@@ -72,9 +74,11 @@ def chat_with_llm():
 
         session_dict[session_key] = session
 
-        return jsonify({"response": new_message})
+        response = make_response(jsonify({"response": new_message}), 200)
     except Exception as e:
-        return jsonify(success=False, error="The following error occured: " + str(e)), 400
+        response = make_response(jsonify(success=False, error="The following error occured: " + str(e)), 400)
+
+    return response
 
 
 @app.route('/reset_conversation', methods=['POST'])
@@ -86,7 +90,9 @@ def reset_conversation():
 
     session_dict[session_key] = session
 
-    return jsonify({"success": "Conversation has been reset"}), 200
+    response = make_response(jsonify({"success": "Conversation has been reset"}), 200)
+
+    return response
 
 
 if __name__ == "__main__":
