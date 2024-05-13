@@ -35,6 +35,10 @@ h1.example-app-name {
   width: 100%;
 }
 
+@media screen and (max-width:700px) {
+  .choose-bpmn-button{ margin-top: 10px; }
+  .full-name{display:none !important;}
+}
 
 
 .selected-bpmn{
@@ -42,6 +46,7 @@ h1.example-app-name {
   padding: 5px 8px 5px 8px;
   border-radius: 10px;
   margin-left: 20px;
+  margin-bottom: 5px;
   font-weight: 400;
   font-size: large;
 }
@@ -50,3 +55,35 @@ h1.example-app-name {
 .my-tile{
   padding: 5px !important;
 }
+
+
+
+.flex-container{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.flex-item{
+    flex:1 5 50%;
+    height: 600px;
+    padding: 30px;
+}
+.grabber{
+  width:3px;
+  margin-top: 16vh;
+  z-index: 1;
+  border-left:3px solid #575656;
+  height:50vh
+}
+.grabber:hover{
+    cursor:e-resize;
+}
+
+@media screen and (max-width:1200px) {
+  .flex-container { flex-wrap: wrap;  }
+  .flex-item:first-child { flex-basis: 100%; }
+  .grabber { display: none; }
+
+}
+
+
