@@ -27,7 +27,7 @@ def get_simplified_xml_abstraction(bpmn_content):
                     label = elm_text 
 
         # leaf_substrings = ['event', 'flow', 'task', 'gateway', 'association']
-        attrs_to_exclude = ['type', 'id', 'targetNamespace', 'name']
+        attrs_to_exclude = ['type', 'id', 'targetNamespace', 'name', 'exporter', 'exporterVersion', 'isExecutable']
         children_to_exclude = ['incoming', 'outgoing']
 
         # def is_leaf(element_type):

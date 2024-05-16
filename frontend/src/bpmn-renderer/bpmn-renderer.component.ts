@@ -240,9 +240,10 @@ buildTextualRepresentation(selectedElements: any, viewer: any) {
       // Object.getOwnPropertyNames(element.businessObject).forEach(key => {
       //     console.log(key);
       // });
+      let attributes_to_exclude = ["participants", "eventDefinitions"];
 
       for (const [key, value] of Object.entries(element.businessObject)) {
-        if (value !== null && value !== "") {
+        if (value !== null && value !== "" && !attributes_to_exclude.includes(key)) {
           properties.push(`${key}: ${value}`);
         }
       }
