@@ -43,18 +43,18 @@ def generate_response_with_history(data, session, parameters=None) -> str:
     else:
         messages = conversation_history
 
-        try:
-            openai_model = session['model_name']
-            api_key = session['api_key']
-            api_url = session.get('api_url', '')
+    try:
+        openai_model = session['model_name']
+        api_key = session['api_key']
+        api_url = session.get('api_url', '')
 
-            if api_url is not None and api_url:
-                if not api_url.endswith("/"):
-                    api_url += "/"
-            else:
-                api_url = constants.OPENAI_API_DEFAULT_URL
-        except:
-            raise Exception("Please configure the OpenAI connection!")
+        if api_url is not None and api_url:
+            if not api_url.endswith("/"):
+                api_url += "/"
+        else:
+            api_url = constants.OPENAI_API_DEFAULT_URL
+    except:
+        raise Exception("Please configure the OpenAI connection!")
 
     azure_endpoint = session.get('azure_endpoint', '')
 
