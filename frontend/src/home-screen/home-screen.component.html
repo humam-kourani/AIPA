@@ -3,7 +3,8 @@
 
     <img style="cursor: pointer" (click)="window.location.reload()" src="../assets/logos/18_fit_rgb_white.png" height="50%"/>
 
-    <h1 class="example-app-name">AIPA: AI-Powered Process Analyst</h1>
+    <h1 class="example-app-name">AIPA<span class="full-name">: AI-Powered Process Analyst</span></h1>
+
 
     <button mat-button (click)="snav.toggle()">
       <mat-icon class="white-icon">menu</mat-icon>
@@ -38,6 +39,7 @@
                 color="secondary"
                 (click)="fileInput.click()"
                 style="height: 35px"
+                class="choose-bpmn-button"
               >
                 Select new model
               </button>
@@ -48,31 +50,35 @@
       </mat-card>
 
       <div>
-        <mat-grid-list [cols]="breakpoint" rowHeight="800px" (window:resize)="onResize($event)"
-                       *ngIf="bpmnContentBase64!=''" style="width: 98%; margin-top: 30px">
-          <mat-grid-tile class="my-tile">
 
-            <app-bpmn-renderer class="home-screen-card content-card"
+        <div class="container-fluid mt-1" *ngIf="bpmnContentBase64!=''">
+
+          <div class="flex-container" style="height: 76vh">
+            <div class="flex-item" #firstElement style="height: 70vh">
+              <app-bpmn-renderer class="home-screen-card content-card"
                                [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
-
-          </mat-grid-tile>
-
-          <mat-grid-tile class="my-tile" style="margin-top: -10px;">
-
-            <div style="width: 100%;height: 100%;margin: 15px;padding: 15px;">
-              <h3 style="margin-top: 0px;margin-bottom: 0px;display: flex;align-items: center;">Chat about the Model
-                <span style="margin-left: auto;">
-                  <button mat-stroked-button color="warn" (click)="resetConvoSubject.next()">Reset Conversation</button>
-                </span>
-              </h3>
-
-              <app-chat [resetConvo]="resetConvoSubject.asObservable()" class="home-screen-card content-card"></app-chat>
-
             </div>
 
+            <div class="grabber" appResize [leftResize]="firstElement" [rightResize]="rightElement"
+                 style="">
+            </div>
 
-          </mat-grid-tile>
-        </mat-grid-list>
+            <div class="flex-item" #rightElement style="height: 70vh">
+
+              <div style="width: 100%;height: 100%">
+                <h3 style="margin-top: 10px;margin-bottom: -10px;display: flex;align-items: center;">Chat about the Model
+                  <span style="margin-left: auto;">
+                    <button mat-stroked-button color="warn" (click)="resetConvoSubject.next()">Reset Conversation</button>
+                  </span>
+                </h3>
+
+                <app-chat [resetConvo]="resetConvoSubject.asObservable()" class="home-screen-card content-card"></app-chat>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
 

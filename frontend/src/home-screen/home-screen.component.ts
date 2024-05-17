@@ -15,6 +15,7 @@ import {ErrorHandlingService} from "../error-dialog/error-handling.service";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {BpmnRendererComponent} from "../bpmn-renderer/bpmn-renderer.component";
 import {ChatComponent} from "../chat/chat.component";
+import {ResizeDirective} from "./resize.directive";
 
 @Component({
   selector: 'app-home-screen',
@@ -40,7 +41,8 @@ import {ChatComponent} from "../chat/chat.component";
     MatGridList,
     MatGridTile,
     BpmnRendererComponent,
-    ChatComponent
+    ChatComponent,
+    ResizeDirective
   ],
   templateUrl: './home-screen.component.html',
   styleUrl: './home-screen.component.scss'
