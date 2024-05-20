@@ -76,7 +76,7 @@ def chat_with_llm():
 
         response = make_response(jsonify({"response": new_message}), 200)
     except Exception as e:
-        response = make_response(jsonify(success=False, error="The following error occured: " + str(e)), 400)
+        response = make_response(jsonify(success=False, error="" + str(e)), 400)
 
     return response
 
