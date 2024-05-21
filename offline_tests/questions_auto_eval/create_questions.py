@@ -3,6 +3,9 @@ import os
 
 DATASET = "ccc19"
 REQUIRED_ABSTRACTION = "simplified_xml"
+ENABLE_PROMPTING_STRATEGIES = True
+MERGE_ALL_MESSAGES_IN_ONE = False
+OPENAI_API_URL = "https://api.openai.com/v1/"
 
 if __name__ == "__main__":
     json_repr_file = "../data/"+DATASET+"/json_repr.txt"
@@ -16,15 +19,18 @@ if __name__ == "__main__":
 
     data = {}
     data["parameters"] = {}
-    data["parameters"]["enable_role_prompting"] = True
-    data["parameters"]["enable_natural_language_restriction"] = True
-    data["parameters"]["enable_chain_of_thought"] = True
-    data["parameters"]["enable_process_analysis"] = True
-    data["parameters"]["enable_knowledge_injection"] = True
+    data["parameters"]["enable_role_prompting"] = ENABLE_PROMPTING_STRATEGIES
+    data["parameters"]["enable_natural_language_restriction"] = ENABLE_PROMPTING_STRATEGIES
+    data["parameters"]["enable_chain_of_thought"] = ENABLE_PROMPTING_STRATEGIES
+    data["parameters"]["enable_process_analysis"] = ENABLE_PROMPTING_STRATEGIES
+    data["parameters"]["enable_knowledge_injection"] = ENABLE_PROMPTING_STRATEGIES
+
+    data["parameters"]["merge_all_messages_in_one"] = MERGE_ALL_MESSAGES_IN_ONE
 
     session = {}
     session["model_name"] = "gpt-4-turbo-preview"
     session["api_key"] = "sk-"
+    session["api_url"] = OPENAI_API_URL
 
     data["parameters"]["model_abstraction"] = REQUIRED_ABSTRACTION
     data["modelXmlString"] = bpmn_xml
