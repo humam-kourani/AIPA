@@ -8,8 +8,10 @@ from utils import chat
 DATASET = "ccc19"
 REQUIRED_ABSTRACTION = "simplified_xml"
 ENABLE_PROMPTING_STRATEGIES = True
-MERGE_ALL_MESSAGES_IN_ONE = False
+MERGE_ALL_MESSAGES_IN_ONE = True
 OPENAI_API_URL = "https://api.openai.com/v1/"
+#OPENAI_API_URL = "http://137.226.117.70:11434/v1/"
+#OPENAI_API_URL = "https://api.deepinfra.com/v1/openai/"
 
 if __name__ == "__main__":
     model_name = "gpt-4o"  # model that answered the questions
@@ -56,7 +58,7 @@ if __name__ == "__main__":
         if bpmn_json is not None and bpmn_json:
             data["textualRepresentation"] = bpmn_json
 
-        current_answer = open("../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name), "r").read().replace("\n\n", "\n").strip()
+        current_answer = open("../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "")), "r").read().replace("\n\n", "\n").strip()
 
         message = []
         if model_text_description is not None and model_text_description:
@@ -70,7 +72,7 @@ if __name__ == "__main__":
 
         message = "\n\n".join(message)
 
-        target_file = "../data/"+DATASET+"/evaluation/eval_%d_%s.txt" % (index+1, model_name)
+        target_file = "../data/"+DATASET+"/evaluation/eval_%d_%s.txt" % (index+1, model_name.replace("/", ""))
 
         if not os.path.exists(target_file):
             while True:
