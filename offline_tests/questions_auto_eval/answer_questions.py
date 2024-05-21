@@ -4,10 +4,22 @@ import time
 import traceback
 
 
+DATASET = "ccc19"
+REQUIRED_ABSTRACTION = "simplified_xml"
+
 if __name__ == "__main__":
     model_name = "gpt-3.5-turbo"
-    bpmn_json = open("../data/ccc19_json_repr.txt", "r").read()
-    questions = [x.strip() for x in open("../data/ccc19_questions.txt").readlines()]
+
+    json_repr_file = "../data/"+DATASET+"/json_repr.txt"
+    bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
+
+    bpmn_xml = open(bpmn_xml_file, "r").read()
+    bpmn_json = None
+
+    if os.path.exists(json_repr_file):
+        bpmn_json = open(json_repr_file, "r").read()
+
+    questions = [x.strip() for x in open("../data/"+DATASET+"/questions.txt").readlines()]
 
     for index, quest in enumerate(questions):
         data = None
@@ -15,7 +27,6 @@ if __name__ == "__main__":
 
         data = {}
         data["parameters"] = {}
-        data["parameters"]["model_abstraction"] = "json"
         data["parameters"]["enable_role_prompting"] = True
         data["parameters"]["enable_natural_language_restriction"] = True
         data["parameters"]["enable_chain_of_thought"] = True
@@ -26,10 +37,14 @@ if __name__ == "__main__":
         session["model_name"] = model_name
         session["api_key"] = "sk-"
 
-        data["textualRepresentation"] = bpmn_json
+        data["parameters"]["model_abstraction"] = REQUIRED_ABSTRACTION
+        data["modelXmlString"] = bpmn_xml
+        if bpmn_json is not None and bpmn_json:
+            data["textualRepresentation"] = bpmn_json
+
         data["message"] = quest
 
-        target_file = "../data/answers/answer_%d_%s.txt" % (index+1, model_name)
+        target_file = "../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name)
 
         if not os.path.exists(target_file):
             while True:

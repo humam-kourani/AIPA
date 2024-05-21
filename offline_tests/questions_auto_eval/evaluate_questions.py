@@ -5,11 +5,27 @@ import traceback
 from utils import chat
 
 
+DATASET = "ccc19"
+REQUIRED_ABSTRACTION = "simplified_xml"
+
 if __name__ == "__main__":
     model_name = "gpt-3.5-turbo"
-    bpmn_json = open("../data/ccc19_json_repr.txt", "r").read()
-    questions = [x.strip() for x in open("../data/ccc19_questions.txt").readlines()]
-    model_text_description = open("../data/ccc19.txt", "r").read().strip()
+
+    json_repr_file = "../data/"+DATASET+"/json_repr.txt"
+    bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
+    ground_truth_file = "../data/"+DATASET+"/ground_truth.txt"
+
+    bpmn_xml = open(bpmn_xml_file, "r").read()
+    bpmn_json = None
+    model_text_description = None
+
+    if os.path.exists(json_repr_file):
+        bpmn_json = open(json_repr_file, "r").read()
+
+    if os.path.exists(ground_truth_file):
+        model_text_description = open(ground_truth_file, "r").read().strip()
+
+    questions = [x.strip() for x in open("../data/"+DATASET+"/questions.txt").readlines()]
 
     for index, quest in enumerate(questions):
         data = None
@@ -17,7 +33,6 @@ if __name__ == "__main__":
 
         data = {}
         data["parameters"] = {}
-        data["parameters"]["model_abstraction"] = "json"
         data["parameters"]["enable_role_prompting"] = True
         data["parameters"]["enable_natural_language_restriction"] = True
         data["parameters"]["enable_chain_of_thought"] = True
@@ -28,9 +43,12 @@ if __name__ == "__main__":
         session["model_name"] = "gpt-4-turbo-preview"
         session["api_key"] = "sk-"
 
-        data["textualRepresentation"] = bpmn_json
+        data["parameters"]["model_abstraction"] = REQUIRED_ABSTRACTION
+        data["modelXmlString"] = bpmn_xml
+        if bpmn_json is not None and bpmn_json:
+            data["textualRepresentation"] = bpmn_json
 
-        current_answer = open("../data/answers/answer_%d_%s.txt" % (index+1, model_name), "r").read().replace("\n\n", "\n").strip()
+        current_answer = open("../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name), "r").read().replace("\n\n", "\n").strip()
 
         message = []
         message.append("Given a textual description of the process provided by an export (which you should take as ground truth):")
@@ -43,7 +61,7 @@ if __name__ == "__main__":
 
         message = "\n\n".join(message)
 
-        target_file = "../data/evaluation/eval_%d_%s.txt" % (index+1, model_name)
+        target_file = "../data/"+DATASET+"/evaluation/eval_%d_%s.txt" % (index+1, model_name)
 
         if not os.path.exists(target_file):
             while True:
