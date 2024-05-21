@@ -192,7 +192,7 @@ examples_json = [
 
 
 def few_shots_learning_json(abstraction):
-    res = "- Let us consider the following textual representaion of an example process:\n"
+    res = "- Let us consider the following textual representation of an example process:\n"
     res += abstraction + "\n\n"
     res += "- These are example pairs of input and expected output:\n"
     for i in range(len(examples_json)):
