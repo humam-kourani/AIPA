@@ -28,7 +28,7 @@ if __name__ == "__main__":
     data["parameters"]["merge_all_messages_in_one"] = MERGE_ALL_MESSAGES_IN_ONE
 
     session = {}
-    session["model_name"] = "gpt-4-turbo-preview"
+    session["model_name"] = "gpt-4o"
     session["api_key"] = "sk-"
     session["api_url"] = OPENAI_API_URL
 

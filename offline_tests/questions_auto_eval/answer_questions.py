@@ -11,7 +11,7 @@ MERGE_ALL_MESSAGES_IN_ONE = False
 OPENAI_API_URL = "https://api.openai.com/v1/"
 
 if __name__ == "__main__":
-    model_name = "gpt-3.5-turbo"
+    model_name = "gpt-4o"
 
     json_repr_file = "../data/"+DATASET+"/json_repr.txt"
     bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
