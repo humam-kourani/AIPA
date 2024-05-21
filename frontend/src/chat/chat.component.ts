@@ -78,7 +78,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
   ngOnDestroy() {
@@ -101,6 +101,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         avatar: './assets/human.png',
       }
     });
+    setTimeout(()=>{
+      this.scrollToBottom();
+    },10)
 
     let postDataContent = {
       message: message,
@@ -155,6 +158,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     else{
       this.messages = [formattedMessage]
     }
+    setTimeout(()=>{
+      this.scrollToBottom();
+    },10)
   }
 
   scrollToBottom(): void {
