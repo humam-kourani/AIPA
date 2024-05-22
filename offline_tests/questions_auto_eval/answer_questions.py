@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
         data["message"] = quest
 
-        target_file = "../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", ""))
+        target_file = "../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", ""))
 
         if not os.path.exists(target_file):
             while True:

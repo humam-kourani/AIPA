@@ -58,7 +58,7 @@ if __name__ == "__main__":
         if bpmn_json is not None and bpmn_json:
             data["textualRepresentation"] = bpmn_json
 
-        current_answer = open("../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "")), "r").read().replace("\n\n", "\n").strip()
+        current_answer = open("../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", "")), "r").read().replace("\n\n", "\n").strip()
 
         message = []
         if model_text_description is not None and model_text_description:
@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
         message = "\n\n".join(message)
 
-        target_file = "../data/"+DATASET+"/evaluation/eval_%d_%s.txt" % (index+1, model_name.replace("/", ""))
+        target_file = "../data/"+DATASET+"/evaluation/eval_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", ""))
 
         if not os.path.exists(target_file):
             while True:
