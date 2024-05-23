@@ -4,7 +4,7 @@ import os
 DATASET = "ccc19"
 REQUIRED_ABSTRACTION = "simplified_xml"
 ENABLE_PROMPTING_STRATEGIES = True
-MERGE_ALL_MESSAGES_IN_ONE = True
+MERGE_ALL_MESSAGES_IN_ONE = REQUIRED_ABSTRACTION is not "svg"
 OPENAI_API_URL = "https://api.openai.com/v1/"
 #OPENAI_API_URL = "http://137.226.117.70:11434/v1/"
 #OPENAI_API_URL = "https://api.deepinfra.com/v1/openai/"
