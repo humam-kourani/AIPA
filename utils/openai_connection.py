@@ -27,9 +27,19 @@ def generate_response_with_history(data, session, parameters=None) -> str:
     conversation_history = session["conversation"]  # The conversation history
     model_abstraction = parameters.get("model_abstraction", constants.MODEL_ABSTRACTION)
     merge_all_messages_in_one = parameters.get("merge_all_messages_in_one", constants.MERGE_ALL_MESSAGES_IN_ONE)
+    svg_string = data.get('modelSvg', '')
+    json_repr = data.get('textualRepresentation', '')
+
+    if False:
+        F = open("svg_string.txt", "w")
+        F.write(svg_string)
+        F.close()
+
+        F = open("json_repr.txt", "w")
+        F.write(json_repr)
+        F.close()
 
     if model_abstraction == "svg":
-        svg_string = data.get('modelSvg', '')
         additional_content = {"url": common.get_png_url_from_svg(svg_string, parameters=parameters)}
         additional_content_type = "image_url"
 
