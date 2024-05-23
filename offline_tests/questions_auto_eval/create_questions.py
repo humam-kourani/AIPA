@@ -11,13 +11,18 @@ OPENAI_API_URL = "https://api.openai.com/v1/"
 
 if __name__ == "__main__":
     json_repr_file = "../data/"+DATASET+"/json_repr.txt"
+    svg_repr_file = "../data/" + DATASET + "/svg_string.txt"
     bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
 
     bpmn_xml = open(bpmn_xml_file, "r").read()
     bpmn_json = None
+    bpmn_svg = None
 
     if os.path.exists(json_repr_file):
         bpmn_json = open(json_repr_file, "r").read()
+
+    if os.path.exists(svg_repr_file):
+        bpmn_svg = open(svg_repr_file, "r").read()
 
     data = {}
     data["parameters"] = {}
@@ -40,6 +45,8 @@ if __name__ == "__main__":
     data["modelXmlString"] = bpmn_xml
     if bpmn_json is not None and bpmn_json:
         data["textualRepresentation"] = bpmn_json
+    if bpmn_svg is not None and bpmn_svg:
+        data["modelSvg"] = bpmn_svg
 
     data["message"] = "Could you produce a list of 20 questions related to the underyling process? Please produce real questions about the process. Accompany each question with a relevance score between 1.0 (minimum confidence on the relevance of the question) to 10.0 (maximum confidence)."
     response1 = chat.chat_with_llm(data, session)

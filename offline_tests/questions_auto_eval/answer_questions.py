@@ -16,13 +16,18 @@ if __name__ == "__main__":
     model_name = "gpt-4o"
 
     json_repr_file = "../data/"+DATASET+"/json_repr.txt"
+    svg_repr_file = "../data/"+DATASET+"/svg_string.txt"
     bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
 
     bpmn_xml = open(bpmn_xml_file, "r").read()
     bpmn_json = None
+    bpmn_svg = None
 
     if os.path.exists(json_repr_file):
         bpmn_json = open(json_repr_file, "r").read()
+
+    if os.path.exists(svg_repr_file):
+        bpmn_svg = open(svg_repr_file, "r").read()
 
     questions = [x.strip() for x in open("../data/"+DATASET+"/questions.txt").readlines()]
 
@@ -51,6 +56,8 @@ if __name__ == "__main__":
         data["modelXmlString"] = bpmn_xml
         if bpmn_json is not None and bpmn_json:
             data["textualRepresentation"] = bpmn_json
+        if bpmn_svg is not None and bpmn_svg:
+            data["modelSvg"] = bpmn_svg
 
         data["message"] = quest
 

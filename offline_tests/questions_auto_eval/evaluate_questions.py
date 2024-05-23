@@ -17,15 +17,20 @@ if __name__ == "__main__":
     model_name = "gpt-4o"  # model that answered the questions
 
     json_repr_file = "../data/"+DATASET+"/json_repr.txt"
+    svg_repr_file = "../data/" + DATASET + "/svg_string.txt"
     bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
     ground_truth_file = "../data/"+DATASET+"/ground_truth.txt"
 
     bpmn_xml = open(bpmn_xml_file, "r").read()
     bpmn_json = None
+    bpmn_svg = None
     model_text_description = None
 
     if os.path.exists(json_repr_file):
         bpmn_json = open(json_repr_file, "r").read()
+
+    if os.path.exists(svg_repr_file):
+        bpmn_svg = open(svg_repr_file, "r").read()
 
     if os.path.exists(ground_truth_file):
         model_text_description = open(ground_truth_file, "r").read().strip()
@@ -57,6 +62,8 @@ if __name__ == "__main__":
         data["modelXmlString"] = bpmn_xml
         if bpmn_json is not None and bpmn_json:
             data["textualRepresentation"] = bpmn_json
+        if bpmn_svg is not None and bpmn_svg:
+            data["modelSvg"] = bpmn_svg
 
         current_answer = open("../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", "")), "r").read().replace("\n\n", "\n").strip()
 
