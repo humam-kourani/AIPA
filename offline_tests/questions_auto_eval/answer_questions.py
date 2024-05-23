@@ -1,6 +1,7 @@
-from utils import chat
+from utils import chat, openai_connection
 import os
 import time
+import json
 import traceback
 
 
@@ -61,18 +62,37 @@ if __name__ == "__main__":
 
         data["message"] = quest
 
-        target_file = "../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", ""))
+        m_name = model_name.replace("/", "").replace(":", "")
+
+        target_file = "../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, m_name)
+        ex_time_file = "../data/"+DATASET+"/ex_time/ex_time_%d_%s.txt" % (index+1, m_name)
+        response_file = "../data/"+DATASET+"/responses/response_%d_%s.txt" % (index+1, m_name)
+        prompt_file = "../data/"+DATASET+"/prompts/prompt_%d_%s.txt" % (index+1, m_name)
 
         if not os.path.exists(target_file):
             while True:
                 try:
                     print("\n\n")
                     print(quest)
+                    t0 = time.time()
                     response1 = chat.chat_with_llm(data, session)
+                    t1 = time.time()
                     print(response1)
 
                     F = open(target_file, "w")
                     F.write(response1)
+                    F.close()
+
+                    F = open(ex_time_file, "w")
+                    F.write("%.2f" % (t1-t0))
+                    F.close()
+
+                    F = open(response_file, "w")
+                    json.dump(openai_connection.RESPONSE_JSON, F)
+                    F.close()
+
+                    F = open(prompt_file, "w")
+                    json.dump(openai_connection.LAST_MESSAGES, F)
                     F.close()
 
                     break
