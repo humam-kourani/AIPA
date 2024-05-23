@@ -11,8 +11,10 @@ from copy import deepcopy
 
 T = TypeVar('T')
 
-LAST_MESSAGES = ""
-RESPONSE_JSON = None
+
+class Results:
+    LAST_MESSAGES = None
+    RESPONSE_JSON = None
 
 
 def generate_response_with_history(data, session, parameters=None) -> str:
@@ -98,7 +100,7 @@ def generate_response_with_history(data, session, parameters=None) -> str:
             "messages": messages,
         }
 
-        LAST_MESSAGES = messages
+        Results.LAST_MESSAGES = messages
         for msg in conversation_history:
             if type(msg["content"]) is list:
                 for item in msg["content"]:
@@ -109,7 +111,7 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         complete_url = api_url+"chat/completions"
 
         response = requests.post(complete_url, headers=headers, json=payload).json()
-        RESPONSE_JSON = response
+        Results.RESPONSE_JSON = response
 
         try:
             response_message = response["choices"][0]["message"]["content"]

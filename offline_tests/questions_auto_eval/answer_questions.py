@@ -88,11 +88,11 @@ if __name__ == "__main__":
                     F.close()
 
                     F = open(response_file, "w")
-                    json.dump(openai_connection.RESPONSE_JSON, F)
+                    json.dump(openai_connection.Results.RESPONSE_JSON, F)
                     F.close()
 
                     F = open(prompt_file, "w")
-                    json.dump(openai_connection.LAST_MESSAGES, F)
+                    json.dump(openai_connection.Results.LAST_MESSAGES, F)
                     F.close()
 
                     break
