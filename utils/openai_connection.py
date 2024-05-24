@@ -8,6 +8,7 @@ from llm_configuration import constants
 from utils import common
 from copy import deepcopy
 import time
+import re
 
 T = TypeVar('T')
 
@@ -136,8 +137,8 @@ def generate_response_with_history(data, session, parameters=None) -> str:
             if not os.path.exists(responses_dir):
                 os.mkdir(responses_dir)
 
-            current_prompt_file = os.path.join(prompts_dir, str(int(time.time_ns())) + "_" + session_key + ".txt")
-            current_response_file = os.path.join(responses_dir, str(int(time.time_ns())) + "_" + session_key + ".txt")
+            current_prompt_file = os.path.join(prompts_dir, str(int(time.time_ns())) + "_" + re.sub(r'[^a-zA-Z0-9]', '', session_key) + ".txt")
+            current_response_file = os.path.join(responses_dir, str(int(time.time_ns())) + "_" + re.sub(r'[^a-zA-Z0-9]', '', session_key) + ".txt")
 
             F = open(current_prompt_file, "w")
             json.dump(Results.LAST_MESSAGES, F)
