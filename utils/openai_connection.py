@@ -19,6 +19,36 @@ class Results:
     RESPONSE_JSON = None
 
 
+def serialize_completion(completion):
+    return {
+        "id": completion.id,
+        "choices": [
+            {
+                "finish_reason": choice.finish_reason,
+                "index": choice.index,
+                "message": {
+                    "content": choice.message.content,
+                    "role": choice.message.role,
+                    "function_call": {
+                        "arguments": json.loads(
+                            choice.message.function_call.arguments) if choice.message.function_call and choice.message.function_call.arguments else None,
+                        "name": choice.message.function_call.name
+                    } if choice.message and choice.message.function_call else None
+                } if choice.message else None
+            } for choice in completion.choices
+        ],
+        "created": completion.created,
+        "model": completion.model,
+        "object": completion.object,
+        "system_fingerprint": completion.system_fingerprint,
+        "usage": {
+            "completion_tokens": completion.usage.completion_tokens,
+            "prompt_tokens": completion.usage.prompt_tokens,
+            "total_tokens": completion.usage.total_tokens
+        }
+    }
+
+
 def generate_response_with_history(data, session, parameters=None) -> str:
     """
     Generates a response from the LLM using the conversation history.
@@ -87,6 +117,8 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         )
 
         response = client.chat.completions.create(model=openai_model, messages=messages)
+        Results.LAST_MESSAGES = messages
+        Results.RESPONSE_JSON = serialize_completion(response)
 
         try:
             response_message = response.choices[0].message.content
