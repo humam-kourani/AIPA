@@ -5,7 +5,7 @@ import json
 import traceback
 
 
-DATASET = "order_manufacturing"
+DATASET = "ccc19"
 REQUIRED_ABSTRACTION = "simplified_xml"
 ENABLE_PROMPTING_STRATEGIES = True
 MERGE_ALL_MESSAGES_IN_ONE = REQUIRED_ABSTRACTION is not "svg"
@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     json_repr_file = "../data/"+DATASET+"/json_repr.txt"
     svg_repr_file = "../data/"+DATASET+"/svg_string.txt"
-    bpmn_xml_file = "../bpmn_models/order_manufacturing_v1.bpmn"
+    bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
 
     bpmn_xml = open(bpmn_xml_file, "r").read()
     bpmn_json = None
@@ -43,8 +43,8 @@ if __name__ == "__main__":
         data["parameters"]["enable_chain_of_thought"] = ENABLE_PROMPTING_STRATEGIES
         data["parameters"]["enable_process_analysis"] = ENABLE_PROMPTING_STRATEGIES
         data["parameters"]["enable_knowledge_injection"] = False
-        data["parameters"]["enable_few_shots_learning"] = ENABLE_PROMPTING_STRATEGIES
-        data["parameters"]["enable_negative_prompting"] = ENABLE_PROMPTING_STRATEGIES
+        data["parameters"]["enable_few_shots_learning"] = False
+        data["parameters"]["enable_negative_prompting"] = False
 
         data["parameters"]["merge_all_messages_in_one"] = MERGE_ALL_MESSAGES_IN_ONE
 
