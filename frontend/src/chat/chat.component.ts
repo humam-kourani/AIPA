@@ -18,6 +18,7 @@ import {Observable, Subscription} from "rxjs";
 import {BackendConnectionService} from "../services/backend-connection.service";
 import {ErrorHandlingService} from "../error-dialog/error-handling.service";
 import {FormsModule} from "@angular/forms";
+import {MatTooltip} from "@angular/material/tooltip";
 
 
 class Message{
@@ -37,7 +38,8 @@ class Message{
     MatIcon,
     MatProgressBar,
     NgIf,
-    FormsModule
+    FormsModule,
+    MatTooltip
   ],
   // @ts-ignore
   providers: [],

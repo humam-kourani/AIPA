@@ -44,11 +44,12 @@
         [(ngModel)]="chatInputMessage"
       />
       <div class="input-group-append input-group-append-bs">
-          <span style="cursor: pointer" class="input-group-text input-group-text-bs" (click)="send(chatInputMessage)">
+          <span matTooltip="Send message" style="cursor: pointer" class="input-group-text input-group-text-bs" (click)="send(chatInputMessage)">
             <i
               class="fa fa-paper-plane"
-
+              style="color: #576aac"
               id="chatButton"
+
             ></i>
           </span>
       </div>

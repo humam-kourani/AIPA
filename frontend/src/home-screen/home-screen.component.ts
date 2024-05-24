@@ -16,6 +16,8 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {BpmnRendererComponent} from "../bpmn-renderer/bpmn-renderer.component";
 import {ChatComponent} from "../chat/chat.component";
 import {ResizeDirective} from "./resize.directive";
+import {OpenaiChatService} from "../services/openai-chat.service";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-home-screen',
@@ -37,6 +39,7 @@ import {ResizeDirective} from "./resize.directive";
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
+    MatTooltipModule,
     CommonModule,
     MatGridList,
     MatGridTile,
