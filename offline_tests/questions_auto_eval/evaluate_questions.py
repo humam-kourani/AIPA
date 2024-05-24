@@ -47,7 +47,7 @@ if __name__ == "__main__":
         data["parameters"]["enable_natural_language_restriction"] = ENABLE_PROMPTING_STRATEGIES
         data["parameters"]["enable_chain_of_thought"] = ENABLE_PROMPTING_STRATEGIES
         data["parameters"]["enable_process_analysis"] = ENABLE_PROMPTING_STRATEGIES
-        data["parameters"]["enable_knowledge_injection"] = ENABLE_PROMPTING_STRATEGIES
+        data["parameters"]["enable_knowledge_injection"] = False
         data["parameters"]["enable_few_shots_learning"] = ENABLE_PROMPTING_STRATEGIES
         data["parameters"]["enable_negative_prompting"] = ENABLE_PROMPTING_STRATEGIES
 
