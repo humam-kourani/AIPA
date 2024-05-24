@@ -5,7 +5,7 @@ import traceback
 from utils import chat
 
 
-DATASET = "ccc19"
+DATASET = "order_manufacturing"
 REQUIRED_ABSTRACTION = "simplified_xml"
 ENABLE_PROMPTING_STRATEGIES = True
 MERGE_ALL_MESSAGES_IN_ONE = REQUIRED_ABSTRACTION is not "svg"
@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     json_repr_file = "../data/"+DATASET+"/json_repr.txt"
     svg_repr_file = "../data/" + DATASET + "/svg_string.txt"
-    bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
+    bpmn_xml_file = "../bpmn_models/order_manufacturing_v1.bpmn"
     ground_truth_file = "../data/"+DATASET+"/ground_truth.txt"
 
     bpmn_xml = open(bpmn_xml_file, "r").read()
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     if os.path.exists(ground_truth_file):
         model_text_description = open(ground_truth_file, "r").read().strip()
 
-    questions = [x.strip() for x in open("../data/"+DATASET+"/questions.txt").readlines()]
+    questions = [x.strip() for x in open("../data/"+DATASET+"/questions.txt", encoding="utf-8").readlines()]
 
     for index, quest in enumerate(questions):
         data = None
