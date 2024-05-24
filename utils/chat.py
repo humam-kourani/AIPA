@@ -12,6 +12,7 @@ def chat_with_llm(data, session=None):
     if parameters is None:
         parameters = {}
 
+    parameters["session_key"] = session.get("session_key", "")
     is_first_message = False
 
     if 'conversation' not in session:
@@ -24,7 +25,7 @@ def chat_with_llm(data, session=None):
 
     if DISABLE_LLM_CONNECTION:
         new_message = "The connection to the LLM is disabled!"
-        session['conversation'].append(create_message(new_message, role="system"))
+        session['conversation'].append(create_message(new_message, role="system", parameters=parameters))
     else:
         new_message, updated_history = generate_response_with_history(data, session, parameters=parameters)
         session['conversation'] = updated_history

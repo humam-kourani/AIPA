@@ -8,7 +8,7 @@ from utils import chat
 DATASET = "ccc19"
 REQUIRED_ABSTRACTION = "simplified_xml"
 ENABLE_PROMPTING_STRATEGIES = True
-MERGE_ALL_MESSAGES_IN_ONE = True
+MERGE_ALL_MESSAGES_IN_ONE = REQUIRED_ABSTRACTION is not "svg"
 OPENAI_API_URL = "https://api.openai.com/v1/"
 #OPENAI_API_URL = "http://137.226.117.70:11434/v1/"
 #OPENAI_API_URL = "https://api.deepinfra.com/v1/openai/"
@@ -17,20 +17,25 @@ if __name__ == "__main__":
     model_name = "gpt-4o"  # model that answered the questions
 
     json_repr_file = "../data/"+DATASET+"/json_repr.txt"
+    svg_repr_file = "../data/" + DATASET + "/svg_string.txt"
     bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
     ground_truth_file = "../data/"+DATASET+"/ground_truth.txt"
 
     bpmn_xml = open(bpmn_xml_file, "r").read()
     bpmn_json = None
+    bpmn_svg = None
     model_text_description = None
 
     if os.path.exists(json_repr_file):
         bpmn_json = open(json_repr_file, "r").read()
 
+    if os.path.exists(svg_repr_file):
+        bpmn_svg = open(svg_repr_file, "r").read()
+
     if os.path.exists(ground_truth_file):
         model_text_description = open(ground_truth_file, "r").read().strip()
 
-    questions = [x.strip() for x in open("../data/"+DATASET+"/questions.txt").readlines()]
+    questions = [x.strip() for x in open("../data/"+DATASET+"/questions.txt", encoding="utf-8").readlines()]
 
     for index, quest in enumerate(questions):
         data = None
@@ -42,7 +47,7 @@ if __name__ == "__main__":
         data["parameters"]["enable_natural_language_restriction"] = ENABLE_PROMPTING_STRATEGIES
         data["parameters"]["enable_chain_of_thought"] = ENABLE_PROMPTING_STRATEGIES
         data["parameters"]["enable_process_analysis"] = ENABLE_PROMPTING_STRATEGIES
-        data["parameters"]["enable_knowledge_injection"] = ENABLE_PROMPTING_STRATEGIES
+        data["parameters"]["enable_knowledge_injection"] = False
         data["parameters"]["enable_few_shots_learning"] = ENABLE_PROMPTING_STRATEGIES
         data["parameters"]["enable_negative_prompting"] = ENABLE_PROMPTING_STRATEGIES
 
@@ -57,8 +62,10 @@ if __name__ == "__main__":
         data["modelXmlString"] = bpmn_xml
         if bpmn_json is not None and bpmn_json:
             data["textualRepresentation"] = bpmn_json
+        if bpmn_svg is not None and bpmn_svg:
+            data["modelSvg"] = bpmn_svg
 
-        current_answer = open("../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "")), "r").read().replace("\n\n", "\n").strip()
+        current_answer = open("../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", "")), "r").read().replace("\n\n", "\n").strip()
 
         message = []
         if model_text_description is not None and model_text_description:
@@ -72,7 +79,7 @@ if __name__ == "__main__":
 
         message = "\n\n".join(message)
 
-        target_file = "../data/"+DATASET+"/evaluation/eval_%d_%s.txt" % (index+1, model_name.replace("/", ""))
+        target_file = "../data/"+DATASET+"/evaluation/eval_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", ""))
 
         if not os.path.exists(target_file):
             while True:

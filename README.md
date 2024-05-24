@@ -1,5 +1,5 @@
-# llm_pm
-Process Mining with LLMs 
+# AIPA
+AI-Powered Process Analyst 
 
 ## Running the app locally 
 1. Clone the repo locally
@@ -20,6 +20,15 @@ Process Mining with LLMs
 3. Install npm dependencies: `npm install`
 4. Run the frontend application: `npm run start`
 5. You can access the frontend application at: `http://localhost:4200/`
+
+### Running both frontend and backend using a single script (Windows)
+1. Prerequisites:
+   - Prerequisites defined in the last two sections also apply here
+   - Requirements are automatically installed by this script and these steps can be skipped here:
+     - `pip install -r requirements.txt`
+     - `npm install`
+2. Go to the folder: ./build_scripts
+3. Execute the script: `.\run_aipa_windows.ps1`
 
 ## Configure Angular CLI's Development Server
 Run `ng serve --host 0.0.0.0`

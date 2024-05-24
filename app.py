@@ -67,6 +67,8 @@ def chat_with_llm():
     session_key = request.remote_addr + request.user_agent.string
     session = __get_session(session_key)
 
+    session["session_key"] = session_key
+
     data = request.json
 
     try:
