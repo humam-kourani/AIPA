@@ -1,13 +1,13 @@
 from typing import TypeVar
 from utils.conversation import create_message
 
-import importlib.resources
 import os
 import requests
 
 from llm_configuration import constants
 from utils import common
 from copy import deepcopy
+import time
 
 T = TypeVar('T')
 
@@ -32,6 +32,8 @@ def generate_response_with_history(data, session, parameters=None) -> str:
     conversation_history = session["conversation"]  # The conversation history
     model_abstraction = parameters.get("model_abstraction", constants.MODEL_ABSTRACTION)
     merge_all_messages_in_one = parameters.get("merge_all_messages_in_one", constants.MERGE_ALL_MESSAGES_IN_ONE)
+    session_key = parameters.get("session_key", "")
+
     svg_string = data.get('modelSvg', '')
     json_repr = data.get('textualRepresentation', '')
 
@@ -119,5 +121,30 @@ def generate_response_with_history(data, session, parameters=None) -> str:
             raise Exception(f"Connection to OpenAI failed! This is the response: " + str(response))
 
     conversation_history.append(create_message(response_message, role="system", parameters=parameters))
+
+    if session_key is not None and session_key:
+        if constants.ENABLE_SESSION_RECORDINGS:
+            logging_dir = constants.SESSION_RECORDINGS_DIR
+            if not os.path.exists(logging_dir):
+                os.mkdir(logging_dir)
+            prompts_dir = os.path.join(logging_dir, "prompts")
+            responses_dir = os.path.join(logging_dir, "responses")
+
+            if not os.path.exists(prompts_dir):
+                os.mkdir(prompts_dir)
+
+            if not os.path.exists(responses_dir):
+                os.mkdir(responses_dir)
+
+            current_prompt_file = os.path.join(prompts_dir, str(int(time.time_ns())) + "_" + session_key + ".txt")
+            current_response_file = os.path.join(responses_dir, str(int(time.time_ns())) + "_" + session_key + ".txt")
+
+            F = open(current_prompt_file, "w")
+            json.dump(Results.LAST_MESSAGES, F)
+            F.close()
+
+            F = open(current_response_file, "w")
+            json.dump(Results.RESPONSE_JSON, F)
+            F.close()
 
     return response_message, conversation_history
