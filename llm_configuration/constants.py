@@ -5,7 +5,7 @@ AZURE_ENDPOINT = 'azure_endpoint.txt'
 AZURE_OPENAI_MODEL = 'azure_openai_model.txt'
 
 # can be either 'json', 'xml', 'simplified_xml' (the entire process model is provided for xml and simplified xml), or 'svg' (a picture of the process model is uploaded)
-MODEL_ABSTRACTION = "simplified_xml"
+MODEL_ABSTRACTION = "json"
 
 DEFAULT_ENABLE_PROMPT_STRATEGIES = True
 ENABLE_ROLE_PROMPTING = DEFAULT_ENABLE_PROMPT_STRATEGIES
@@ -22,5 +22,5 @@ MAX_TOKENS_FOR_ADVANC_MSG_TYPES = 4096
 MERGE_ALL_MESSAGES_IN_ONE = False
 REDUCE_XML_SIZE = False
 
-ENABLE_SESSION_RECORDINGS = False
+ENABLE_SESSION_RECORDINGS = True
 SESSION_RECORDINGS_DIR = "logging"
