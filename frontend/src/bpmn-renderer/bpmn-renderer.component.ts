@@ -15,6 +15,7 @@ import * as dagreD3 from 'dagre-d3/dist/dagre-d3.js';
 import * as d3 from 'd3';
 import {OpenaiChatService} from "../services/openai-chat.service";
 import {debounceTime, Subject} from "rxjs";
+import {ErrorHandlingService} from "../error-dialog/error-handling.service";
 
 
 class CustomWaypoint {
@@ -84,7 +85,8 @@ export class BpmnRendererComponent {
   private searchSubject = new Subject<string>();
   private readonly debounceTimeMs = 600;
 
-  constructor(private openaiChatService: OpenaiChatService) {
+  constructor(private openaiChatService: OpenaiChatService,
+              private errorHandlingService: ErrorHandlingService) {
 
   }
 
@@ -201,7 +203,9 @@ export class BpmnRendererComponent {
         {passive: false}
       );
     } catch (err) {
-      console.error("Failed to import updated BPMN diagram", err);
+      // @ts-ignore
+      this.errorHandlingService.showErrorDialog({'title': 'Invalid or corrupt BPMN file', 'message': err.message})
+      this.openaiChatService.resetBpmnContent.next(true)
     }
   }
 

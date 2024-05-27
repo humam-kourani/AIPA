@@ -1,13 +1,22 @@
-<h2 mat-dialog-title>Something went wrong</h2>
+<h2 mat-dialog-title style="height: 75px;display: flex;padding-left: 10px;">
+  <div style="display: flex; align-items: center;">
+  <mat-icon style="color: #af0000; margin-left: 1rem;">error</mat-icon>
+  <div style="margin-left: 5px">Error</div>
+</div>
+</h2>
+
+
 <mat-dialog-content class="mat-typography">
   @if (data.error) {
     @if (data.error.status && data.error.statusText && data.error.error){
-      <h4>{{data.error.status}} {{data.error.statusText}}</h4>
       @if (data.error.error.message){<p class="dialog-error-text">{{data.error.error.message}}</p>}
       @else if (data.error.error.error){<p class="dialog-error-text">{{data.error.error.error}}</p>}
     }
     @else if (data.error.title && data.error.message){
       <h4>{{data.error.title}}</h4>
+      <p class="dialog-error-text">{{data.error.message}}</p>
+    }
+    @else if (data.error.message){
       <p class="dialog-error-text">{{data.error.message}}</p>
     }
   }

@@ -7,7 +7,7 @@ import {MatIcon} from "@angular/material/icon";
 import {OpenaiConfigurationComponent} from "../openai-configuration/openai-configuration.component";
 import {MatCard} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {Subject} from "rxjs";
+import {Subject, Subscription} from "rxjs";
 import {MatInputModule} from "@angular/material/input";
 import {CommonModule} from "@angular/common";
 import {BackendConnectionService} from "../services/backend-connection.service";
@@ -16,6 +16,7 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {BpmnRendererComponent} from "../bpmn-renderer/bpmn-renderer.component";
 import {ChatComponent} from "../chat/chat.component";
 import {ResizeDirective} from "./resize.directive";
+import {OpenaiChatService} from "../services/openai-chat.service";
 import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
@@ -54,16 +55,20 @@ export class HomeScreenComponent implements OnInit {
   currentFile?: File;
   fileName = 'Select a File';
   bpmnContentBase64: string = ''
-
+  resetSubscription = new Subscription();
   resetConvoSubject: Subject<void> = new Subject<void>();
 
   constructor(private backendConnectionService: BackendConnectionService,
-              private errorHandlingService: ErrorHandlingService) {
+              private errorHandlingService: ErrorHandlingService,
+              private openaiChatService: OpenaiChatService) {
 
   }
 
   ngOnInit() {
-
+     this.resetSubscription = this.openaiChatService.resetBpmnContent.subscribe((data)=>{
+      this.bpmnContentBase64 = ''
+      this.currentFile = undefined
+    });
   }
 
   fileChanged(event: any): void {
@@ -85,6 +90,10 @@ export class HomeScreenComponent implements OnInit {
     } else {
       this.fileName = 'Select File';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.resetSubscription.unsubscribe()
   }
 
   protected readonly window = window;

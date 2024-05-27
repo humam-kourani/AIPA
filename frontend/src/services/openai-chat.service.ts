@@ -7,6 +7,7 @@ import {Subject} from "rxjs";
 export class OpenaiChatService {
 
   resetSubject = new Subject<any>();
+  resetBpmnContent = new Subject<any>();
   textualRepresentation = ''
   modelXmlString = ''
   modelSvg = ''
