@@ -103,7 +103,7 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         else:
             api_url = constants.OPENAI_API_DEFAULT_URL
     except:
-        raise Exception("Please configure the OpenAI connection!")
+        raise Exception("The OpenAI connection is not configured. Please configure the OpenAI connection")
 
     azure_endpoint = session.get('azure_endpoint', '')
 
@@ -123,7 +123,7 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         try:
             response_message = response.choices[0].message.content
         except Exception as e:
-            raise Exception(f"Connection to OpenAI failed! This is the response: " + str(response))
+            raise Exception(response['error']['message'])
 
     else:
         headers = {
@@ -152,7 +152,7 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         try:
             response_message = response["choices"][0]["message"]["content"]
         except Exception as e:
-            raise Exception(f"Connection to OpenAI failed! This is the response: " + str(response))
+            raise Exception(response['error']['message'])
 
     conversation_history.append(create_message(response_message, role="system", parameters=parameters))
 
