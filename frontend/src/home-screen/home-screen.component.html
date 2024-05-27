@@ -19,7 +19,7 @@
       <app-openai-configuration (closeOverlay)="snav.toggle()"></app-openai-configuration>
     </mat-sidenav>
 
-    <mat-sidenav-content>
+    <mat-sidenav-content class="sidenav-content">
 
       <mat-card class="home-screen-card">
 
@@ -69,7 +69,7 @@
               <div style="width: 100%;height: 100%">
                 <h3 style="margin-top: 10px;margin-bottom: -10px;display: flex;align-items: center;">Chat about the Model
                   <span style="margin-left: auto;">
-                    <button mat-stroked-button color="warn" (click)="resetConvoSubject.next()">Reset Conversation</button>
+                    <button mat-stroked-button color="secondary" (click)="resetConvoSubject.next()">Reset Conversation</button>
                   </span>
                 </h3>
 
