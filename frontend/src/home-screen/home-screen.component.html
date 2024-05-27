@@ -74,7 +74,7 @@
                   </span>
 
                   <span style="margin-left: auto;">
-                    <button [disabled]="!environment.ENABLE_SENDING_SUBMODEL" mat-flat-button color="secondary" (click)="resetConvoSubject.next()">Reset Conversation</button>
+                    <button [disabled]="!environment.ENABLE_SENDING_SUBMODEL" mat-flat-button color="secondary" (click)="resetConvoSubject.next()" matTooltip="Reset the conversation history and start a new session">Reset Conversation</button>
                   </span>
                 </h3>
 
