@@ -1,6 +1,8 @@
 <div style="padding: 30px">
-  <mat-icon style="color: #005cbb;margin-top: 15px;float: right;" matTooltip="OpenAI models and their pricing: https://openai.com/pricing">help</mat-icon>
-  <h2 class="mb-4">OpenAI API Configuration</h2>
+  <h2 class="mb-4">
+  <mat-icon style="color: #6c6e70; float: right;" matTooltip="Check the latest OpenAI models and their pricing at: https://openai.com/pricing.">help</mat-icon>
+  OpenAI API Configuration  
+  </h2>
   <form [formGroup]="openAIConfigurationForm" (ngSubmit)="onSubmit()" class="example-form">
 
     <mat-form-field class="example-full-width">
@@ -29,8 +31,12 @@
     </mat-form-field> -->
 
     <mat-form-field class="example-full-width">
-      <mat-label>Azure Endpoint</mat-label>
-      <input type="text" matInput placeholder="Enter Azure Endpoint URL" formControlName="azureEndpoint" >
+      <mat-label>
+        Azure Endpoint
+        <mat-icon style="color: #6c6e70; margin-left: 15px; float: right;" matTooltip="Leave this field blank if your endpoint is not provided through Microsoft Azure.">
+          help
+        </mat-icon>
+      </mat-label><input type="text" matInput placeholder="Enter Azure Endpoint URL" formControlName="azureEndpoint" >
     </mat-form-field>
 
     <button style="float: right" mat-flat-button color="primary" [disabled]="!openAIConfigurationForm.dirty || openAIConfigurationForm?.invalid">Save</button>
