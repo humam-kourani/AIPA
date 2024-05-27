@@ -68,7 +68,7 @@
               <div style="width: 100%;height: 100%">
                 <h3 style="margin-top: 10px;margin-bottom: -10px;display: flex;align-items: center;">Chat about the Model
                   <span style="margin-left: auto;">
-                    <button mat-stroked-button color="warn" (click)="resetConvoSubject.next()">Reset Conversation</button>
+                    <button [disabled]="!environment.ENABLE_SENDING_SUBMODEL" mat-stroked-button color="warn" (click)="resetConvoSubject.next()">Reset Conversation</button>
                   </span>
                 </h3>
 

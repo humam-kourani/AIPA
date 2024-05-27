@@ -16,6 +16,7 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {BpmnRendererComponent} from "../bpmn-renderer/bpmn-renderer.component";
 import {ChatComponent} from "../chat/chat.component";
 import {ResizeDirective} from "./resize.directive";
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-home-screen',
@@ -95,4 +96,5 @@ export class HomeScreenComponent implements OnInit {
   }
 
   protected readonly window = window;
+  protected readonly environment = environment;
 }
