@@ -67,7 +67,12 @@
             <div class="flex-item right-element" #rightElement style="height: 70vh">
 
               <div style="width: 100%;height: 100%">
+
                 <h3 style="margin-top: 10px;margin-bottom: -10px;display: flex;align-items: center;">Chat about the Model
+                  <span>
+                    <mat-icon style="color: #005cbb;margin: -10px 0 0 2px;float: left;" matTooltip="Either the whole BPMN model (default) or a subset can be selected to be used for querying">help</mat-icon>
+                  </span>
+
                   <span style="margin-left: auto;">
                     <button mat-stroked-button color="secondary" (click)="resetConvoSubject.next()">Reset Conversation</button>
                   </span>
