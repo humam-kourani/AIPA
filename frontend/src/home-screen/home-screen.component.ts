@@ -16,7 +16,6 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {BpmnRendererComponent} from "../bpmn-renderer/bpmn-renderer.component";
 import {ChatComponent} from "../chat/chat.component";
 import {ResizeDirective} from "./resize.directive";
-import {OpenaiChatService} from "../services/openai-chat.service";
 import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
@@ -63,14 +62,8 @@ export class HomeScreenComponent implements OnInit {
 
   }
 
-  breakpoint: number | undefined
-
   ngOnInit() {
-    this.breakpoint = (window.innerWidth <= 1200) ? 1 : 2;
-  }
 
-  onResize(event: any) {
-    this.breakpoint = (event.target.innerWidth <= 1200) ? 1 : 2;
   }
 
   fileChanged(event: any): void {
@@ -92,9 +85,6 @@ export class HomeScreenComponent implements OnInit {
     } else {
       this.fileName = 'Select File';
     }
-  }
-
-  ngOnDestroy(): void {
   }
 
   protected readonly window = window;

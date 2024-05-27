@@ -40,7 +40,7 @@
                 (click)="fileInput.click()"
                 style="height: 35px"
                 class="choose-bpmn-button"
-                matTooltip="Select a BPMN model to start an OpenAI powered analysis session"
+                matTooltip="Select a BPMN model to start AI powered analysis"
               >
                 Select new model
               </button>
@@ -55,16 +55,16 @@
         <div class="container-fluid mt-1" *ngIf="bpmnContentBase64!=''">
 
           <div class="flex-container" style="height: 76vh">
-            <div class="flex-item" #firstElement style="height: 70vh">
+            <div class="flex-item first-element" #firstElement style="height: 70vh">
               <app-bpmn-renderer class="home-screen-card content-card"
                                [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
             </div>
 
-            <div class="grabber" appResize [leftResize]="firstElement" [rightResize]="rightElement"
-                 style="">
+            <div class="grabber" appResize [leftResize]="firstElement" [rightResize]="rightElement">
+
             </div>
 
-            <div class="flex-item" #rightElement style="height: 70vh">
+            <div class="flex-item right-element" #rightElement style="height: 70vh">
 
               <div style="width: 100%;height: 100%">
                 <h3 style="margin-top: 10px;margin-bottom: -10px;display: flex;align-items: center;">Chat about the Model

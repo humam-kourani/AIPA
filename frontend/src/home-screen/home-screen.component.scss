@@ -56,8 +56,6 @@ h1.example-app-name {
   padding: 5px !important;
 }
 
-
-
 .flex-container{
   display: flex;
   flex-direction: row;
@@ -81,9 +79,9 @@ h1.example-app-name {
 
 @media screen and (max-width:1200px) {
   .flex-container { flex-wrap: wrap;  }
-  .flex-item:first-child { flex-basis: 100%; }
   .grabber { display: none; }
-
+  .first-element { flex: auto !important; }
+  .right-element { flex: auto !important; margin-top: 24px }
 }
 
 
