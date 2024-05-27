@@ -19,6 +19,7 @@ import {BackendConnectionService} from "../services/backend-connection.service";
 import {ErrorHandlingService} from "../error-dialog/error-handling.service";
 import {FormsModule} from "@angular/forms";
 import {environment} from "../environments/environment";
+import {MatTooltip} from "@angular/material/tooltip";
 
 
 class Message{
@@ -38,7 +39,8 @@ class Message{
     MatIcon,
     MatProgressBar,
     NgIf,
-    FormsModule
+    FormsModule,
+    MatTooltip
   ],
   // @ts-ignore
   providers: [],
@@ -82,7 +84,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
   ngOnDestroy() {
@@ -105,6 +107,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         avatar: './assets/human.png',
       }
     });
+    setTimeout(()=>{
+      this.scrollToBottom();
+    },10)
 
     let postDataContent = {
       message: message,
@@ -160,6 +165,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     else{
       this.messages = [formattedMessage]
     }
+    setTimeout(()=>{
+      this.scrollToBottom();
+    },10)
   }
 
   scrollToBottom(): void {

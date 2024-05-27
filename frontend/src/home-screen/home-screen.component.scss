@@ -1,3 +1,7 @@
+.sidenav-content{
+  background: linear-gradient(186deg, rgb(0 0 0 / 5%) 50%, rgb(56 99 129 / 6%) 80%);
+}
+
 .example-container {
   display: flex;
   flex-direction: column;
@@ -56,8 +60,6 @@ h1.example-app-name {
   padding: 5px !important;
 }
 
-
-
 .flex-container{
   display: flex;
   flex-direction: row;
@@ -66,7 +68,7 @@ h1.example-app-name {
 .flex-item{
     flex:1 5 50%;
     height: 600px;
-    padding: 30px;
+    padding: 5px 20px 20px 20px;
 }
 .grabber{
   width:3px;
@@ -81,9 +83,9 @@ h1.example-app-name {
 
 @media screen and (max-width:1200px) {
   .flex-container { flex-wrap: wrap;  }
-  .flex-item:first-child { flex-basis: 100%; }
   .grabber { display: none; }
-
+  .first-element { flex: auto !important; }
+  .right-element { flex: auto !important; margin-top: 24px }
 }
 
 

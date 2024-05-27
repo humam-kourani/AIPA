@@ -109,7 +109,7 @@
 }
 
 :root {
-  --send-bg: #0B93F6;
+  --send-bg: #12c170;
   --send-color: white;
   --receive-bg: #c6c6c6;
   --receive-text: white;
@@ -137,14 +137,14 @@ p {
 
 .send {
 	color: white;
-	background: #0B93F6;
+	background: #12c170;
 	align-self: flex-end;
   margin-right: 8px;
 
 	&:before {
 		right: -7px;
         width: 20px;
-        background-color: #0B93F6;
+        background-color: #12c170;
         border-bottom-left-radius: 16px 14px;
 	}
 
