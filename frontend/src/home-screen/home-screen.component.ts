@@ -99,4 +99,5 @@ export class HomeScreenComponent implements OnInit {
 
   protected readonly window = window;
   protected readonly environment = environment;
+
 }
