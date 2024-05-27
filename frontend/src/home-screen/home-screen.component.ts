@@ -18,6 +18,7 @@ import {ChatComponent} from "../chat/chat.component";
 import {ResizeDirective} from "./resize.directive";
 import {OpenaiChatService} from "../services/openai-chat.service";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-home-screen',
@@ -97,4 +98,6 @@ export class HomeScreenComponent implements OnInit {
   }
 
   protected readonly window = window;
+  protected readonly environment = environment;
+
 }

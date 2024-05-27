@@ -18,6 +18,7 @@ import {Observable, Subscription} from "rxjs";
 import {BackendConnectionService} from "../services/backend-connection.service";
 import {ErrorHandlingService} from "../error-dialog/error-handling.service";
 import {FormsModule} from "@angular/forms";
+import {environment} from "../environments/environment";
 import {MatTooltip} from "@angular/material/tooltip";
 
 
@@ -60,6 +61,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   chatInputMessage = '';
   showLoader: boolean = false
   resetSubscription = new Subscription();
+  // for disabling the reset of the chat when the selection in the BPMN changes unless "ENABLE_SENDING_SUBMODEL" is set to true
+  enableSendingSubmodel: boolean = false;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef | undefined;
 
 
@@ -72,6 +75,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
+    this.enableSendingSubmodel = environment.ENABLE_SENDING_SUBMODEL
     document.body.classList.add('nb-theme-corporate');
     this.resetSubscription = this.openaiChatService.resetSubject.subscribe((data)=>{
       this.resetConversation()
@@ -131,17 +135,18 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   resetConversation() {
-    this.backendConnectionService.resetConversation().subscribe({
+    if (this.enableSendingSubmodel){
+      this.backendConnectionService.resetConversation().subscribe({
         next: data => {
           if(this.messages.length != 1){
             this.addBotMessageToChatBox('Hello! I am your AI assistant. How may I assist you with the uploaded BPMN model?', false)
           }
         },
         error: error => {
-          this.errorHandlingService.showErrorDialog('There was an error resetting the conversation.')
+          this.errorHandlingService.showErrorDialog('There was an error while resetting the conversation.')
         }
-    })
-
+      })
+    }
   }
 
   addBotMessageToChatBox(message: string, append= true){
@@ -171,4 +176,5 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) { }
   }
+
 }

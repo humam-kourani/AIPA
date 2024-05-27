@@ -74,7 +74,7 @@
                   </span>
 
                   <span style="margin-left: auto;">
-                    <button mat-stroked-button color="secondary" (click)="resetConvoSubject.next()">Reset Conversation</button>
+                    <button [disabled]="!environment.ENABLE_SENDING_SUBMODEL" mat-flat-button color="secondary" (click)="resetConvoSubject.next()">Reset Conversation</button>
                   </span>
                 </h3>
 
