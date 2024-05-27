@@ -9,6 +9,8 @@ import {MatButton} from "@angular/material/button";
 import {BackendConnectionService} from "../services/backend-connection.service";
 import {ErrorHandlingService} from "../error-dialog/error-handling.service";
 import {MatAutocomplete, MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatIcon} from "@angular/material/icon";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @Component({
@@ -23,7 +25,9 @@ import {MatAutocomplete, MatAutocompleteModule} from "@angular/material/autocomp
     MatFormFieldModule,
     MatInputModule,
     MatButton,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTooltipModule,
+    MatIcon
   ],
   templateUrl: './openai-configuration.component.html',
   styleUrl: './openai-configuration.component.scss'

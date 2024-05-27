@@ -17,6 +17,7 @@ import {BpmnRendererComponent} from "../bpmn-renderer/bpmn-renderer.component";
 import {ChatComponent} from "../chat/chat.component";
 import {ResizeDirective} from "./resize.directive";
 import {OpenaiChatService} from "../services/openai-chat.service";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-home-screen',
@@ -38,6 +39,7 @@ import {OpenaiChatService} from "../services/openai-chat.service";
     MatFormFieldModule,
     MatInputModule,
     MatListModule,
+    MatTooltipModule,
     CommonModule,
     MatGridList,
     MatGridTile,
@@ -62,19 +64,11 @@ export class HomeScreenComponent implements OnInit {
 
   }
 
-  breakpoint: number | undefined
-
   ngOnInit() {
-    this.breakpoint = (window.innerWidth <= 1200) ? 1 : 2;
-
      this.resetSubscription = this.openaiChatService.resetBpmnContent.subscribe((data)=>{
       this.bpmnContentBase64 = ''
       this.currentFile = undefined
     });
-  }
-
-  onResize(event: any) {
-    this.breakpoint = (event.target.innerWidth <= 1200) ? 1 : 2;
   }
 
   fileChanged(event: any): void {

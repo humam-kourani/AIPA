@@ -19,7 +19,7 @@
       <app-openai-configuration (closeOverlay)="snav.toggle()"></app-openai-configuration>
     </mat-sidenav>
 
-    <mat-sidenav-content>
+    <mat-sidenav-content class="sidenav-content">
 
       <mat-card class="home-screen-card">
 
@@ -40,6 +40,7 @@
                 (click)="fileInput.click()"
                 style="height: 35px"
                 class="choose-bpmn-button"
+                matTooltip="Select a BPMN model to start AI powered analysis"
               >
                 Select new model
               </button>
@@ -54,21 +55,26 @@
         <div class="container-fluid mt-1" *ngIf="bpmnContentBase64!=''">
 
           <div class="flex-container" style="height: 76vh">
-            <div class="flex-item" #firstElement style="height: 70vh">
+            <div class="flex-item first-element" #firstElement style="height: 70vh">
               <app-bpmn-renderer class="home-screen-card content-card"
                                [bpmnContentBase64]="bpmnContentBase64"></app-bpmn-renderer>
             </div>
 
-            <div class="grabber" appResize [leftResize]="firstElement" [rightResize]="rightElement"
-                 style="">
+            <div class="grabber" appResize [leftResize]="firstElement" [rightResize]="rightElement">
+
             </div>
 
-            <div class="flex-item" #rightElement style="height: 70vh">
+            <div class="flex-item right-element" #rightElement style="height: 70vh">
 
               <div style="width: 100%;height: 100%">
+
                 <h3 style="margin-top: 10px;margin-bottom: -10px;display: flex;align-items: center;">Chat about the Model
+                  <span>
+                    <mat-icon style="color: #005cbb;margin: -10px 0 0 2px;float: left;" matTooltip="Either the whole BPMN model (default) or a subset can be selected to be used for querying">help</mat-icon>
+                  </span>
+
                   <span style="margin-left: auto;">
-                    <button mat-stroked-button color="warn" (click)="resetConvoSubject.next()">Reset Conversation</button>
+                    <button mat-stroked-button color="secondary" (click)="resetConvoSubject.next()">Reset Conversation</button>
                   </span>
                 </h3>
 
