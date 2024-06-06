@@ -20,6 +20,7 @@ if __name__ == "__main__":
     svg_repr_file = "../data/" + DATASET + "/svg_string.txt"
     bpmn_xml_file = "../bpmn_models/ccc19.bpmn"
     ground_truth_file = "../data/"+DATASET+"/ground_truth.txt"
+    questions_ground_truth = "../data/"+DATASET+"/ground_truth/"
 
     bpmn_xml = open(bpmn_xml_file, "r").read()
     bpmn_json = None
@@ -40,7 +41,15 @@ if __name__ == "__main__":
     for index, quest in enumerate(questions):
         target_file = "../data/"+DATASET+"/evaluation/eval_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", ""))
 
-        if not os.path.exists(target_file):
+        question_ground_truth_file = os.path.join(questions_ground_truth, "ground_truth_%d.txt" % (index+1))
+        question_ground_truth = None
+
+        current_answer_file = "../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", ""))
+
+        if os.path.exists(question_ground_truth_file):
+            question_ground_truth = open(question_ground_truth_file, "r").read().strip()
+
+        if os.path.exists(current_answer_file) and not os.path.exists(target_file):
             data = None
             session = None
 
@@ -68,7 +77,7 @@ if __name__ == "__main__":
             if bpmn_svg is not None and bpmn_svg:
                 data["modelSvg"] = bpmn_svg
 
-            current_answer = open("../data/"+DATASET+"/answers/answer_%d_%s.txt" % (index+1, model_name.replace("/", "").replace(":", "")), "r").read().replace("\n\n", "\n").strip()
+            current_answer = open(current_answer_file, "r").read().replace("\n\n", "\n").strip()
 
             message = []
             if model_text_description is not None and model_text_description:
@@ -76,6 +85,11 @@ if __name__ == "__main__":
                 message.append(model_text_description)
             message.append("And given the following question:")
             message.append(quest)
+
+            if question_ground_truth is not None and question_ground_truth:
+                message.append("And the following answer given by an human, which you should consider as correct:")
+                message.append(question_ground_truth)
+
             message.append("Could you provide a score from 1.0 (minimum quality) to 10.0 (maximum quality) to the quality of the following answer:")
             message.append(current_answer)
             message.append("Try to include a brief explanation on why the answer received the given score.")
