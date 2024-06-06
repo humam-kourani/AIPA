@@ -1,0 +1,16 @@
+Can the activities "package goods" and "get 3 offers from logistic companies" be executed in parallel?
+What is the maximum number of activities performed during the process if it runs without errors?
+Give an explanation for the "secretary" process!
+Give an explanation for the "warehouse" process!
+How many activities does Logistics perform?
+What does the gateway after the activity "clarify shipment method" mean?
+When does the logistics department need to insure parcel?
+How does the process end?
+How many organizational units are involved in the process?
+Can writing the package label be executed simultaneously to selecting a logistic company and placing an order?
+What data does the secretary use when it checks if an insurance is required?
+When does the warehouse have to notify the customer about the delay?
+Is the activity "package goods" finished if 48 hours have passed?
+Can the activities "insure parcel" and "write package label" be executed simultaneously?
+Is it possible that only one of the activities "insure parcel" and "write package label" is executed?
+Which activity includes information retrieval from a database?

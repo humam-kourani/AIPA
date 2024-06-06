@@ -1,0 +1,73 @@
+Selected BPMN Elements and Connections:
+- { $type: bpmn:Collaboration, id: sid-d4f5afc0-8402-45a5-bf59-767c3524a5a8, extensionElements: [object Object], $parent: Definitions_1 }
+- { $type: bpmn:Participant, id: Participant_0ygkg4f, name: Dispatch of goods
+Computer Hardware Shop, extensionElements: [object Object], processRef: Process_1, $parent: sid-d4f5afc0-8402-45a5-bf59-767c3524a5a8 }
+- { $type: bpmn:Task, id: Task_12j0pib, name: Insure parcel, extensionElements: [object Object], lanes: (Lane_1viot5w), $parent: Process_1 }
+- { $type: bpmn:StartEvent, id: StartEvent_1, name: Ship goods, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:StartEvent, id: StartEvent_1, name: Ship goods, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:ParallelGateway, id: ParallelGateway_02fgrfq, gatewayDirection: Diverging, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:Task, id: Task_0vaxgaa, name: Clarify shipment method, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:ExclusiveGateway, id: ExclusiveGateway_1mpgzhg, name: Special
+handling?, gatewayDirection: Diverging, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:ExclusiveGateway, id: ExclusiveGateway_1mpgzhg, name: Special
+handling?, gatewayDirection: Diverging, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:InclusiveGateway, id: InclusiveGateway_0p2e5vq, gatewayDirection: Diverging, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:Task, id: Task_0jsoxba, name: Write package
+label, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:InclusiveGateway, id: InclusiveGateway_1dgb4sg, gatewayDirection: Converging, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:Task, id: Task_0e6hvnj, name: Get 3 offers
+from logistic
+companies, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:Task, id: Task_0s79ile, name: Select logistic
+company and
+place order, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:ExclusiveGateway, id: ExclusiveGateway_1ouv9kf, gatewayDirection: Converging, extensionElements: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:Task, id: sid-673347DF-0879-43B3-B6B0-895771BA77DF, name: Check if insurance is required, extensionElements: [object Object], dataInputAssociations: [object Object], lanes: (Lane_1ocseyo), $parent: Process_1 }
+- { $type: bpmn:Task, id: Task_05ftug5, name: Package goods, extensionElements: [object Object], lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:Task, id: Task_0sl26uo, name: Move package to pickup area, extensionElements: [object Object], lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:EndEvent, id: EndEvent_1fx9yp3, name: Shipment
+prepared, extensionElements: [object Object], lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:EndEvent, id: EndEvent_1fx9yp3, name: Shipment
+prepared, extensionElements: [object Object], lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:Task, id: sid-ED67BEC5-DBA3-46B4-9C2F-14B0A0BBED79, name: Notify customer about delay, extensionElements: [object Object], lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:ParallelGateway, id: ExclusiveGateway_0z5sib0, gatewayDirection: Converging, extensionElements: [object Object], lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:Task, id: sid-26166D97-A6AA-415F-9E20-51AE5E658D56, name: Fill out Shipment paperwork, extensionElements: [object Object], lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:InclusiveGateway, id: sid-297EFB75-3054-4F14-9FF9-6989AE835C92, gatewayDirection: Converging, extensionElements: [object Object], lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:DataObjectReference, id: sid-827C348A-4CDB-4123-900C-7F2F41A0D7CB, name: Order details, extensionElements: [object Object], $parent: Process_1 }
+- { $type: bpmn:DataObjectReference, id: sid-827C348A-4CDB-4123-900C-7F2F41A0D7CB, name: Order details, extensionElements: [object Object], $parent: Process_1 }
+- { $type: bpmn:DataStoreReference, id: sid-F21E7C16-C8BB-4B0E-8561-67F350C75C57, name: Customer information, extensionElements: [object Object], $parent: Process_1 }
+- { $type: bpmn:DataStoreReference, id: sid-F21E7C16-C8BB-4B0E-8561-67F350C75C57, name: Customer information, extensionElements: [object Object], $parent: Process_1 }
+- { $type: bpmn:BoundaryEvent, id: sid-88CE5ED4-C2FC-417E-AC74-AC7B44BCEB9A, name: 48 hours, lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:BoundaryEvent, id: sid-88CE5ED4-C2FC-417E-AC74-AC7B44BCEB9A, name: 48 hours, lanes: (Lane_1vl2igx), $parent: Process_1 }
+- { $type: bpmn:DataInputAssociation, id: sid-C8B2BE94-C014-40CE-85B5-6BC2579B72C6, extensionElements: [object Object], sourceRef: (sid-F21E7C16-C8BB-4B0E-8561-67F350C75C57), targetRef: sid-673347DF-0879-43B3-B6B0-895771BA77DF, $parent: sid-673347DF-0879-43B3-B6B0-895771BA77DF }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_14a0oky, isImmediate: true, extensionElements: [object Object], sourceRef: StartEvent_1, targetRef: ParallelGateway_02fgrfq, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_023hzxi, isImmediate: true, extensionElements: [object Object], sourceRef: ParallelGateway_02fgrfq, targetRef: Task_0vaxgaa, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1rss71o, isImmediate: true, extensionElements: [object Object], sourceRef: Task_0vaxgaa, targetRef: ExclusiveGateway_1mpgzhg, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0mp5byl, isImmediate: true, extensionElements: [object Object], sourceRef: Task_0jsoxba, targetRef: InclusiveGateway_1dgb4sg, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0kz5g1t, isImmediate: true, extensionElements: [object Object], sourceRef: Task_12j0pib, targetRef: InclusiveGateway_1dgb4sg, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1pq8ub3, isImmediate: true, extensionElements: [object Object], sourceRef: Task_0e6hvnj, targetRef: Task_0s79ile, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0ajhekx, isImmediate: true, extensionElements: [object Object], sourceRef: Task_0s79ile, targetRef: ExclusiveGateway_1ouv9kf, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0buzwss, isImmediate: true, extensionElements: [object Object], sourceRef: InclusiveGateway_1dgb4sg, targetRef: ExclusiveGateway_1ouv9kf, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0v64x8b, isImmediate: true, extensionElements: [object Object], sourceRef: Task_0sl26uo, targetRef: EndEvent_1fx9yp3, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1ujhfx4, isImmediate: true, extensionElements: [object Object], sourceRef: ParallelGateway_02fgrfq, targetRef: Task_05ftug5, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: sid-5170FCE2-9174-4C5E-A6EF-54491118FA66, extensionElements: [object Object], sourceRef: sid-88CE5ED4-C2FC-417E-AC74-AC7B44BCEB9A, targetRef: sid-ED67BEC5-DBA3-46B4-9C2F-14B0A0BBED79, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: sid-ED7DB6B8-410F-4921-B70B-BD62DC655F05, extensionElements: [object Object], sourceRef: sid-673347DF-0879-43B3-B6B0-895771BA77DF, targetRef: InclusiveGateway_0p2e5vq, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1xv6wk4, name: yes, isImmediate: true, extensionElements: [object Object], sourceRef: ExclusiveGateway_1mpgzhg, targetRef: Task_0e6hvnj, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1xv6wk4, name: yes, isImmediate: true, extensionElements: [object Object], sourceRef: ExclusiveGateway_1mpgzhg, targetRef: Task_0e6hvnj, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0iu9po7, name: no, isImmediate: true, extensionElements: [object Object], sourceRef: ExclusiveGateway_1mpgzhg, targetRef: sid-673347DF-0879-43B3-B6B0-895771BA77DF, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0iu9po7, name: no, isImmediate: true, extensionElements: [object Object], sourceRef: ExclusiveGateway_1mpgzhg, targetRef: sid-673347DF-0879-43B3-B6B0-895771BA77DF, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1j94oja, name: If insurance
+necessary, isImmediate: true, extensionElements: [object Object], sourceRef: InclusiveGateway_0p2e5vq, targetRef: Task_12j0pib, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1j94oja, name: If insurance
+necessary, isImmediate: true, extensionElements: [object Object], sourceRef: InclusiveGateway_0p2e5vq, targetRef: Task_12j0pib, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1dlbln9, name: always, isImmediate: true, extensionElements: [object Object], sourceRef: InclusiveGateway_0p2e5vq, targetRef: Task_0jsoxba, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1dlbln9, name: always, isImmediate: true, extensionElements: [object Object], sourceRef: InclusiveGateway_0p2e5vq, targetRef: Task_0jsoxba, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_035vf60, isImmediate: true, extensionElements: [object Object], sourceRef: ExclusiveGateway_1ouv9kf, targetRef: ExclusiveGateway_0z5sib0, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: sid-54912B4A-C9CE-40C3-B904-FFDFBEB7AFE7, extensionElements: [object Object], sourceRef: Task_05ftug5, targetRef: sid-297EFB75-3054-4F14-9FF9-6989AE835C92, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: sid-942538E9-5335-4EDA-9F90-EDFA04A752AD, extensionElements: [object Object], sourceRef: sid-ED67BEC5-DBA3-46B4-9C2F-14B0A0BBED79, targetRef: sid-297EFB75-3054-4F14-9FF9-6989AE835C92, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: sid-AC4CB2E2-9417-4C50-882A-F4A1661300D8, isImmediate: true, extensionElements: [object Object], sourceRef: ExclusiveGateway_0z5sib0, targetRef: sid-26166D97-A6AA-415F-9E20-51AE5E658D56, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: sid-B4C0CC24-DFAF-45FC-9AC4-973B9E788C0E, extensionElements: [object Object], sourceRef: sid-26166D97-A6AA-415F-9E20-51AE5E658D56, targetRef: Task_0sl26uo, $parent: Process_1 }
+- { $type: bpmn:SequenceFlow, id: sid-810FB7A8-848F-4EA7-A5F6-97E35169E158, extensionElements: [object Object], sourceRef: sid-297EFB75-3054-4F14-9FF9-6989AE835C92, targetRef: ExclusiveGateway_0z5sib0, $parent: Process_1 }
+- { $type: bpmn:Lane, id: Lane_1viot5w, name: Logistics, extensionElements: [object Object], flowNodeRef: (Task_12j0pib), $parent: sid-a64b6086-e7c6-498a-aed7-597510d84497 }
+- { $type: bpmn:Lane, id: Lane_1ocseyo, name: Secretary, extensionElements: [object Object], flowNodeRef: (StartEvent_1, ParallelGateway_02fgrfq, Task_0vaxgaa, ExclusiveGateway_1mpgzhg, InclusiveGateway_0p2e5vq, Task_0jsoxba, InclusiveGateway_1dgb4sg, Task_0e6hvnj, Task_0s79ile, ExclusiveGateway_1ouv9kf, sid-673347DF-0879-43B3-B6B0-895771BA77DF), $parent: sid-a64b6086-e7c6-498a-aed7-597510d84497 }
+- { $type: bpmn:Lane, id: Lane_1vl2igx, name: Warehouse, extensionElements: [object Object], flowNodeRef: (Task_05ftug5, Task_0sl26uo, EndEvent_1fx9yp3, sid-ED67BEC5-DBA3-46B4-9C2F-14B0A0BBED79, sid-88CE5ED4-C2FC-417E-AC74-AC7B44BCEB9A, ExclusiveGateway_0z5sib0, sid-26166D97-A6AA-415F-9E20-51AE5E658D56, sid-297EFB75-3054-4F14-9FF9-6989AE835C92), $parent: sid-a64b6086-e7c6-498a-aed7-597510d84497 }
