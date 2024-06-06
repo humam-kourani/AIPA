@@ -1,0 +1,1 @@
+No, due to the exclusive-or gateway that comes before those two activities, they cannot be executed simultaneously.

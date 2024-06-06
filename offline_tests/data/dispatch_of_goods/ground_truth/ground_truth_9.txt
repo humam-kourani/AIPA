@@ -1,0 +1,1 @@
+Either two (secretary and warehouse) or three (secretary, warehouse, logistics) organizational units are involved.

@@ -1,0 +1,1 @@
+Yes, the activities "package goods" and "get 3 offers from logistic companies" can be executed in parallel.

@@ -1,0 +1,1 @@
+The warehouse packages the goods. If the packaging of goods takes more than 48 hours, the customer is notified about the delay. After that, the warehouse fills out the shipment paperwork and then moves the package to the pickup area. After that the process is finished for the warehouse.

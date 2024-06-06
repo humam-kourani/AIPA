@@ -1,0 +1,1 @@
+Yes, it is possible that only one of the activities is executed

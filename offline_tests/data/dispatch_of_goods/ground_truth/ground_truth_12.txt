@@ -1,0 +1,1 @@
+The warehouse notifies the customer about a delay if the activity “package goods” is not finished after 48 hours

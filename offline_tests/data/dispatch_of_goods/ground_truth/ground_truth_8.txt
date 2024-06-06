@@ -1,0 +1,1 @@
+The process ends when the warehouse has moved the package to the pickup area.
