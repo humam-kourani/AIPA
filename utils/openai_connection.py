@@ -19,6 +19,16 @@ class Results:
     RESPONSE_JSON = None
 
 
+def strip_non_unicode_characters(text):
+    # Define a pattern that matches all valid Unicode characters.
+    pattern = re.compile(r'[^\u0000-\uFFFF]', re.UNICODE)
+    # Replace characters not matching the pattern with an empty string.
+    cleaned_text = pattern.sub('', text)
+    cleaned_text = cleaned_text.encode('cp1252', errors='ignore').decode('cp1252')
+
+    return cleaned_text
+
+
 def serialize_completion(completion):
     return {
         "id": completion.id,
@@ -154,6 +164,7 @@ def generate_response_with_history(data, session, parameters=None) -> str:
         except Exception as e:
             raise Exception(response['error']['message'])
 
+    response_message = strip_non_unicode_characters(response_message)
     conversation_history.append(create_message(response_message, role="system", parameters=parameters))
 
     if session_key is not None and session_key:
