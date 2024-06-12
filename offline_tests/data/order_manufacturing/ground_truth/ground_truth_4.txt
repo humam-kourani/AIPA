@@ -1,0 +1,1 @@
+The suprocess “check customer’s order” starts with checking the order for completeness. After that the sales team check if the customer is already in the database. If the customer is already in the database, the subprocess ends. If the subprocess is not yet in the database, the customer is added to the database. Then the subprocess ends.

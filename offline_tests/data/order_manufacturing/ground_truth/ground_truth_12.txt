@@ -1,0 +1,1 @@
+The filled event symbol indicates a throwing event which means that someone or something else is triggered by the event. A non-filled event symbol indicates a catching event which means that the organization or organization unit that includes the catching event is being triggered by someone or something else.

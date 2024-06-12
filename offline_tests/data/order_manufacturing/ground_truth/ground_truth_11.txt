@@ -1,0 +1,1 @@
+The message symbol inside of an event indicates that information is passed to a different organization or organization unit. Message events can include throwing events, meaning that information is passed to someone else as well as catching events, meaning that information is received from someone else.

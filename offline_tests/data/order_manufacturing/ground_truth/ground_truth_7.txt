@@ -1,0 +1,1 @@
+If an error occurs when checking the materials, a compensation is triggered and the order is cancelled. The materials are returned.

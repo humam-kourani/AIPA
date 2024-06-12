@@ -1,0 +1,1 @@
+The Warehouse is responsible for sending the product to the customer.

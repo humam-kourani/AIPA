@@ -1,0 +1,1 @@
+The activity “return material” includes a compensation symbol to indicate that compensations are outside the regular process flow and their execution is a special case. The task only gets active when an error occurs in a process and the compensation subprocess is activated.

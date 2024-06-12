@@ -1,0 +1,1 @@
+The parallel gateway indicates that two or more process paths are executed simultaneously.

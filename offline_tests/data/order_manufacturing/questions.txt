@@ -1,14 +1,17 @@
+What happens after the order details arrive at the procurement team?
 How does the sales process work?
 What is the condition for the production to manufacture the product?
-How does the subprocess in the activity “check customer’s order work?
+How does the subprocess in the activity "check customer's order" work?
 Who is responsible for sending the product to the customer?
 What happens after the order details arrive at the procurement team?
 What happens if an error occurs when checking the materials?
 How does a compensation work?
-Why does the activity “return material” contain a compensation symbol?
+Why does the activity "return material" contain a compensation symbol?
 Why does the compensation need its own subprocess?
 What is the meaning of a message symbol inside of an event?
 What is the difference between a filled event symbol and a non-filled event symbol?
 What does the parallel gateway mean?
 Is the material checked after manufacturing the product?
 Does the plan production occur after manufacture product?
+Does the sales team check the customer's order?
+Is the product sent before drafting the invoice?
