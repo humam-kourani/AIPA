@@ -8,7 +8,7 @@ declare var webkitSpeechRecognition: any;
 export class VoiceRecognitionService {
 
   recognition =  new webkitSpeechRecognition();
-  isStoppedSpeechRecog = false;
+  isStoppedSpeechRecog = true;
   public text = '';
   tempWords: string = '';
   newVoiceInputMessage = new EventEmitter<string>();
@@ -17,7 +17,7 @@ export class VoiceRecognitionService {
 
   init() {
 
-    this.recognition.interimResults = true;
+    this.recognition.interimResults = false;
     this.recognition.lang = 'en-US';
 
     this.recognition.addEventListener('result', (e: any) => {
