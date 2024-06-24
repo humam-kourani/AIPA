@@ -7,8 +7,19 @@
           <li class="clearfix">
             <div class="message-data">
               <img src="./assets/robot.png" alt="avatar" class="avatar">
-              <p class="receive">
+              <p class="receive" (click)="speakMessage(message.text)">
+
+                <span matTooltip="Listen to the message" style="cursor: pointer; margin-right: 2px;" (click)="speakMessage(message.text)">
+                  <i
+                    class="fa fa-volume-up"
+                    style="color: #0037ff"
+                    id="speakButton"
+
+                  ></i>
+                </span>
+
                 {{message.text}}
+
               </p>
             </div>
           </li>
@@ -44,15 +55,37 @@
         [(ngModel)]="chatInputMessage"
       />
       <div class="input-group-append input-group-append-bs">
-          <span matTooltip="Send message" style="cursor: pointer; background-color: #005cbb !important;" class="input-group-text input-group-text-bs" (click)="send(chatInputMessage)">
-            <i
-              class="fa fa-paper-plane"
-              style="color: #ffffff"
-              id="chatButton"
 
+        <span
+          matRipple
+          [matRippleCentered]="true"
+          [matRippleUnbounded]="true"
+          [matRippleRadius]="40"
+          [matRippleColor]="'#ad32368c'"
+          [matRippleAnimation]="{enterDuration: 30, exitDuration: 22}"
+          matTooltip="Press and hold to record voice message"
+          style="cursor: pointer; background-color: #be141a !important;"
+          class="input-group-text input-group-text-bs"
+          (mousedown)="mousedown()" (mouseup)="mouseup()" (mouseleave)="mouseup()">
+            <i
+              class="fa fa-microphone"
+              style="color: #ffffff"
+              id="recordButton"
+              color=""
             ></i>
           </span>
+
+          <span matTooltip="Send message" style="cursor: pointer; background-color: #005cbb !important;" class="input-group-text input-group-text-bs" (click)="send(chatInputMessage)">
+              <i
+                class="fa fa-paper-plane"
+                style="color: #ffffff"
+                id="chatButton"
+
+              ></i>
+            </span>
       </div>
     </div>
   </div>
+
+
 </div>
