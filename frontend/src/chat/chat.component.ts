@@ -14,12 +14,15 @@ import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import {fromEvent, map, Observable, Subscription, tap} from "rxjs";
 import {BackendConnectionService} from "../services/backend-connection.service";
 import {ErrorHandlingService} from "../error-dialog/error-handling.service";
 import {FormsModule} from "@angular/forms";
 import {environment} from "../environments/environment";
 import {MatTooltip} from "@angular/material/tooltip";
+import {VoiceRecognitionService} from "../services/voice-recognition.service";
+import {MatRipple} from "@angular/material/core";
+import {SpeechService} from "../services/speech.service";
 
 
 class Message{
@@ -40,7 +43,8 @@ class Message{
     MatProgressBar,
     NgIf,
     FormsModule,
-    MatTooltip
+    MatTooltip,
+    MatRipple
   ],
   // @ts-ignore
   providers: [],
@@ -64,23 +68,49 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   // for disabling the reset of the chat when the selection in the BPMN changes unless "ENABLE_SENDING_SUBMODEL" is set to true
   enableSendingSubmodel: boolean = false;
   @ViewChild('scrollMe') private myScrollContainer: ElementRef | undefined;
+  voices$!: Observable<SpeechSynthesisVoice[]>;
+  subscription = new Subscription();
 
 
   constructor(private openaiChatService: OpenaiChatService,
               private router: Router,
               private ngZone: NgZone,
               private backendConnectionService: BackendConnectionService,
-              private errorHandlingService: ErrorHandlingService) {
+              private errorHandlingService: ErrorHandlingService,
+              public voiceRecognitionService : VoiceRecognitionService,
+              private speechService: SpeechService) {
+    this.voiceRecognitionService.init()
 
   }
 
+  mouseup() {
+    this.voiceRecognitionService.stop()
+  }
+
+  mousedown() {
+    this.voiceRecognitionService.start()
+  }
+
   ngOnInit(): void {
+
     this.enableSendingSubmodel = environment.ENABLE_SENDING_SUBMODEL
+
     document.body.classList.add('nb-theme-corporate');
+
     this.resetSubscription = this.openaiChatService.resetSubject.subscribe((data)=>{
       this.resetConversation()
     });
+
     this.resetConvoSubscription = this.resetConvo.subscribe(() => this.resetConversation());
+
+    this.voiceRecognitionService.newVoiceInputMessage.subscribe((data)=>{
+      this.chatInputMessage = data
+    });
+
+    this.voices$ = fromEvent(speechSynthesis, 'voiceschanged').pipe(
+      map(() => speechSynthesis.getVoices().filter((voice) => voice.lang.includes('en'))),
+      tap((voices) => this.speechService.setVoices(voices)),
+    );
   }
 
   ngAfterViewChecked() {
@@ -89,6 +119,11 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnDestroy() {
     this.resetSubscription.unsubscribe();
+    this.voiceRecognitionService.newVoiceInputMessage.unsubscribe();
+  }
+
+  speakMessage(message: string | undefined){
+    this.speechService.updateSpeech(message)
   }
 
   send(message: any) {

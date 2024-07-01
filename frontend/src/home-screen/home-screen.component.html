@@ -1,5 +1,5 @@
 <div class="example-container">
-  <mat-toolbar color="primary" class="example-toolbar">
+  <mat-toolbar color="primary" class="example-toolbar" style="height: 55px;">
 
     <img style="cursor: pointer" (click)="window.location.reload()" src="../assets/logos/18_fit_rgb_white.png"
       height="50%" />
@@ -85,7 +85,43 @@
 
   </mat-sidenav-container>
 
-  <div fxFlexOffset="auto" color="primary" style="height: 20px; background-color: #343a40">
+  <div fxFlexOffset="auto" class="footer">
+    <div class="container" style="color: white; font-size: 11px; font-weight: 300;">
+
+      <div class="flex-row-container">
+
+        <div class="flex-row-item">
+          <span style="float: left; margin-left: 15px;">
+            AIPA is a product of the <a href="https://fit.fraunhofer.de" target="_blank">
+            Fraunhofer Institute for Applied Information Technology (FIT)</a>
+          </span>
+        </div>
+
+        <div class="flex-row-item" style="display: flex; justify-content: center">
+          <a href="https://gitlab.fit.fraunhofer.de/process-mining/llm/llm_pm" target="_blank">Code Repository</a>
+
+          <span class="ml-1 mr-1 text-muted" style="margin: 0px 3px 0px 3px ;">  |  </span>
+
+          <a href="mailto:humam.kourani@fit.fraunhofer.de" target="_blank">Contact</a>
+<!--          <span class="material-icons md-18" style="line-height: 26px; cursor: pointer; font-size: 17px;">mail</span>-->
+
+        </div>
+
+        <div class="flex-row-item">
+          <span style="float: right; margin-right: 15px;">
+
+            <a href="https://dsi.informationssicherheit.fraunhofer.de/en/dsi/processmining" target="_blank">Data Protection</a>
+
+            <span class="ml-1 mr-1 text-muted" style="margin: 0px 3px 0px 3px ;">  |  </span>
+
+            <a href="https://dsi.informationssicherheit.fraunhofer.de/en/impressum/processmining" target="_blank">Imprint</a>
+          </span>
+        </div>
+
+      </div>
+
+
+    </div>
 
   </div>
 
