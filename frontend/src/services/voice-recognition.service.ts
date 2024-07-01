@@ -7,28 +7,35 @@ declare var webkitSpeechRecognition: any;
 })
 export class VoiceRecognitionService {
 
-  recognition =  new webkitSpeechRecognition();
+  isVoiceRecognitionAvailableInBrowser = false
+  recognition;
   isStoppedSpeechRecog = true;
   public text = '';
   tempWords: string = '';
   newVoiceInputMessage = new EventEmitter<string>();
 
-  constructor() { }
+  constructor() {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window ){
+      this.isVoiceRecognitionAvailableInBrowser = true
+      this.recognition = new webkitSpeechRecognition()
+    }
+  }
 
   init() {
+    if(this.isVoiceRecognitionAvailableInBrowser){
+      this.recognition.interimResults = false;
+      this.recognition.lang = 'en-US';
 
-    this.recognition.interimResults = false;
-    this.recognition.lang = 'en-US';
-
-    this.recognition.addEventListener('result', (e: any) => {
-      // @ts-ignore
-      const transcript = Array.from(e.results)
-        .map((result: any) => result[0])
-        .map((result) => result.transcript)
-        .join('');
-      this.tempWords = transcript;
-      console.log(transcript);
-    });
+      this.recognition.addEventListener('result', (e: any) => {
+        // @ts-ignore
+        const transcript = Array.from(e.results)
+          .map((result: any) => result[0])
+          .map((result) => result.transcript)
+          .join('');
+        this.tempWords = transcript;
+        console.log(transcript);
+      });
+    }
   }
 
   start() {

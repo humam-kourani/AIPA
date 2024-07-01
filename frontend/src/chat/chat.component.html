@@ -9,10 +9,10 @@
               <img src="./assets/robot.png" alt="avatar" class="avatar">
               <p class="receive" (click)="speakMessage(message.text)">
 
-                <span matTooltip="Listen to the message" style="cursor: pointer; margin-right: 2px;" (click)="speakMessage(message.text)">
+                <span matTooltip="Listen to the message" style="cursor: pointer; margin-right: 2px;" *ngIf="voiceRecognitionService.isVoiceRecognitionAvailableInBrowser" (click)="speakMessage(message.text)">
                   <i
                     class="fa fa-volume-up"
-                    style="color: #0037ff"
+                    style="color: #717171"
                     id="speakButton"
 
                   ></i>
@@ -57,6 +57,7 @@
       <div class="input-group-append input-group-append-bs">
 
         <span
+          *ngIf="voiceRecognitionService.isVoiceRecognitionAvailableInBrowser"
           matRipple
           [matRippleCentered]="true"
           [matRippleUnbounded]="true"
@@ -80,7 +81,6 @@
                 class="fa fa-paper-plane"
                 style="color: #ffffff"
                 id="chatButton"
-
               ></i>
             </span>
       </div>
