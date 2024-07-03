@@ -22,6 +22,8 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@ng-web-apis/common": "^4.0.0",
+    "@ng-web-apis/speech": "^4.0.0",
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^5.3.3",
     "bpmn-js": "^17.2.2",

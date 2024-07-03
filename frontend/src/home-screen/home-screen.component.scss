@@ -17,6 +17,7 @@ h1.example-app-name {
   text-align: center;
   //margin-left: 140px;
   color: white !important;
+  font-size: 20px !important;
 }
 
 .example-sidenav-container {
@@ -88,4 +89,28 @@ h1.example-app-name {
   .right-element { flex: auto !important; margin-top: 24px }
 }
 
+.footer {
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 26px;
+    line-height: 26px; /* Vertically center the text there */
+    background-color: #343a40;
+}
+
+a { color: #a2a2a2; }
+a:visited { color: #a2a2a2; }
+a:hover { color: #a2a2a2; }
+a:focus { color: #a2a2a2; }
+a:hover, a:active { color: #ffffff}
+
+
+.flex-row-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.flex-row-container > .flex-row-item {
+    flex: 1 1 30%; /*grow | shrink | basis */
+}
 
