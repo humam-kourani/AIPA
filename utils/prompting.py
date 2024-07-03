@@ -46,9 +46,10 @@ def add_prompt_strategies(parameters=None):
                 abstraction = process_textual_representation_simplified_xml;
             few_shots = few_shots_learning_json(abstraction)
             prompt += few_shots
-            if enable_negative_prompting:
-                negative_prompt = negative_prompting_json()
-                prompt += negative_prompt
+
+        if enable_negative_prompting:
+            negative_prompt = negative_prompting_json()
+            prompt += negative_prompt
 
     return prompt
 
