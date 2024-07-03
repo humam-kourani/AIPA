@@ -43,12 +43,20 @@ def add_prompt_strategies(parameters=None):
             if model_abstraction == "json":
                 abstraction = process_textual_representation_json
             elif model_abstraction == "simplified_xml":
-                abstraction = process_textual_representation_simplified_xml;
+                abstraction = process_textual_representation_simplified_xml
             few_shots = few_shots_learning_json(abstraction)
             prompt += few_shots
 
-        if enable_negative_prompting:
-            negative_prompt = negative_prompting_json()
+            if enable_negative_prompting:
+                negative_prompt = negative_prompting_json()
+                prompt += negative_prompt
+
+        elif enable_negative_prompting:
+            if model_abstraction == "json":
+                abstraction = process_textual_representation_json
+            elif model_abstraction == "simplified_xml":
+                abstraction = process_textual_representation_simplified_xml
+            negative_prompt = negative_prompting_with_questions(abstraction)
             prompt += negative_prompt
 
     return prompt
@@ -230,6 +238,17 @@ def few_shots_learning_json(abstraction):
 def negative_prompting_json():
     res = "- Now, I will give you example bad outputs for the same example questions, so you try to avoid such outputs:\n"
     for i in range(len(examples_json)):
+        res += f"Bad output for question {i}: {examples_json[i]['output_bad']}\n"
+    res += "\n\n"
+    return res
+
+
+def negative_prompting_with_questions(abstraction):
+    res = "- Let us consider the following textual representation of an example process:\n"
+    res += abstraction + "\n\n"
+    res = "- Now, I will give you example pairs of input questions and bad outputs that you should try to avoid:\n"
+    for i in range(len(examples_json)):
+        res += f"Input {i}: {examples_json[i]['input']}\n"
         res += f"Bad output for question {i}: {examples_json[i]['output_bad']}\n"
     res += "\n\n"
     return res
