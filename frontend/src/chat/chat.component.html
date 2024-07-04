@@ -6,7 +6,12 @@
         @if (!message.reply) {
           <li class="clearfix">
             <div class="message-data">
-              <img src="./assets/robot.png" alt="avatar" class="avatar">
+
+              <fa-icon [icon]="faUserAstronaut" class="chat-avatar-robot"></fa-icon>
+
+<!--              <mat-icon class="material-symbols-outlined chat-avatar robot">smart_toy</mat-icon>-->
+<!--                https://fonts.google.com/icons?icon.set=Material+Icons-->
+
               <p class="receive" (click)="speakMessage(message.text)">
 
                 <span matTooltip="Listen to the message" style="cursor: pointer; margin-right: 2px;" *ngIf="voiceRecognitionService.isVoiceRecognitionAvailableInBrowser" (click)="speakMessage(message.text)">
@@ -30,7 +35,7 @@
             <p class="send">
               {{message.text}}
             </p>
-            <img src="./assets/human.png" alt="avatar" class="avatar">
+            <mat-icon class="material-symbols-outlined chat-avatar-human">face</mat-icon>
           </div>
         </li>
         }
@@ -64,15 +69,20 @@
           [matRippleRadius]="40"
           [matRippleColor]="'#ad32368c'"
           [matRippleAnimation]="{enterDuration: 30, exitDuration: 22}"
+          [matRippleTrigger]="trigger"
           matTooltip="Press and hold to record voice message"
           style="cursor: pointer; background-color: #be141a !important;"
           class="input-group-text input-group-text-bs"
-          (mousedown)="mousedown()" (mouseup)="mouseup()" (mouseleave)="mouseup()">
+          (mousedown)="mousedown()"
+          (mouseup)="mouseup()"
+          (mouseleave)="mouseup()"
+        >
             <i
               class="fa fa-microphone"
               style="color: #ffffff"
               id="recordButton"
               color=""
+
             ></i>
           </span>
 
@@ -83,6 +93,7 @@
                 id="chatButton"
               ></i>
             </span>
+        <div #trigger></div>
       </div>
     </div>
   </div>

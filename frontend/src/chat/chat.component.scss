@@ -191,6 +191,19 @@ p {
     border-radius: 50%;
   }
 
+  .chat-avatar-robot{
+    color: #5e5d77;
+    height: 35px;
+    width: 30px;
+    font-size: 35px;
+  }
+  .chat-avatar-human{
+    color: #55795d;
+    height: 37px;
+    width: 37px;
+    font-size: 37px;
+  }
+
 .online,
 .offline,
 .me {

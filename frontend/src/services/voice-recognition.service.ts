@@ -23,7 +23,7 @@ export class VoiceRecognitionService {
 
   init() {
     if(this.isVoiceRecognitionAvailableInBrowser){
-      this.recognition.interimResults = false;
+      this.recognition.interimResults = true;
       this.recognition.lang = 'en-US';
 
       this.recognition.addEventListener('result', (e: any) => {
@@ -33,6 +33,7 @@ export class VoiceRecognitionService {
           .map((result) => result.transcript)
           .join('');
         this.tempWords = transcript;
+        this.wordConcat()
         console.log(transcript);
       });
     }
