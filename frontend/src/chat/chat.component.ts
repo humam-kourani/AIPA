@@ -11,7 +11,7 @@ import {
 import {OpenaiChatService} from "../services/openai-chat.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
-import {MatIcon} from "@angular/material/icon";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {Router} from "@angular/router";
 import {fromEvent, map, Observable, Subscription, tap} from "rxjs";
@@ -23,7 +23,8 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {VoiceRecognitionService} from "../services/voice-recognition.service";
 import {MatRipple} from "@angular/material/core";
 import {SpeechService} from "../services/speech.service";
-
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import { faUserAstronaut } from '@fortawesome/free-solid-svg-icons';
 
 class Message{
   index: number | undefined
@@ -44,7 +45,9 @@ class Message{
     NgIf,
     FormsModule,
     MatTooltip,
-    MatRipple
+    MatRipple,
+    MatIconModule,
+    FontAwesomeModule
   ],
   // @ts-ignore
   providers: [],
@@ -61,6 +64,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() resetConvo!: Observable<void>;
   private resetConvoSubscription: Subscription | undefined;
 
+  @ViewChild(MatRipple) ripple: MatRipple | undefined;
+  rippleAnimation = false
+
   messages: Message[] = [];
   chatInputMessage = '';
   showLoader: boolean = false
@@ -70,7 +76,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef | undefined;
   voices$!: Observable<SpeechSynthesisVoice[]>;
   subscription = new Subscription();
-
+  faUserAstronaut = faUserAstronaut
 
   constructor(private openaiChatService: OpenaiChatService,
               private router: Router,
@@ -84,11 +90,33 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   mouseup() {
+    this.rippleAnimation = false
     this.voiceRecognitionService.stop()
   }
 
   mousedown() {
+    this.rippleAnimation = true
+    this.startRippleAnimation()
     this.voiceRecognitionService.start()
+  }
+
+  startRippleAnimation(timeout: number = 50){
+    if (this.rippleAnimation){
+      setTimeout(()=>{
+        if (this.rippleAnimation){
+          // @ts-ignore
+          const rippleRef = this.ripple.launch({
+            persistent: true,
+            centered: true
+          });
+
+          setTimeout(()=>{
+            rippleRef.fadeOut();
+            this.startRippleAnimation(500)
+          }, 900)
+        }
+    }, timeout)
+    }
   }
 
   ngOnInit(): void {
