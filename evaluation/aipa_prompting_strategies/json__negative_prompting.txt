@@ -1,0 +1,13 @@
+- Now, I will give you example pairs of input questions and bad outputs that you should try to avoid:
+Input 0: How does the bank start the credit scoring process?
+Bad output for question 0: The bank initiates a BPMN Collaboration, invoking a Participant Process via a MessageFlow to the Schufa service for a credit scoring Event.
+Input 1: What happens after the bank sends a scoring request to the agency?
+Bad output for question 1: Upon receipt of the scoring request, an IntermediateCatchEvent is triggered, leading to an immediate execution of a Task for level 1 scoring, conditioned by an ExclusiveGateway.
+Input 2: What occurs if the initial credit scoring doesn’t give an immediate result?
+Bad output for question 2: If the initial scoring doesn't resolve, a conditional ExclusiveGateway routes the flow to a delay notification Task, subsequently initializing a level 2 scoring Sub-Process.
+Input 3: How is the clerk informed of the final credit scoring result?
+Bad output for question 3: The final scoring outcome, after processing through a sequence of EventBasedGateways and Task executions, is programmatically dispatched to the initiating Participant's frontend interface.
+Input 4: What does the bank do if the credit score is delayed?
+Bad output for question 4: In the event of a scoring delay, an IntermediateCatchEvent captures the timeout, activating a Task to update the UI component of the clerk's software module with a delay notification.
+
+

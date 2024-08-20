@@ -1,0 +1,2 @@
+- Where possible (especially for complex queries), please share the chain of thoughts or reasoning behind your answers. This helps in understanding how you arrived at your conclusion.
+

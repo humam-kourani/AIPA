@@ -1,0 +1,70 @@
+
+- Business Process Model and Notation (BPMN) is a standardized graphical notation for modeling business processes.
+
+- BPMN's four basic element categories are:
+
+1. Flow objects: Events, activities, gateways
+
+2. Connecting objects: Sequence flow, message flow, association
+
+3. Swim lanes: Pool, lane, Dark Pool
+
+4. Artifacts: Data object, group, annotation
+
+- Event: An Event is represented with a circle and denotes something that happens (compared with an activity, which is something that is done). Icons within the circle denote the type of event (e.g., an envelope representing a message, or a clock representing time). Events are also classified as Catching (for example, if catching an incoming message starts a process) or Throwing (such as throwing a completion message when a process ends).
+
+1. Start event: Acts as a process trigger; indicated by a single narrow border, and can only be Catch, so is shown with an open (outline) icon.
+
+2. Intermediate event: Represents something that happens between the start and end events; is indicated by a double border, and can Throw or Catch (using solid or open icons as appropriate). For example, a task could flow to an event that throws a message across to another pool, where a subsequent event waits to catch the response before continuing.
+
+3. End event: Represents the result of a process; indicated by a single thick or bold border, and can only Throw, so is shown with a solid icon.
+
+- Activity: An activity is represented with a rounded-corner rectangle and describes the kind of work which must be done. An activity is a generic term for work that a company performs. It can be atomic or compound.
+
+1. Task: A task represents a single unit of work that is not or cannot be broken down to a further level of business process detail. It is referred to as an atomic activity. A task is the lowest level activity illustrated on a process diagram. A set of tasks may represent a high-level procedure.
+
+2. Sub-process: Used to hide or reveal additional levels of business process detail. When collapsed, a sub-process is indicated by a plus sign against the bottom line of the rectangle; when expanded, the rounded rectangle expands to show all flow objects, connecting objects, and artifacts. A sub-process is referred to as a compound activity. A sub-process has its own self-contained start and end events; sequence flows from the parent process must not cross the boundary.
+
+3. Transaction: A form of sub-process in which all contained activities must be treated as a whole; i.e., they must all be completed to meet an objective, and if any one of them fails, they must all be compensated (undone). Transactions are differentiated from expanded sub-processes by being surrounded by a double border.
+
+4. Call Activity: A point in the process where a global process or a global Task is reused. A call activity is differentiated from other activity types by a bolded border around the activity area.
+
+- Gateway: A gateway is represented with a diamond shape and determines forking and merging of paths, depending on the conditions expressed.
+
+1. Exclusive: Used to create alternative flows in a process. Because only one of the paths can be taken, it is called exclusive.
+
+2. Event Based: The condition determining the path of a process is based on an evaluated event.
+
+3. Parallel: Used to create parallel paths without evaluating any conditions.
+
+4. Inclusive: Used to create alternative flows where all paths are evaluated.
+
+5. Exclusive Event Based: An event is being evaluated to determine which of mutually exclusive paths will be taken.
+
+6. Complex: Used to model complex synchronization behavior.
+
+7. Parallel Event Based: Two parallel processes are started based on an event, but there is no evaluation of the event.
+
+- Connections: Flow objects are connected to each other using Connecting objects, which are of three types: sequences, messages, and associations.
+
+1. Sequence Flow: A Sequence Flow is represented with a solid line and arrowhead, and shows in which order the activities are performed. The sequence flow may also have a symbol at its start, a small diamond indicates one of a number of conditional flows from an activity, while a diagonal slash indicates the default flow from a decision or activity with conditional flows.
+
+2. Message Flow: A Message Flow is represented with a dashed line, an open circle at the start, and an open arrowhead at the end. It tells us what messages flow across organizational boundaries (i.e., between pools). A message flow can never be used to connect activities or events within the same pool.
+
+3. Association: An Association is represented with a dotted line. It is used to associate an Artifact or text to a Flow Object, and can indicate some directionality using an open arrowhead (toward the artifact to represent a result, from the artifact to represent an input, and both to indicate it is read and updated). No directionality is used when the Artifact or text is associated with a sequence or message flow (as that flow already shows the direction).
+
+- Swim lanes are a visual mechanism of organising and categorising activities, based on cross functional flowcharting, and in BPMN consist of two types:
+
+- Pool: Represents major participants in a process, typically separating different organisations. A pool contains one or more lanes (like a real swimming pool). A pool can be open (i.e., showing internal detail) when it is depicted as a large rectangle showing one or more lanes, or collapsed (i.e., hiding internal detail) when it is depicted as an empty rectangle stretching the width or height of the diagram.
+
+- Lane: Used to organise and categorise activities within a pool according to function or role, and depicted as a rectangle stretching the width or height of the pool. A lane contains the flow objects, connecting objects and artifacts.
+
+- Artifacts: Artifacts allow developers to bring some more information into the model/diagram. In this way the model/diagram becomes more readable. There are three pre-defined Artifacts, and they are:
+
+1. Data objects: Data objects show the reader which data is required or produced in an activity.
+
+2. Group: A Group is represented with a rounded-corner rectangle and dashed lines. The group is used to group different activities but does not affect the flow in the diagram.
+
+3. Annotation: An annotation is used to give the reader of the model/diagram an understandable impression.
+
+

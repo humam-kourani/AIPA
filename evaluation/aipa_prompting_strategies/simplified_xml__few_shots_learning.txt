@@ -1,0 +1,189 @@
+- Let us consider the following textual representation of an example process:
+<definitions Definitions_1>
+    <collaboration Collaboration_1y0blh3>
+        <participant Participant_1x9zkso> (credit scoring frontend (bank))
+          - processRef: Process_1
+      
+  </participant>
+        <participant Participant_0e81yis> (credit scoring (bank))
+          - processRef: Process_0hiditg
+        </participant>
+        <participant Participant_1xfb3ml> (scoring service)
+          - processRef: Process_1dc1p3b
+        </participant>
+        <messageFlow MessageFlow_1pkfls0>
+          - sourceRef: Participant_1x9zkso
+       
+   - targetRef: StartEvent_1els7eb
+        </messageFlow>
+        <messageFlow MessageFlow_1m6362g>
+          - sourceRef: Task_0l942o9
+          - targetRef: Participant_1x9zkso
+ 
+       </messageFlow>
+        <messageFlow MessageFlow_1i21wes>
+          - sourceRef: Task_1fzfxey
+          - targetRef: Participant_1x9zkso
+        </messageFlow>
+        <messageFlow MessageFlow_1mm30jd>
+          - sourceRef: Task_16winvj
+          - targetRef: StartEvent_0o849un
+        </messageFlow>
+        <messageFlow MessageFlow_1136yi9>
+
+ - sourceRef: Task_07vbn2i
+          - targetRef: IntermediateCatchEvent_0yg7cuh
+        </messageFlow>
+        <messageFlow MessageFlow_0bgkr12>
+          - sourceRef: Task_06dqs9t
+          - targetRef: IntermediateCatchEvent_0a8iz14
+        </messageFlow>
+        <messageFlow MessageFlow_1nwyn8k>
+          - sourceRef: Task_01ouvha
+          - targetRef: IntermediateCatchEvent_0ujob24
+        </messageFlow>
+    </collaboration>
+    <process Process_1>
+      - isExecutable: false
+    </process>
+    <process Process_0hiditg>
+       
+ <task Task_16winvj (request credit score)/>
+        <exclusiveGateway ExclusiveGateway_11dldcm/>
+        <task Task_1fzfxey (send credit score)/>
+        <endEvent EndEvent_0rp5trg 
+(scoring request handled)/>
+        <task Task_0l942o9 (report delay)/>
+        <sequenceFlow SequenceFlow_0rrtx7k>
+          - sourceRef: StartEvent_1els7eb
+          - targetRef: 
+Task_16winvj
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_1i1amgb>
+          - sourceRef: IntermediateCatchEvent_0a8iz14
+          - targetRef: ExclusiveGateway_11dldcm
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_1fy80l7>
+          - sourceRef: IntermediateCatchEvent_0yg7cuh
+          - targetRef: ExclusiveGateway_11dldcm
+        
+</sequenceFlow>
+        <sequenceFlow SequenceFlow_12a77en>
+          - sourceRef: ExclusiveGateway_11dldcm
+          - targetRef: Task_1fzfxey
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_1nyeozm>
+          - sourceRef: Task_1fzfxey
+          - targetRef: EndEvent_0rp5trg
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_0rf5cxd>
+    
+      - sourceRef: IntermediateCatchEvent_0ujob24
+          - targetRef: Task_0l942o9
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_08fsgff>
+          - sourceRef: Task_0l942o9
+          - targetRef: IntermediateCatchEvent_0a8iz14
+        </sequenceFlow>
+        <intermediateCatchEvent IntermediateCatchEvent_0yg7cuh> (credit score received)
+      
+      <messageEventDefinition/>
+        </intermediateCatchEvent>
+        <intermediateCatchEvent IntermediateCatchEvent_0a8iz14> (credit score received)
+            <messageEventDefinition/>
+        </intermediateCatchEvent>
+        <startEvent StartEvent_1els7eb> (scoring request received)
+            <messageEventDefinition/>
+        </startEvent>
+        <intermediateCatchEvent IntermediateCatchEvent_0ujob24> (delay information received)
+            <messageEventDefinition/>
+        </intermediateCatchEvent>
+        <sequenceFlow SequenceFlow_0o5t8lw>
+          - sourceRef: Task_16winvj
+          - targetRef: EventBasedGateway_02s95tm
+        </sequenceFlow>
+        <eventBasedGateway EventBasedGateway_02s95tm/>
+        <sequenceFlow SequenceFlow_0e97dad>
+          - sourceRef: EventBasedGateway_02s95tm
+          - targetRef: IntermediateCatchEvent_0ujob24
+        </sequenceFlow>
+        
+<sequenceFlow SequenceFlow_1kdut76>
+          - sourceRef: EventBasedGateway_02s95tm
+          - targetRef: IntermediateCatchEvent_0yg7cuh
+        </sequenceFlow>
+    </process>
+  
+  <process Process_1dc1p3b>
+        <sequenceFlow SequenceFlow_0jh32vv> (no)
+          - sourceRef: ExclusiveGateway_0rtdod4
+          - targetRef: Task_01ouvha
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_052bcer> (yes)
+          - sourceRef: ExclusiveGateway_0rtdod4
+          - targetRef: Task_07vbn2i
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_0t0wbx3>
+          - sourceRef: ExclusiveGateway_125lzox
+          - targetRef: EndEvent_0khk0tq
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_0dkbeo7>
+          - sourceRef: Task_06dqs9t
+          - targetRef: ExclusiveGateway_125lzox
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_1xqy47o>
+          - sourceRef: Task_07vbn2i
+          - targetRef: ExclusiveGateway_125lzox
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_08jl5se>
+          - sourceRef: Task_02m68xj
+          - targetRef: Task_06dqs9t
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_1yiajt6>
+          - sourceRef: Task_01ouvha
+          - targetRef: Task_02m68xj
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_1nznlgx>
+          - sourceRef: Task_1r15hqs
+          - targetRef: ExclusiveGateway_0rtdod4
+        </sequenceFlow>
+        <sequenceFlow SequenceFlow_158pur5>
+          - sourceRef: StartEvent_0o849un
+          - targetRef: Task_1r15hqs
+        </sequenceFlow>
+        <task Task_07vbn2i (send credit score)/>
+        <task Task_01ouvha (report delay)/>
+        <exclusiveGateway ExclusiveGateway_0rtdod4 (score available?)/>
+        <task Task_06dqs9t (send credit score)/>
+        <endEvent EndEvent_0khk0tq (scoring request handled)/>
+        <exclusiveGateway ExclusiveGateway_125lzox/>
+        <task Task_02m68xj (compute credit score (level 2))/>
+        <task Task_1r15hqs (compute credit score (level 1))/>
+        <startEvent StartEvent_0o849un> (scoring request received)
+            <messageEventDefinition/>
+        </startEvent>
+        <association Association_1ctd4ma>
+          - sourceRef: Task_01ouvha
+          - targetRef: TextAnnotation_0si9ilm
+        </association>
+        <textAnnotation TextAnnotation_0si9ilm>
+
+  <text (inkl. ID for message queueing)/>
+        </textAnnotation>
+    </process>
+</definitions>
+
+
+- These are example pairs of input and expected output:
+Input 0: How does the bank start the credit scoring process?
+Expected output 0: A bank clerk uses their software to request a credit score for a customer, which kicks off the process in the banking system to communicate with the credit protection agency.
+Input 1: What happens after the bank sends a scoring request to the agency?
+Expected output 1: The agency performs an initial credit scoring, and if this initial scoring is successful, the result is sent back immediately to the bank's system and shown to the clerk.
+Input 2: What occurs if the initial credit scoring doesn’t give an immediate result?
+Expected output 2: The agency informs the bank's system about the delay and starts a more detailed scoring. The bank's system then sends a notification to the clerk to report the delay.
+Input 3: How is the clerk informed of the final credit scoring result?
+Expected output 3: Once the scoring is completed and the result is sent back to the bank's system, it is sent to the clerk's software.
+Input 4: What does the bank do if the credit score is delayed?
+Expected output 4: The bank's system sends a notification to the clerk to report the delay, and as soon as the final score is ready, it sends the results to the clerk.
+
+

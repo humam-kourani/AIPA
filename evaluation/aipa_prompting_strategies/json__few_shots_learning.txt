@@ -1,0 +1,78 @@
+- Let us consider the following textual representation of an example process:
+- { $type: bpmn:Collaboration, id: Collaboration_1y0blh3, participants: [object Object],[object Object],[object Object], messageFlows: [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object], $parent: Definitions_1 }
+- { $type: bpmn:Participant, id: Participant_1x9zkso, name: credit scoring frontend (bank), processRef: Process_1, $parent: Collaboration_1y0blh3 }
+- { $type: bpmn:Participant, id: Participant_0e81yis, name: credit scoring (bank), processRef: Process_0hiditg, $parent: Collaboration_1y0blh3 }
+- { $type: bpmn:Task, id: Task_16winvj, name: request credit score, $parent: Process_0hiditg }
+- { $type: bpmn:ExclusiveGateway, id: ExclusiveGateway_11dldcm, $parent: Process_0hiditg }
+- { $type: bpmn:Task, id: Task_1fzfxey, name: send credit score, $parent: Process_0hiditg }
+- { $type: bpmn:EndEvent, id: EndEvent_0rp5trg, name: scoring request handled, eventDefinitions: , $parent: Process_0hiditg }
+- { $type: bpmn:EndEvent, id: EndEvent_0rp5trg, name: scoring request handled, eventDefinitions: , $parent: Process_0hiditg }
+- { $type: bpmn:Task, id: Task_0l942o9, name: report delay, $parent: Process_0hiditg }
+- { $type: bpmn:IntermediateCatchEvent, id: IntermediateCatchEvent_0yg7cuh, name: credit score received, eventDefinitions: [object Object], $parent: Process_0hiditg }
+- { $type: bpmn:IntermediateCatchEvent, id: IntermediateCatchEvent_0yg7cuh, name: credit score received, eventDefinitions: [object Object], $parent: Process_0hiditg }
+- { $type: bpmn:IntermediateCatchEvent, id: IntermediateCatchEvent_0a8iz14, name: credit score received, eventDefinitions: [object Object], $parent: Process_0hiditg }
+- { $type: bpmn:IntermediateCatchEvent, id: IntermediateCatchEvent_0a8iz14, name: credit score received, eventDefinitions: [object Object], $parent: Process_0hiditg }
+- { $type: bpmn:StartEvent, id: StartEvent_1els7eb, name: scoring request received, eventDefinitions: [object Object], $parent: Process_0hiditg }
+- { $type: bpmn:StartEvent, id: StartEvent_1els7eb, name: scoring request received, eventDefinitions: [object Object], $parent: Process_0hiditg }
+- { $type: bpmn:IntermediateCatchEvent, id: IntermediateCatchEvent_0ujob24, name: delay information received, eventDefinitions: [object Object], $parent: Process_0hiditg }
+- { $type: bpmn:IntermediateCatchEvent, id: IntermediateCatchEvent_0ujob24, name: delay information received, eventDefinitions: [object Object], $parent: Process_0hiditg }
+- { $type: bpmn:EventBasedGateway, id: EventBasedGateway_02s95tm, $parent: Process_0hiditg }
+- { $type: bpmn:Participant, id: Participant_1xfb3ml, name: scoring service, processRef: Process_1dc1p3b, $parent: Collaboration_1y0blh3 }
+- { $type: bpmn:Task, id: Task_07vbn2i, name: send credit score, $parent: Process_1dc1p3b }
+- { $type: bpmn:Task, id: Task_01ouvha, name: report delay, $parent: Process_1dc1p3b }
+- { $type: bpmn:ExclusiveGateway, id: ExclusiveGateway_0rtdod4, name: score available?, $parent: Process_1dc1p3b }
+- { $type: bpmn:ExclusiveGateway, id: ExclusiveGateway_0rtdod4, name: score available?, $parent: Process_1dc1p3b }
+- { $type: bpmn:Task, id: Task_06dqs9t, name: send credit score, $parent: Process_1dc1p3b }
+- { $type: bpmn:EndEvent, id: EndEvent_0khk0tq, name: scoring request handled, eventDefinitions: , $parent: Process_1dc1p3b }
+- { $type: bpmn:EndEvent, id: EndEvent_0khk0tq, name: scoring request handled, eventDefinitions: , $parent: Process_1dc1p3b }
+- { $type: bpmn:ExclusiveGateway, id: ExclusiveGateway_125lzox, $parent: Process_1dc1p3b }
+- { $type: bpmn:Task, id: Task_02m68xj, name: compute credit score (level 2), $parent: Process_1dc1p3b }
+- { $type: bpmn:Task, id: Task_1r15hqs, name: compute credit score (level 1), $parent: Process_1dc1p3b }
+- { $type: bpmn:StartEvent, id: StartEvent_0o849un, name: scoring request received, eventDefinitions: [object Object], $parent: Process_1dc1p3b }
+- { $type: bpmn:StartEvent, id: StartEvent_0o849un, name: scoring request received, eventDefinitions: [object Object], $parent: Process_1dc1p3b }
+- { $type: bpmn:TextAnnotation, id: TextAnnotation_0si9ilm, text: inkl. ID for message
+queueing, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0rrtx7k, sourceRef: StartEvent_1els7eb, targetRef: Task_16winvj, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1i1amgb, sourceRef: IntermediateCatchEvent_0a8iz14, targetRef: ExclusiveGateway_11dldcm, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1fy80l7, sourceRef: IntermediateCatchEvent_0yg7cuh, targetRef: ExclusiveGateway_11dldcm, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_12a77en, sourceRef: ExclusiveGateway_11dldcm, targetRef: Task_1fzfxey, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1nyeozm, sourceRef: Task_1fzfxey, targetRef: EndEvent_0rp5trg, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0rf5cxd, sourceRef: IntermediateCatchEvent_0ujob24, targetRef: Task_0l942o9, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_08fsgff, sourceRef: Task_0l942o9, targetRef: IntermediateCatchEvent_0a8iz14, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0o5t8lw, sourceRef: Task_16winvj, targetRef: EventBasedGateway_02s95tm, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0e97dad, sourceRef: EventBasedGateway_02s95tm, targetRef: IntermediateCatchEvent_0ujob24, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1kdut76, sourceRef: EventBasedGateway_02s95tm, targetRef: IntermediateCatchEvent_0yg7cuh, $parent: Process_0hiditg }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0jh32vv, name: no, sourceRef: ExclusiveGateway_0rtdod4, targetRef: Task_01ouvha, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0jh32vv, name: no, sourceRef: ExclusiveGateway_0rtdod4, targetRef: Task_01ouvha, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_052bcer, name: yes, sourceRef: ExclusiveGateway_0rtdod4, targetRef: Task_07vbn2i, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_052bcer, name: yes, sourceRef: ExclusiveGateway_0rtdod4, targetRef: Task_07vbn2i, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0t0wbx3, sourceRef: ExclusiveGateway_125lzox, targetRef: EndEvent_0khk0tq, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_0dkbeo7, sourceRef: Task_06dqs9t, targetRef: ExclusiveGateway_125lzox, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1xqy47o, sourceRef: Task_07vbn2i, targetRef: ExclusiveGateway_125lzox, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_08jl5se, sourceRef: Task_02m68xj, targetRef: Task_06dqs9t, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1yiajt6, sourceRef: Task_01ouvha, targetRef: Task_02m68xj, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_1nznlgx, sourceRef: Task_1r15hqs, targetRef: ExclusiveGateway_0rtdod4, $parent: Process_1dc1p3b }
+- { $type: bpmn:SequenceFlow, id: SequenceFlow_158pur5, sourceRef: StartEvent_0o849un, targetRef: Task_1r15hqs, $parent: Process_1dc1p3b }
+- { $type: bpmn:Association, id: Association_1ctd4ma, sourceRef: Task_01ouvha, targetRef: TextAnnotation_0si9ilm, $parent: Process_1dc1p3b }
+- { $type: bpmn:MessageFlow, id: MessageFlow_1pkfls0, sourceRef: Participant_1x9zkso, targetRef: StartEvent_1els7eb, $parent: Collaboration_1y0blh3 }
+- { $type: bpmn:MessageFlow, id: MessageFlow_1m6362g, sourceRef: Task_0l942o9, targetRef: Participant_1x9zkso, $parent: Collaboration_1y0blh3 }
+- { $type: bpmn:MessageFlow, id: MessageFlow_1i21wes, sourceRef: Task_1fzfxey, targetRef: Participant_1x9zkso, $parent: Collaboration_1y0blh3 }
+- { $type: bpmn:MessageFlow, id: MessageFlow_1mm30jd, sourceRef: Task_16winvj, targetRef: StartEvent_0o849un, $parent: Collaboration_1y0blh3 }
+- { $type: bpmn:MessageFlow, id: MessageFlow_1136yi9, sourceRef: Task_07vbn2i, targetRef: IntermediateCatchEvent_0yg7cuh, $parent: Collaboration_1y0blh3 }
+- { $type: bpmn:MessageFlow, id: MessageFlow_0bgkr12, sourceRef: Task_06dqs9t, targetRef: IntermediateCatchEvent_0a8iz14, $parent: Collaboration_1y0blh3 }
+- { $type: bpmn:MessageFlow, id: MessageFlow_1nwyn8k, sourceRef: Task_01ouvha, targetRef: IntermediateCatchEvent_0ujob24, $parent: Collaboration_1y0blh3 }
+
+
+- These are example pairs of input and expected output:
+Input 0: How does the bank start the credit scoring process?
+Expected output 0: A bank clerk uses their software to request a credit score for a customer, which kicks off the process in the banking system to communicate with the credit protection agency.
+Input 1: What happens after the bank sends a scoring request to the agency?
+Expected output 1: The agency performs an initial credit scoring, and if this initial scoring is successful, the result is sent back immediately to the bank's system and shown to the clerk.
+Input 2: What occurs if the initial credit scoring doesn’t give an immediate result?
+Expected output 2: The agency informs the bank's system about the delay and starts a more detailed scoring. The bank's system then sends a notification to the clerk to report the delay.
+Input 3: How is the clerk informed of the final credit scoring result?
+Expected output 3: Once the scoring is completed and the result is sent back to the bank's system, it is sent to the clerk's software.
+Input 4: What does the bank do if the credit score is delayed?
+Expected output 4: The bank's system sends a notification to the clerk to report the delay, and as soon as the final score is ready, it sends the results to the clerk.
+
+
